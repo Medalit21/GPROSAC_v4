@@ -1,0 +1,2 @@
+[06-Sep-2022 10:50:40 America/New_York] PHP Warning:  mysqli_query(): (21000/1242): Subquery returns more than 1 row in /home/gpros4c/public_html/views/models/M05_Reportes/M05MD03_Inventario/M05MD03_Inventario.php on line 127
+[06-Sep-2022 10:50:40 America/New_York] PHP Warning:  mysqli_query(): (21000/1242): Subquery returns more than 1 row in /home/gpros4c/public_html/views/models/M05_Reportes/M05MD03_Inventario/M05MD03_Inventario.php on line 127

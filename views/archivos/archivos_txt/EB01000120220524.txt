@@ -1,0 +1,15 @@
+Fecha de Emision	RUC emisor	Tipo Documento Cliente	Numero Documento Cliente	Nombre o Razon Social Cliente	Direccion Cliente	Tipo Comprobante	Serie	Numero	Total Venta operaciones gravadas	Total Venta operaciones inafectas	Total Venta operaciones exoneradas	Sumatoria IGV	Sumatoria ISC	Sumatoria Otros Tributos	Sumatoria Otros Cargos	Total descuentos	Importe total venta	Tipo Moneda	Tipo Guia Remision	Serie Guia Remision	Numero Guia Remision	Tipo Documento relacionado con operacion	Numero Documento Relacionado	Monto de la percepcion	Tipo Leyenda	Descripcion Leyenda
+20141020,20511091986,6,20523122135,INCENTAGE PERU,AV DEL RIO 361. PUEBLO LIBRE. LIMA. LIMA,01,001,00001234,000000001000,000000000000,000000000000,000000000100,000000000000,000000000000,000000000000,000000000000,000000000100,PEN,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,	
+001,ABC1234,PRODUCTO EJEMPLO,C62,000000000001000,00000000000200,01,00000000000236,00000000000036,10,00000000000000,00000000000200,00000000000000
+001,ABC1234,PRODUCTO EJEMPLO,C62,000000000001000,00000000000200,01,00000000000236,00000000000036,10,00000000000000,00000000000200,00000000000000
+001,ABC1234,PRODUCTO EJEMPLO,C62,000000000001000,00000000000200,01,00000000000236,00000000000036,10,00000000000000,00000000000200,00000000000000						

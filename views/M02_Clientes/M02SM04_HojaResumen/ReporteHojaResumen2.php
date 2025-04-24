@@ -1,0 +1,2895 @@
+<?php
+
+ob_start();
+
+?>
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<?php require_once "../../../config/configuracion.php";?>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <title><?php echo $NAME_APP; ?></title>
+    <link rel="icon" href="../../../images/<?php echo $NAME_LOGO; ?>" type="image/png" />
+    <!-- Custom CSS -->
+    <link href="../../assets/libs/flot/css/float-chart.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../../dist/css/style.min.css?v=<?php echo time(); ?>" rel="stylesheet">
+    <link href="../../dist/css/style.css?v=<?php echo time(); ?>" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../css/estilos.css?v=<?php echo time(); ?>">
+
+    <!-- LIBRERIAS LOADING PROCESANDO -->
+    <link rel="stylesheet" type="text/css" href="../../css/LoadingProcesandoGeneral.css?v=<?php echo time(); ?>">
+    <!-- LIBRERIAS ALERTA MENSAJES -->
+    <link rel="stylesheet" type="text/css" href="../../css/sweetalert.css?v=<?php echo time(); ?>">
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" href="../../datatables/datatables.min.css" />
+    <link rel="stylesheet" href="../../datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="../../datatables/select/css/select.bootstrap4.min.css" />
+    
+
+</head>
+
+<body>
+    
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Fjalla+One);
+        @font-face {
+            font-family: Poppins-Regular;
+            src: url('../../fonts/poppins/Poppins-Regular.ttf');
+        }
+        
+        @font-face {
+            font-family: Mirai-Bold;
+            src: url('../../fonts/Mirai/Mirai-Bold.ttf');
+        }
+        
+        @font-face {
+            font-family: Mirai-Light;
+            src: url('../../fonts/Mirai/Mirai-Light.ttf');
+        }
+        
+        @font-face {
+            font-family: eras-medium-itc;
+            src: url('../../fonts/Mirai/eras-medium-itc.ttf');
+        }
+        .t-01 {
+            margin-left: 1%;
+            font-size: 18px;
+            font-weight: bold;
+            color: rgb(218, 167, 6);
+        }
+        
+        .text-obligatorio {
+            color: rgb(1, 79, 167);
+            font-size: 11.5px;
+            font-weight: bold;
+            margin-top: 15px;
+        
+        }
+        
+        .text-obligatorio-2 {
+            color: rgb(0, 0, 0);
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        .text-01 {
+            color: rgb(1, 79, 167);
+            font-size: 11px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .text-02 {
+            font-size: 12px;
+        }
+        
+        .text-03 {
+            color: rgb(1, 79, 167);
+            font-size: 11.5px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        .text-04 {
+            font-size: 14px;
+        }
+        
+        .text-05 {
+            font-size: 13px;
+            font-weight: bold;
+            color: black;
+        }
+        
+        #documen,
+        #ape_pat,
+        #ape_mat,
+        #nombr,
+        #num_brevete,
+        #libreta_militar,
+        #discapacidad,
+        #cese,
+        #motivo_cese,
+        #tipod,
+        #sexo,
+        #estado_civil,
+        #email,
+        #quincena,
+        #sueldo,
+        #rem_meses_ant,
+        #retencion_efectuada,
+        #area,
+        #centro_costo,
+        #basic-addon1,
+        #peso,
+        #talla,
+        #afp,
+        #cuspp,
+        #autogenerado,
+        #departamento,
+        #pais,
+        #edad,
+        #telef,
+        #celu,
+        #grupo_sanguineo,
+        #t_calzado,
+        #t_uniforme,
+        #forma_pago,
+        #banco,
+        #tipo_cuenta,
+        #moneda,
+        #situacion_financiera,
+        #num_cuenta,
+        #haberes_interbancaria,
+        #num_cuenta_cts,
+        #haberes_interbancaria_cts,
+        #cts_banco,
+        #cts_moneda,
+        #txtdocumento,
+        #txtape_paterno,
+        #txtape_materno,
+        #txtnombres,
+        #tipo_documento,
+        #provincia,
+        #direccion,
+        #dpto,
+        #prov,
+        #dist,
+        #situaciond,
+        #fecha_nac {
+            color: rgb(0, 0, 0);
+            font-size: 13px;
+        }
+        
+        #documen_a,
+        #ape_pat_a,
+        #ape_mat_a,
+        #nombr_a,
+        #num_brevete_a,
+        #libreta_militar_a,
+        #discapacidad_a,
+        #cese_a,
+        #motivo_cese_a,
+        #tipod_a,
+        #sexo_a,
+        #estado_civil_a,
+        #email_a,
+        #quincena_a,
+        #sueldo_a,
+        #area_a,
+        #centro_costo_a,
+        #basic-addon1_a,
+        #peso_a,
+        #talla_a,
+        #afp_a,
+        #cuspp_a,
+        #autogenerado_a,
+        #departamento_a,
+        #pais_a,
+        #edad_a,
+        #telef_a,
+        #celu_a,
+        #grupo_sanguineo_a,
+        #t_calzado_a,
+        #t_uniforme_a,
+        #forma_pago_a,
+        #banco_a,
+        #tipo_cuenta_a,
+        #moneda_a,
+        #situacion_financiera_a,
+        #num_cuenta_a,
+        #haberes_interbancaria_a,
+        #num_cuenta_cts_a,
+        #haberes_interbancaria_cts_a,
+        #cts_banco_a,
+        #cts_moneda_a,
+        #txtdocumento_a,
+        #txtape_paterno_a,
+        #txtape_materno_a,
+        #txtnombres_a,
+        #tipo_documento_a,
+        #provincia_a,
+        #direccion_a,
+        #dpto_a,
+        #prov_a,
+        #dist_a,
+        #situaciond_a,
+        #fecha_nac_a,
+        #ruc_a,
+        #txtdocumento_empleado,
+        #txtapellidosnombres_empleado {
+            color: rgb(0, 0, 0);
+            font-size: 13px;
+        }
+        
+        #cargo_interno,
+        #cargo_especialidad,
+        #cargo_sunat,
+        #tipo_empleador,
+        #categoria_ocupacion,
+        #ocupacion_aplicable,
+        #nivel_educativo,
+        #pensionista,
+        #nacionalidad,
+        #hrs_dias_laborados,
+        #seguro_accidentes,
+        #tipo_pago,
+        #afecto_afp_onp,
+        #exonerado_renta_5c,
+        #tipo_contrato,
+        #periodicidad,
+        #situacion_trabajador,
+        #regimen_pensionario,
+        #fecha_afiliacion,
+        #comision,
+        #cese,
+        #motivo_cese,
+        #boxarea {
+            color: rgb(0, 0, 0);
+            font-size: 13px;
+        }
+        
+        #inicontrato,
+        #fincontrato {
+            color: rgb(0, 0, 0);
+            font-size: 11px;
+        }
+        
+        #cargo_interno_a,
+        #cargo_especialidad_a,
+        #cargo_sunat_a,
+        #tipo_empleador_a,
+        #categoria_ocupacion_a,
+        #ocupacion_a,
+        #nivel_educativo_a,
+        #pensionista_a,
+        #nacionalidad_a,
+        #hrs_dias_laborados_a,
+        #seguro_accidentes_a,
+        #tipo_pago_a,
+        #afecto_afp_onp_a,
+        #exonerado_renta_5c_a,
+        #tipo_contrato_a,
+        #periodicidad_a,
+        #situacion_trabajador_a,
+        #regimen_pensionario_a,
+        #fecha_afiliacion_a,
+        #comision_a,
+        #cese_a,
+        #motivo_cese_a,
+        #txtFiltro,
+        #TotalProyectada,
+        #Deduccion,
+        #BonoDiciembre,
+        #GratiDiciembre,
+        #BonoJulio,
+        #GratiJulio {
+            color: rgb(0, 0, 0);
+            font-size: 13px;
+        }
+        
+        #inicontrato_a,
+        #fincontrato_a {
+            color: rgb(0, 0, 0);
+            font-size: 11px;
+        }
+        
+        .contenedor-salario {
+            margin-left: 2%;
+            margin-top: 2%;
+        }
+        
+        .size-nav {
+            font-size: 12px;
+            color: rgb(255, 255, 255);
+            background-color: rgb(0, 11, 112);
+            font-weight: bold;
+            border: 1px solid rgb(255, 255, 255);
+            border-radius: 5px;
+        }
+        
+        .color-nav {
+            color: rgb(255, 255, 255);
+        }
+        
+        .btnGrabar {
+            margin-top: 15px;
+            margin-left: 40%;
+            font-weight: bold;
+        }
+        
+        .margen-pop-up {
+            margin-left: 2%;
+            margin-right: 2%;
+        }
+        
+        .margen-pop-up-02 {
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+        
+        .ubicacion-pop-up {
+            width: 1100px;
+            margin-left: -120%;
+        }
+        
+        .ocultar {
+            color: rgba(22, 55, 91, 0);
+        }
+        
+        .cabecera {
+            background-color: white;
+            color: black;
+            font-size: 11px;
+        }
+        
+        .control-detalle {
+            font-size: 11px;
+        }
+        
+        .pop-familiares-reg {
+            width: 900px;
+            margin-left: -90%;
+            background-color: rgb(255, 255, 255);
+        }
+        
+        .texto-guia {
+            color: red;
+            font-size: 11px;
+            margin-top: 10px;
+        }
+        
+        .fond-param-planilla {
+            margin-top: 0px;
+            background-color: rgb(11, 72, 138);
+            margin-right: 3%;
+            border: 1px solid rgb(54, 54, 54);
+        }
+        
+        .fdd-totales {
+            margin-top: 1%;
+            margin-bottom: 1%;
+        }
+        
+        .fdd-totales-2 {
+            margin-left: 2%;
+            margin-top: 1%;
+            margin-bottom: 1%;
+        }
+        
+        .fdd-text {
+            font-weight: bold;
+            font-size: 14px;
+            color: rgb(0, 0, 0);
+            background-color: rgb(176, 213, 255);
+        }
+        
+        .fdd-text-3 {
+            font-weight: bold;
+            font-size: 14px;
+            color: rgb(0, 0, 0);
+            background-color: rgb(255, 176, 176);
+            margin-right: 5%;
+        }
+        
+        .fdd-text-2 {
+            font-weight: bold;
+            font-size: 13px;
+            color: rgb(255, 255, 255);
+        }
+        
+        .fond-principal {
+            height: 100%;
+        }
+        
+        fieldset {
+            display: block;
+            -webkit-margin-start: 2px;
+            -webkit-margin-end: 2px;
+            -webkit-padding-before: 0.35em;
+            -webkit-padding-start: 0.75em;
+            -webkit-padding-end: 0.75em;
+            -webkit-padding-after: 0.625em;
+            /* min-width: -webkit-min-content;*/
+            border-width: 1px;
+            border-style: double;
+            border-color: threedface;
+            border-image: initial;
+        }
+        
+        legend {
+            display: block;
+            width: auto;
+            -webkit-padding-start: 2px;
+            -webkit-padding-end: 2px;
+            border-width: initial;
+            border-style: none;
+            border-color: initial;
+            border-image: initial;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .sub-titulos-label {
+            color: rgb(1, 79, 167);
+            font-size: 11.5px;
+            margin-top: 0px;
+            font-weight: bold;
+        }
+        
+        .mt-btn-40 {
+            margin-top: 40px;
+        }
+        
+        @media only screen and (max-width: 767px) {
+            .mt-btn-40 {
+                margin-top: 10px;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .modal-lg {
+                max-width: 1300px !important;
+            }
+            .modal-lg-0 {
+                max-width: 900px !important;
+            }
+            .modal-lg-1 {
+                max-width: 700px !important;
+            }
+            .modal-sm {
+                max-width: 400px !important;
+            }
+        }
+        
+        
+        /*****************INPUT FILE******************/
+        
+        .mt-btn-f-30 {
+            margin-bottom: 0px;
+            margin-top: 29px;
+        }
+        
+        @media only screen and (max-width: 767px) {
+            .mt-btn-f-30 {
+                margin-top: 29px;
+            }
+        }
+        
+        @media only screen and (max-width: 388px) {
+            .mt-btn-f-30 {
+                margin-top: 0px;
+                margin-bottom: 30px;
+            }
+        }
+        
+        .input-file {
+            height: 0px;
+        }
+        
+        .input-file input[type=file] {
+            visibility: hidden;
+            width: 1px;
+            height: 1px;
+        }
+        
+        .input-file .btn {
+            background-color: #1265a9;
+            border-color: #1265a9;
+            color: #fff;
+            width: 100%;
+        }
+        
+        .input-file .btn:hover {
+            background-color: #fff;
+            border-color: #1265a9;
+            color: #333;
+            width: 100%;
+        }
+        
+        .input-file .file-selected {
+            font-size: 10px;
+            text-align: center;
+            width: 100%;
+            display: block;
+            margin-top: 5px;
+        }
+        .input-file .btn-disabled {
+            background-color: #7babd2 !important;
+            border-color: #7babd2 !important;
+            cursor: no-drop !important;
+            color: #333;
+            width: 100%;
+        }
+        .scroll-table::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #ddd;
+        }
+        
+        .scroll-table::-webkit-scrollbar {
+            height: 6px;
+            background-color: #003f75;
+        }
+        
+        .scroll-table::-webkit-scrollbar-thumb {
+            background-color: #003f75;
+        }
+        
+        .contenido-right-abs {
+            align-items: center;
+            right: 20px;
+            position: absolute;
+        }
+        
+        @media only screen and (max-width: 991px) {
+            .contenido-right-abs {
+                align-items: center;
+                right: 20px;
+                position: initial;
+                margin-bottom: 10px;
+            }
+        }
+        
+        .ocultar-btn {
+            display: none;
+        }
+        
+        
+        /***************BOTONES GENERAR TXT***************/
+        
+        .btn-generar-t-reg {
+            background-color: #1265a9;
+            border-color: #1265a9;
+            color: #fff;
+            width: 100%;
+        }
+        
+        .btn-generar-t-reg:hover {
+            background-color: #fff;
+            border-color: #1265a9;
+            color: #333;
+            width: 100%;
+        }
+        
+        .btn-generar-t-reg[disabled] {
+            color: #333;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        
+        /***********************TAB MAS PEQUEﾃ前S*********************/
+        
+        .tipo-grafico-tab .nav-link.active {
+            background-color: #3e8ef7 !important;
+            color: #fff !important;
+            font-size: 13px;
+            height: 25px;
+            padding: 3px 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        
+        .tipo-grafico-tab .nav-link.active:hover {
+            background-color: #3e8ef7 !important;
+            color: #fff;
+        }
+        
+        .tipo-grafico-tab .nav-link {
+            background-color: #FFFFFF;
+            font-size: 13px;
+            height: 25px;
+            padding: 3px 5px;
+        }
+        
+        .tipo-grafico-tab .nav-link:hover {
+            background-color: #3e8ef7 !important;
+            color: #fff;
+        }
+        
+        .modal {
+            padding-right: 0px !important;
+        }
+        
+        
+        /*.table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0px !important;
+        }*/
+        
+        table.table-bordered.dataTable th,
+        table.table-bordered.dataTable td {
+            border-left-width: 0;
+            width: 1px;
+            white-space: nowrap;
+        }
+        
+        .table th {
+            padding: 11px 1rem 9px 1rem !important;
+        }
+        
+        .table td {
+            padding: 3px 1rem 3px 1rem !important;
+        }
+        
+        .table-bordered thead td,
+        .table-bordered thead th {
+            border-bottom-width: 0px;
+        }
+        
+        .btn-accion-grid {
+            padding: 0px 5px !important;
+        }
+        
+        .mt-20-div {
+            margin-top: 25px;
+        }
+        
+        @media only screen and (max-width: 767px) {
+            .mt-20-div {
+                margin-top: 20px;
+            }
+        }
+        
+        .btn-edit-action {
+            color: #3a8aee;
+            background-color: #fff;
+            border-color: #fff;
+            padding: 0px 5px;
+        }
+        
+        .btn-edit-action:hover {
+            color: #fff;
+            background-color: #3a8aee;
+            border-color: #3a8aee;
+        }
+        
+        .btn-delete-action {
+            color: #fb5454;
+            background-color: #fff;
+            border-color: #fff;
+            padding: 0px 5px;
+        }
+        
+        .btn-delete-action:hover {
+            color: #fff;
+            background-color: #fb5454;
+            border-color: #fb5454;
+        }
+        
+        .btn-dar-alta-action {
+            color: #28b779;
+            background-color: #fff;
+            border-color: #fff;
+            padding: 0px 5px;
+        }
+        
+        .btn-dar-alta-action:hover {
+            color: #fff;
+            background-color: #28b779;
+            border-color: #28b779;
+        }
+        
+        .btn-success-action {
+            color: #28b779;
+            background-color: #fff;
+            border-color: #fff;
+            padding: 0px 5px;
+        }
+        
+        .btn-success-action:hover {
+            color: #fff;
+            background-color: #28b779;
+            border-color: #28b779;
+        }
+        
+        .btn-info-action {
+            color: #3a8aee;
+            background-color: #fff;
+            border-color: #fff;
+            padding: 0px 5px;
+        }
+        
+        .btn-info-action:hover {
+            color: #fff;
+            background-color: #3a8aee;
+            border-color: #3a8aee;
+        }
+        
+        .btn-pdf-action {
+            color: #da542e;
+            background-color: #fff;
+            border-color: #fff;
+            padding: 0px 5px;
+        }
+        
+        .btn-pdf-action:hover {
+            color: #fff;
+            background-color: #da542e;
+            border-color: #da542e;
+        }
+        
+        .btn-success-action[disabled],
+        .btn-info-action[disabled],
+        .btn-pdf-action[disabled] {
+            cursor: not-allowed;
+        }
+        
+        .ocultar-info {
+            display: none;
+        }
+        
+        .element-superior {
+            z-index: 1;
+        }
+        
+        select[disabled],
+        input[disabled] {
+            cursor: not-allowed;
+        }
+        
+        .contenido-right-tabs-1 {
+            align-items: center;
+            right: 25px;
+            position: absolute;
+        }
+        
+        @media only screen and (max-width: 991px) {
+            .contenido-right-tabs-1 {
+                align-items: center;
+                right: 20px;
+                position: initial;
+                margin-bottom: 10px;
+            }
+        }
+        
+        .mt-btn-fiter-16 {
+            margin-top: 16px !important;
+            max-height: 33px !important;
+        }
+        
+        @media only screen and (max-width: 767px) {
+            .mt-btn-fiter-16 {
+                margin-top: 5px !important;
+            }
+        }
+        
+        @media only screen and (max-width: 388px) {
+            .mt-btn-fiter-16 {
+                margin-top: 0px !important;
+                margin-bottom: 5px !important;
+            }
+        }
+        
+        .label-texto {
+            font-size: 11px;
+            color: #014fa7;
+            font-weight: 700;
+            margin: 0px;
+            padding: 0px;
+            display: block;
+        }
+        
+        
+        /***************************INPUT*********************/
+        
+        .caja-texto {
+            margin-right: -3px;
+            height: 25px;
+            padding: 3px 3px;
+            font-size: 12px;
+            line-height: 1.42857143;
+            color: #000;
+            width: 100%;
+            background-color: #FFF;
+            background-image: none;
+            border: 1px solid #d0d0d0;
+            border-radius: 2px;
+            margin-bottom: 2px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+        }
+        
+        .caja-texto:focus {
+            background-color: #FFFB95;
+            border-color: #4386f8;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(69, 132, 239, .6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(69, 132, 239, .6)
+        }
+        
+        .caja-texto::-webkit-input-placeholder,
+        .caja-texto:-ms-input-placeholder,
+        .caja-texto::-moz-placeholder {
+            color: #999
+        }
+        
+        .caja-texto::-ms-expand {
+            background-color: transparent;
+            border: 0
+        }
+        
+        .caja-texto[disabled] {
+            background-color: #e9ecef;
+            opacity: 0.8;
+            cursor: not-allowed
+        }
+        
+        
+        /***********************SELECT****************************/
+        
+        .cbx-texto {
+            margin-right: -3px;
+            height: 25px;
+            padding: 3px 3px;
+            font-size: 12px;
+            line-height: 1.42857143;
+            color: #000;
+            width: 100%;
+            background-color: #FFF;
+            background-image: none;
+            border: 1px solid #d0d0d0;
+            border-radius: 2px;
+            margin-bottom: 2px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+        }
+        
+        .cbx-texto:focus {
+            background-color: #FFFB95;
+            border-color: #4386f8;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(69, 132, 239, .6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(69, 132, 239, .6)
+        }
+        
+        .cbx-texto::-webkit-input-placeholder,
+        .cbx-texto:-ms-input-placeholder,
+        .cbx-texto::-moz-placeholder {
+            color: #999
+        }
+        
+        .cbx-texto::-ms-expand {
+            background-color: transparent;
+            border: 0
+        }
+        
+        .cbx-texto[disabled] {
+            background-color: #e9ecef;
+            opacity: 0.8;
+            cursor: not-allowed
+        }
+        
+        .label-texto-sm {
+            font-size: 11px;
+            color: #014fa7;
+            font-weight: 700;
+            margin: 0px;
+            padding: 4px 0px 0px 0px;
+            margin-left: 0px;
+            background-color: transparent;
+            border: transparent;
+        }
+        
+        @media only screen and (max-width: 767px) {
+            .label-texto-sm {
+                padding: 4px 0px 0px 10px;
+            }
+        }
+        
+        .p-lr-0 {
+            padding-right: 0px !important;
+            padding-left: 0px !important;
+        }
+        
+        .m-lr-0 {
+            margin-left: 0px !important;
+            margin-left: 0px !important;
+        }
+        
+        .m-lr-5 {
+            margin-left: 5px !important;
+            margin-left: 5px !important;
+        }
+        
+        .modal-cabecera-list {
+            background: linear-gradient(#007eb1, #0088c2);
+            color: #fff;
+            text-align: left;
+            padding: 4px;
+            font-weight: bold;
+            font-family: 'RobotoWeb', sans-serif;
+            font-size: 12px;
+        }
+        
+        .btn-cerrar {
+            float: right;
+            font-size: 21px;
+            font-weight: 700;
+            line-height: 1;
+            color: #000;
+            text-shadow: 0 1px 0 #fff;
+            filter: alpha(opacity=20);
+            opacity: .2;
+            color: #fff;
+            margin-right: 5px;
+            margin-top: -3px;
+            cursor: pointer;
+        }
+        
+        .btn-cerrar:hover,
+        .btn-cerrar:active,
+        .btn-cerrar:focus {
+            outline: none;
+            text-decoration: none;
+            color: #72afd2;
+        }
+        
+        .btn-model-cerrar {
+            text-decoration: none;
+            border: 1px solid #dd6b55;
+            outline: none;
+            background: #dd6b55;
+            color: #fff;
+            display: inline-block;
+            width: 90px;
+            text-align: center;
+            line-height: 22px;
+            padding: 0 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin: 0px;
+            font-size: 12px;
+        }
+        
+        .btn-model-cerrar[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #dd6b55;
+            background: #dd6b5569;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-model-cerrar:hover {
+            background: #dc2c1f;
+            border: 1px solid #dc2c1f;
+            color: #fff !important;
+        }
+        
+        .btn-model-success {
+            text-decoration: none;
+            border: 1px solid #217346;
+            outline: none;
+            background: #217346;
+            color: #fff;
+            display: inline-block;
+            width: 90px;
+            text-align: center;
+            line-height: 22px;
+            padding: 0 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin: 0px;
+            font-size: 12px;
+        }
+        
+        .btn-model-success:hover {
+            background: #14904c;
+            border: 1px solid #14904c;
+        }
+        
+        .btn-model-success[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #217346;
+            background: #2173466b;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-model-warning {
+            text-decoration: none;
+            border: 1px solid #ffbe00;
+            outline: none;
+            background: #ffbe00;
+            color: #fff;
+            display: inline-block;
+            width: 90px;
+            text-align: center;
+            line-height: 22px;
+            padding: 0 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin: 0px;
+            font-size: 12px;
+        }
+        
+        .btn-model-warning:hover {
+            background: #d69f00;
+            border: 1px solid #d69f00;
+        }
+        
+        .btn-model-warning[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #b7983d;
+            background: #b7983d;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-model-info-1 {
+            text-decoration: none;
+            border: 1px solid #1cb99a;
+            outline: none;
+            background: #1cb99a;
+            color: #fff;
+            display: inline-block;
+            width: 90px;
+            text-align: center;
+            line-height: 22px;
+            padding: 0 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin: 0px;
+            font-size: 12px;
+        }
+        
+        .btn-model-info-1 :hover {
+            background: #159a80;
+            border: 1px solid #159a80;
+        }
+        
+        .btn-model-info-1 [disabled] {
+            cursor: not-allowed;
+            border: 1px solid #159a80;
+            background: #159a80;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-model-info {
+            text-decoration: none;
+            border: 1px solid #1a73e8;
+            outline: none;
+            background: #1a73e8;
+            color: #fff;
+            display: inline-block;
+            width: 90px;
+            text-align: center;
+            line-height: 22px;
+            padding: 0 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin: 0px;
+            font-size: 12px;
+        }
+        
+        .btn-model-info:hover {
+            background: #3367d6;
+            border: 1px solid #3367d6;
+            color: #fff;
+        }
+        
+        .btn-model-info[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #3367d6;
+            background: #3367d6;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .cabecera-modal-accion {
+            background: #e5eaed;
+            text-align: right;
+            padding: 3px;
+            padding-right: 17px;
+        }
+        
+        .hov-img0 {
+            overflow: hidden;
+            justify-content: center;
+            display: flex;
+        }
+        
+        .hov-img0 img {
+            width: auto !important;
+            height: 220px;
+            margin: auto;
+            object-fit: contain;
+            max-width: 100%;
+        }
+        
+        
+        /***********************************************************/
+        
+        .tamano-text-1 {
+            width: 10%;
+        }
+        
+        .tamano-text-2 {
+            width: 20%;
+        }
+        
+        .tamano-text-3 {
+            width: 30%;
+        }
+        
+        .tamano-text-4 {
+            width: 40%;
+        }
+        
+        .tamano-text-5 {
+            width: 50%;
+        }
+        
+        .tamano-text-6 {
+            width: 60%;
+        }
+        
+        .tamano-text-7 {
+            width: 70%;
+        }
+        
+        .tamano-text-8 {
+            width: 80%;
+        }
+        
+        .tamano-text-9 {
+            width: 90%;
+        }
+        
+        .tamano-text-10 {
+            width: 100%;
+        }
+        
+        
+        /*********************************************************/
+        
+        .box.box-primary {
+            border-top-color: rgba(240, 91, 65, 0.9);
+            padding-top: 0px;
+        }
+        
+        .box {
+            position: relative;
+            border-radius: 3px;
+            background: #ffffff;
+            border-top: 3px solid #d2d6de;
+            margin-bottom: 0px;
+            width: 100%;
+            box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+        }
+        
+        .box-header.with-border {
+            border-bottom: 1px solid #f4f4f4;
+        }
+        
+        .box-header {
+            color: #444;
+            display: block;
+            padding: 2px 4px;
+            position: relative;
+        }
+        
+        .row-0 .row {
+            margin-right: 0px !important;
+            margin-left: 0px !important;
+        }
+        
+        
+        /* BOTON DE REGISTRO */
+        
+        .btn-registro {
+            text-decoration: none;
+            border: 1px solid #337ab7;
+            outline: none;
+            background: #337ab7;
+            color: #fff;
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+            line-height: 22px;
+            padding: 1px 1px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin-top: 2px;
+            color: #fff;
+        }
+        
+        .btn-registro:hover {
+            border: 1px solid #4387fdf7;
+            background: -webkit-linear-gradient(top, #4387fdf7, #4683eaba);
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-registro[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #337ab7;
+            background: -webkit-linear-gradient(top, rgb(51 122 183 / 52%), rgb(51 122 183 / 52%));
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-registro-success {
+            text-decoration: none;
+            border: 1px solid #28b779;
+            outline: none;
+            background: #28b779;
+            color: #fff;
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+            line-height: 22px;
+            padding: 1px 1px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin-top: 2px;
+            color: #fff;
+        }
+        
+        .btn-registro-success:hover {
+            border: 1px solid #28b779;
+            background: -webkit-linear-gradient(top, rgb(61 195 137), rgb(40 183 121 / 52%));
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-registro-success[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #28b779;
+            background: -webkit-linear-gradient(top, rgb(61 195 137), rgb(40 183 121 / 52%));
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-registro-danger {
+            text-decoration: none;
+            border: 1px solid #ce392e;
+            outline: none;
+            background: #ce392e;
+            color: #fff;
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+            line-height: 22px;
+            padding: 1px 1px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin-top: 2px;
+            color: #fff;
+        }
+        
+        .btn-registro-danger:hover {
+            border: 1px solid #ff3a3a;
+            background: -webkit-linear-gradient(top, rgb(230 64 62), rgb(246 85 82 / 52%));
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-registro-danger[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #ff3a3a;
+            background: -webkit-linear-gradient(top, rgb(51 122 183 / 52%), rgb(51 122 183 / 52%));
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-registro-primary {
+            text-decoration: none;
+            border: 1px solid #6c757d;
+            outline: none;
+            background: #6c757d;
+            color: #fff;
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+            line-height: 22px;
+            padding: 1px 1px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin-top: 2px;
+            color: #fff;
+        }
+        
+        .btn-registro-primary:hover {
+            border: 1px solid #6c757d;
+            background: -webkit-linear-gradient(top, rgb(121 126 130), rgb(180 185 189));
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-registro-primary[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #6c757d;
+            background: -webkit-linear-gradient(top, rgb(51 122 183 / 52%), rgb(51 122 183 / 52%));
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        table.table-bordered.dataTable tbody th,
+        table.table-bordered.dataTable tbody td {
+            cursor: default !important;
+        }
+        
+        .btn-registro-f {
+            text-decoration: none;
+            border: 1px solid #4285f4;
+            /*outline: none;*/
+            background: #4285f4;
+            color: #fff;
+            display: inline-block;
+            /*width: 110px;*/
+            text-align: center;
+            line-height: 23px;
+            padding: 0 4px;
+            font-size: 12px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin-top: 0px;
+        }
+        
+        .btn-registro-f:hover {
+            border: 1px solid #4387fdf7;
+            background: -webkit-linear-gradient(top, #4387fdf7, #4683eaba);
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-registro-g {
+            text-decoration: none;
+            border: 1px solid #6c757d;
+            background: #6c757d;
+            color: #fff;
+            display: inline-block;
+            text-align: center;
+            line-height: 23px;
+            padding: 0 4px;
+            font-size: 12px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin-top: 0px;
+        }
+        
+        .btn-registro-g:hover {
+            border: 1px solid #868d92;
+            background: -webkit-linear-gradient(top, #868d92, #868d92);
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        
+        /*BORDES DE PANEL*/
+        
+        .fieldset-a {
+            border: 1px Solid rgba(240, 91, 65, 1);
+            background: #fff;
+            color: #000;
+            padding: 2px 8px;
+            margin-top: 1px;
+            margin-bottom: 0px;
+            border-radius: 4px;
+        }
+        
+        .fieldset-a legend {
+            margin-left: 20px;
+            color: rgba(240, 91, 65, 1);
+            font-size: 12px;
+            padding: 1px 2px 2px 1px;
+            border: 0px Solid #888686;
+            border-radius: 3px;
+            margin-bottom: 0px;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgb(2 117 216 / 33%);
+            color: rgb(0 0 0);
+        }
+        
+        .disabled-form {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
+        
+        /** BARRA DE HERRAMIENTAS **/
+        
+        .breadcrumb-ancho {
+            margin: 0px 20px 0 20px;
+        }
+        
+        .breadcrumb-ancho ol li {
+            margin: 0px !important;
+        }
+        
+        .breadcrumb-arrow {
+            height: 36px;
+            padding: 0;
+            list-style: none;
+            background: linear-gradient( #f7f7f7, #86868669);
+            font-size: 14px;
+            width: 100%;
+            margin-bottom: 2px;
+        }
+        
+        .breadcrumb-arrow li:first-child .enlace a {
+            border-radius: 4px 0 0 4px;
+            -webkit-border-radius: 0px 0 0 0px;
+            -moz-border-radius: 4px 0 0 4px
+        }
+        
+        .breadcrumb-arrow li,
+        .breadcrumb-arrow li .enlace,
+        .breadcrumb-arrow li span {
+            display: inline-block;
+            vertical-align: top
+        }
+        
+        .breadcrumb-arrow li:not(:first-child) {
+            margin-left: -5px
+        }
+        
+        .breadcrumb-arrow li+li:before {
+            padding: 0;
+            content: ""
+        }
+        
+        .breadcrumb-arrow li span {
+            padding: 0 10px
+        }
+        
+        .breadcrumb-arrow li .enlace,
+        .breadcrumb-arrow li:not(:first-child) span {
+            height: 36px;
+            padding: 0 15px 0 35px;
+            line-height: 36px;
+            width: 100%;
+        }
+        
+        .breadcrumb-arrow li:first-child .enlace {
+            padding: 0 25px
+        }
+        
+        .breadcrumb-arrow li .enlace {
+            position: relative;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            background: #003f75;
+            border: 0px solid #fff;
+        }
+        
+        .breadcrumb-arrow li:first-child .enlace {
+            padding-left: 10px
+        }
+        
+        .breadcrumb-arrow li .enlace:after,
+        .breadcrumb-arrow li .enlace:before {
+            position: absolute;
+            top: -1px;
+            width: 0;
+            height: 0;
+            content: '';
+            border-top: 18px solid transparent;
+            border-bottom: 18px solid transparent
+        }
+        
+        .breadcrumb-arrow li .enlace:before {
+            right: -10px;
+            z-index: 3;
+            border-left-color: #003f75;
+            border-left-style: solid;
+            border-left-width: 11px
+        }
+        
+        .breadcrumb-arrow li .enlace:after {
+            right: -11px;
+            z-index: 2;
+            border-left: 11px solid #fff
+        }
+        
+        .breadcrumb-arrow li .enlace:focus,
+        .breadcrumb-arrow li .enlace:hover {
+            background: #141619;
+            border: 1px solid #141619;
+        }
+        
+        .breadcrumb-arrow li .enlace:focus:before,
+        .breadcrumb-arrow li .enlace:hover:before {
+            border-left-color: #141619;
+        }
+        
+        .breadcrumb-arrow li span {
+            color: #434a54;
+        }
+        
+        @media(max-width: 810px) {
+            .breadcrumb-arrow {
+                font-size: 10px;
+                width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-top: 17px;
+            }
+            .breadcrumb-arrow li:first-child .enlace {
+                padding: 0 5px
+            }
+            .breadcrumb-arrow li:first-child .enlace {
+                padding-left: 2px
+            }
+            .breadcrumb-arrow li .enlace,
+            .breadcrumb-arrow li:not(:first-child) span {
+                padding: 0 2px 0 15px;
+            }
+        }
+        
+        .bread-opcion {
+            float: right;
+            position: absolute;
+            right: 10px;
+        }
+        
+        .bread-opcion .page-breadcrumb .breadcrumb .breadcrumb-item+.breadcrumb-item:before {
+            content: "¥e649";
+            font-family: themify;
+            color: #fff;
+            font-size: 11px;
+        }
+        
+        .bread-opcion .page-breadcrumb {
+            padding: 10px 20px 0 20px;
+        }
+        
+        
+        /* Radio Buttons - DISEﾃ前
+           ========================================================================== */
+        
+        [type="radio"]:not(:checked),
+        [type="radio"]:checked {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+        
+        
+        /* Disabled style */
+        
+        [type="radio"]:disabled:not(:checked)+label:before,
+        [type="radio"]:disabled:checked+label:before {
+            background-color: #dff1ff;
+            border-color: rgb(149, 154, 157);
+        }
+        
+        [type="radio"]:disabled+label {
+            color: rgb(14, 14, 14);
+        }
+        
+        [type="radio"]:disabled:not(:checked)+label:before {
+            border-color: rgb(223, 241, 255);
+        }
+        
+        [type="radio"]:disabled:checked+label:after {
+            background-color: rgba(0, 0, 0, 0.27);
+            border-color: #dc1212;
+        }
+        
+        
+        /* Disabled Radio With gap */
+        
+        [type="radio"].with-gap:disabled:checked+label:before {
+            border: 2px solid #939ba1;
+        }
+        
+        [type="radio"].with-gap:disabled:checked+label:after {
+            border: none;
+            background-color: #939ba1;
+        }
+        
+        
+        /********************************************/
+        
+        [type="radio"]:not(:checked)+label,
+        [type="radio"]:checked+label {
+            position: relative;
+            padding-left: 25px;
+            cursor: pointer;
+            display: inline-block;
+            height: 25px;
+            line-height: 25px;
+            font-size: 13px;
+            font-weight: normal;
+            transition: .28s ease;
+            /* webkit (konqueror) browsers */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        [type="radio"]+label:before,
+        [type="radio"]+label:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 4px;
+            width: 16px;
+            height: 16px;
+            z-index: 0;
+            transition: .28s ease;
+        }
+        
+        
+        /* Unchecked styles */
+        
+        [type="radio"]:not(:checked)+label:before,
+        [type="radio"]:not(:checked)+label:after,
+        [type="radio"]:checked+label:before,
+        [type="radio"]:checked+label:after,
+        [type="radio"].with-gap:checked+label:before,
+        [type="radio"].with-gap:checked+label:after {
+            border-radius: 50%;
+        }
+        
+        [type="radio"]:not(:checked)+label:before,
+        [type="radio"]:not(:checked)+label:after {
+            border: 2px solid #5a5a5a;
+        }
+        
+        
+        /* Checked styles */
+        
+        [type="radio"]:checked+label:after,
+        [type="radio"].with-gap:checked+label:before,
+        [type="radio"].with-gap:checked+label:after {
+            border: 2px solid #0275d8;
+        }
+        
+        [type="radio"]:checked+label:after,
+        [type="radio"].with-gap:checked+label:after {
+            background-color: #0275d8;
+            z-index: 0;
+        }
+        
+        
+        /* Radio With gap */
+        
+        [type="radio"].with-gap:checked+label:after {
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+        }
+        
+        
+        /* Checkboxes DI
+              ========================================================================== */
+        
+        
+        /* CUSTOM CSS CHECKBOXES */
+        
+        
+        /* Remove default checkbox */
+        
+        [type="checkbox"]:not(:checked),
+        [type="checkbox"]:checked {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+        
+        [type="checkbox"]+label {
+            position: relative;
+            padding-left: 25px;
+            cursor: pointer;
+            display: inline-block;
+            height: 20px;
+            line-height: 25px;
+            font-size: 13px;
+            font-weight: normal;
+            -webkit-user-select: none;
+            /* webkit (safari, chrome) browsers */
+            -moz-user-select: none;
+            /* mozilla browsers */
+            -khtml-user-select: none;
+            /* webkit (konqueror) browsers */
+            -ms-user-select: none;
+            /* IE10+ */
+        }
+        
+        [type="checkbox"]+label:before,
+        [type="checkbox"]:not(.filled-in)+label:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 18px;
+            height: 18px;
+            z-index: 0;
+            border: 2px solid #5a5a5a;
+            border-radius: 1px;
+            margin-top: 2px;
+            transition: .2s;
+        }
+        
+        [type="checkbox"].filled-in+label:after {
+            border-radius: 2px;
+        }
+        
+        [type="checkbox"].filled-in:disabled:not(:checked)+label:after {
+            border-color: #BDBDBD;
+            background-color: #def0ff;
+        }
+        
+        [type="checkbox"].filled-in:disabled:checked+label:after {
+            background-color: #BDBDBD;
+            border-color: #BDBDBD;
+        }
+        
+        [type="checkbox"]:not(.filled-in)+label:after {
+            border: 0;
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        }
+        
+        
+        /* Indeterminate checkbox */
+        
+        [type="checkbox"].filled-in+label:before,
+        [type="checkbox"].filled-in+label:after {
+            content: '';
+            left: 0;
+            position: absolute;
+            /* .1s delay is for check animation */
+            transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
+            z-index: 1;
+        }
+        
+        [type="checkbox"].filled-in:not(:checked)+label:before {
+            width: 0;
+            height: 0;
+            border: 3px solid transparent;
+            left: 6px;
+            top: 10px;
+            -webkit-transform: rotateZ(37deg);
+            transform: rotateZ(37deg);
+            -webkit-transform-origin: 20% 40%;
+            transform-origin: 100% 100%;
+        }
+        
+        [type="checkbox"].filled-in:not(:checked)+label:after {
+            height: 20px;
+            width: 20px;
+            background-color: transparent;
+            border: 2px solid #5a5a5a;
+            top: 0px;
+            z-index: 0;
+        }
+        
+        [type="checkbox"].filled-in:checked+label:before {
+            top: 0;
+            left: 1px;
+            width: 8px;
+            height: 13px;
+            border-top: 2px solid transparent;
+            border-left: 2px solid transparent;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            -webkit-transform: rotateZ(37deg);
+            transform: rotateZ(37deg);
+            -webkit-transform-origin: 100% 100%;
+            transform-origin: 100% 100%;
+        }
+        
+        [type="checkbox"].filled-in:checked+label:after {
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #0275d8;
+            background-color: #0275d8;
+            z-index: 0;
+        }
+        
+        .margen-check {
+            margin-left: 4px;
+        }
+        
+        .form-check {
+            margin-bottom: 1px;
+        }
+        
+        
+        /*************************************************************/
+        
+        [type="checkbox"].filled-in:focus+label:after {
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fffb95;
+            background-color: #0275d8;
+            z-index: 0;
+        }
+        
+        
+        /*cierre defs check boton symbol radio boton*/
+        
+        
+        /***************SUB BOTONES**********************/
+        
+        .btn-sub1-info {
+            width: 65px;
+        }
+        
+        .btn-sub2-info {
+            width: 90px;
+        }
+        
+        .btn-sub1-info,
+        .btn-sub2-info {
+            text-decoration: none;
+            border: 1px solid #2255a4;
+            outline: none;
+            background: #2255a4;
+            color: #fff;
+            display: inline-block;
+            text-align: center;
+            line-height: 22px;
+            padding: 0 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin: 0px;
+            font-size: 12px;
+        }
+        
+        .btn-sub1-info:hover,
+        .btn-sub2-info:hover {
+            background: #1b4584;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-sub1-info:focus,
+        .btn-sub2-info:focus {
+            border: 1px solid #2255a4;
+            background: #2255a4;
+            color: #fff;
+        }
+        
+        .btn-sub1-info[disabled],
+        .btn-sub2-info[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #2255a4;
+            background: #2255a4;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-sub1-success {
+            width: 65px;
+        }
+        
+        .btn-sub2-success {
+            width: 90px;
+        }
+        
+        .btn-sub3-success {
+            width: 110px;
+        }
+        
+        .btn-sub4-success {
+            width: 130px;
+        }
+        
+        .btn-sub1-success,
+        .btn-sub2-success,
+        .btn-sub3-success,
+        .btn-sub4-success {
+            text-decoration: none;
+            border: 1px solid #28b779;
+            outline: none;
+            background: #28b779;
+            color: #fff;
+            display: inline-block;
+            text-align: center;
+            line-height: 22px;
+            padding: 0 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin: 0px;
+            font-size: 12px;
+        }
+        
+        .btn-sub1-success:hover,
+        .btn-sub2-success:hover,
+        .btn-sub3-success:hover,
+        .btn-sub4-success:hover {
+            background: #219864;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-sub1-success:focus,
+        .btn-sub2-success:focus,
+        .btn-sub3-success:focus,
+        .btn-sub4-success:focus {
+            border: 1px solid #219864;
+            background: #219864;
+            color: #fff;
+        }
+        
+        .btn-sub1-success[disabled],
+        .btn-sub2-success[disabled],
+        .btn-sub3-success[disabled],
+        .btn-sub4-success[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #219864;
+            background: #219864;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-sub1-secondary {
+            width: 65px;
+        }
+        
+        .btn-sub2-secondary {
+            width: 90px;
+        }
+        
+        .btn-sub1-secondary,
+        .btn-sub2-secondary {
+            text-decoration: none;
+            border: 1px solid #6c757d;
+            outline: none;
+            background: #6c757d;
+            color: #fff;
+            display: inline-block;
+            text-align: center;
+            line-height: 22px;
+            padding: 0 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin: 0px;
+            font-size: 12px;
+        }
+        
+        .btn-sub1-secondary:hover,
+        .btn-sub2-secondary:hover {
+            background: #5a6268;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-sub1-secondary:focus,
+        .btn-sub2-secondary:focus {
+            border: 1px solid #5a6268;
+            background: #5a6268;
+            color: #fff;
+        }
+        
+        .btn-sub1-secondary[disabled],
+        .btn-sub2-secondary[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #6c757d;
+            background: #6c757d;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-sub1-danger {
+            width: 65px;
+        }
+        
+        .btn-sub2-danger {
+            width: 90px;
+        }
+        
+        .btn-sub3-danger {
+            width: 110px;
+        }
+        
+        .btn-sub4-danger {
+            width: 130px;
+        }
+        
+        .btn-sub1-danger,
+        .btn-sub2-danger,
+        .btn-sub3-danger,
+        .btn-sub4-danger {
+            text-decoration: none;
+            border: 1px solid #da542e;
+            outline: none;
+            background: #da542e;
+            color: #fff;
+            display: inline-block;
+            text-align: center;
+            line-height: 22px;
+            padding: 0 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            position: relative;
+            margin: 0px;
+            font-size: 12px;
+        }
+        
+        .btn-sub1-danger:hover,
+        .btn-sub2-danger:hover,
+        .btn-sub3-danger:hover,
+        .btn-sub4-danger:hover {
+            background: #c04522;
+            border-color: 1px solid #b54120;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        .btn-sub1-danger:focus,
+        .btn-sub2-danger:focus,
+        .btn-sub3-danger:focus,
+        .btn-sub4-danger:focus {
+            background: #c04522;
+            border-color: 1px solid #b54120;
+            color: #fff;
+        }
+        
+        .btn-sub1-danger[disabled],
+        .btn-sub2-danger[disabled],
+        .btn-sub3-danger[disabled],
+        .btn-sub4-danger[disabled] {
+            cursor: not-allowed;
+            border: 1px solid #da542e;
+            background: #da542e;
+            transition: all ease 1s;
+            color: #fff;
+        }
+        
+        
+        /***************END SUB BOTONES**********************/
+        
+        .class-tfoot tr td {
+            border: 0px solid #dee2e6;
+            background: rgb(0 63 117 / 12%);
+            font-weight: 700 !important;
+        }
+        
+        .ocultar{
+            color:  rgba(22, 55, 91, 0);
+        }
+        
+        .t-text{
+            background-color: transparent;
+            font-weight: bold;
+            margin-left: -2%;
+        }
+        
+        .t-text-2{
+            background-color: transparent;
+            font-weight: bold;
+            margin-left: -2%;
+            color: transparent;
+        }
+        
+        .t-text-3{
+            background-color: transparent;
+            border: none;
+        }
+        
+        .t-form{
+            height: 1050px;
+        }
+        
+        .t-form-2{
+            height: 400px;
+        }
+        
+        .t-form-22{
+            height: 750px;
+        }
+        
+        
+        
+        .titulo-periodo{
+            background-color: rgb(2, 63, 133);
+            color: white;
+        }
+        
+        .size-pp{
+            width: 330px;
+            height: 230px;
+            margin-left: 40%;
+        }
+        
+        .titulos{
+            color: rgb(0, 0, 107);
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        table .cabecera-child th {
+            background-color: #f7dfb1 !important;
+            color: #000;
+            font-weight: 700;
+        }
+        
+        table .cabecera-child th {
+            padding: 5px 1rem 5px 1rem !important;
+        }
+        
+        .table-child .page-item.active .page-link {
+            z-index: 1;
+            color: #333;
+            background-color: #f7dfb1;
+            border-color: #f7dfb1;
+        }
+        
+        .table-child .page-link {
+            position: relative;
+            display: block;
+            padding: 4px 8px;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #7460ee;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+        }
+        
+        td.details-control {
+            background: url('../img/details_open.png') no-repeat center center;
+            cursor: pointer !important;
+        }
+        
+        tr.shown td.details-control {
+            background: url('../img/details_close.png') no-repeat center center;
+        }
+        .text-info-cm-1 {
+            font-weight: 400;
+            font-size: 14px;
+        }
+        
+        .img-firma-digital {
+            vertical-align: middle;
+            border-style: none;
+            width: 100px;
+            border: solid 2px #ddd;
+            border-radius: 12px;
+        }
+        
+        .enlace-cerrar {
+            color: #ff666b;
+        }
+        
+        
+        .expandable .rotate.fa {
+            transition: .3s transform ease-in-out;
+            position: absolute;
+            right: 10px;
+        }
+        
+        .expandable.collapsed .rotate.fa {
+            /*transform: rotate(180deg);*/
+        }
+        
+        .titulos .lh-1:after {
+            --bg-opacity: 1;
+            background-color: #003f75;
+            background-color: rgba(0, 63, 117, var(--bg-opacity));
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 2rem;
+            left: 10px;
+            top: 20px;
+            height: 3px;
+        }
+        
+        .m-titulo {
+            margin-bottom: 0px;
+        }
+        
+        @media (max-width: 768px) {
+            .m-titulo {
+                margin-bottom: 20px;
+            }
+        }
+        
+        .active-zona {
+            background: #343a40;
+            color: #fff;
+        }
+        
+        #btnproyecto, #btnzonas, #btnmanzanas, #btnlotes, #btnproyectoc, #btnzonasc, #btnmanzanasc, #btnlotesc{
+            color: white;
+            font-weight: bolder;
+            text-align: center;
+            width: 100%;
+            border-radius: 11px 11px 11px 11px;
+        }
+        
+        #panel_zonas, #panel_manzanas, #panel_lotes{
+            display: none;
+        }
+        
+        #NuevoRegistro, #ControlRegistro{
+            display: none;
+        }
+        
+        .nfond{
+            background-color: transparent;
+            border: none;
+        }
+        
+        .title-01 {
+            font-family: eras-medium-itc;
+            font-weight: 100;
+            font-size: 13px;
+        }
+        
+        .title-02 {
+            font-family: Mirai-Bold;
+            font-size: 12px;
+        }
+        
+        .title-02 span {
+            font-family: eras-medium-itc;
+            font-size: 12px;
+            font-weight: 100;
+        }
+        
+        .title-03 {
+            font-family: eras-medium-itc;
+            font-weight: 100;
+            font-size: 12px;
+        }
+        
+        .title-04 {
+            font-family: eras-medium-itc;
+            font-weight: 100;
+            font-size: 10px;
+        }
+        
+        .leyenda-estado {
+            padding: 1px 7px;
+            border-radius: 100%;
+            margin-right: 5px;
+        }
+        
+        .text-cronograma{
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        #TXT13{
+            background-color: #0EBF00; 
+            color: #FFFFFF;
+        }
+        
+        #TXT14{
+            background-color: #DC0000; 
+            color: #FFFFFF;
+        }
+        
+        #TXT15{
+            background-color: #FFA342; 
+            color: #FFFFFF;
+        }
+        
+        .marcar-n{
+            font-weight: bold;
+        }
+        
+        #txtTotalVentas, #txtTotalClientes, #txtTotalReservados, #txtTotalLibres, #txtTotalPorVencer, #txtTotalVencido, #txtTotalVendidoT, 
+        #txtTotalVendidoTC, #txtTotalZonas, #txtTotalManzanas, #txtTotalLotes, #txtTotalBloqueados, #txtTotalCanjes{
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        #txtTotalReservados, #txtTotalLibres, #txtTotalPorVencer, #txtTotalVencido, #txtTotalVendidoT, 
+        #txtTotalVendidoTC, #txtTotalBloqueados, #txtTotalCanjes{
+            background-color: transparent;
+            color: black;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        #txtValorLteLibres, #txtValorLteReservados, #txtValorLtePorVencer, #txtValorLteVencidos, #txtValorLteVendidosT, #txtValorLteVendidosTC, 
+        #txtValorLteBloqueados, #txtValorLteCanjes{
+            text-align: center;
+            border-color: black;
+        }
+        
+        .blanc{
+            color: black;
+        }
+        
+        .fond-panl{
+            background-color: white;
+        }
+        
+        .titulo-panl{
+            font-weight: bold;
+            color: black;
+        }
+        
+        .fond-back{
+            background-color: #ECE9E9;
+        }
+        
+        #camps{
+            border: 10px;
+           border-color: black;
+        }
+    </style>
+
+    <script src="../../code/highcharts.js"></script>
+    <script src="../../code/modules/exporting.js"></script>
+    <script src="../../code/modules/export-data.js"></script>
+    <script src="../../code/modules/accessibility.js"></script>
+
+    <?php
+		session_start();
+		include_once "../../../config/codificar.php";
+		
+        if(empty($_SESSION['usu'])){            
+            $variable = $_GET['Vsr'];
+            $user_doc = decrypt($variable,"123");
+            $_SESSION['usu'] = $user_doc;
+            $valor_user = $_SESSION['usu'];
+            $_SESSION['variable_user'] = $valor_user;
+        }else{
+            $valor_user = $_SESSION['usu'];
+            $_SESSION['variable_user'] = $valor_user;
+        }
+		
+		require_once "../../../config/conexion_2.php";
+		require_once "../../../config/control_sesion.php";
+		require_once "../../../controllers/ControllerCategorias.php";
+		$user_sesion = encrypt($valor_user,"123");
+		
+		$valor = $_GET['Dto'];
+		$lte = $_GET['lgm'];
+		$vnt = $_GET['vnt'];
+		$query_lote = "";
+		$query_venta = "";
+		
+		if(!empty($lte)){
+		    $query_lote = "AND gpv.id_lote='$lte'";
+		}
+		
+		if(!empty($vnt)){
+		    $vnt = decrypt($vnt,"123");
+		    $query_venta = "AND gpv.id_venta='$vnt'";
+		}
+		
+		$anio = date('Y');
+		$mes = date('m');
+		$dia = date('d');
+		
+		//echo "EL VALOR ES: ".$valor;
+    ?>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <!--<div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>-->
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+
+                 <!-- editor -->
+                <div class="row" style="font-family: Vegur, 'PT Sans', Verdana, sans-serif;">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                
+                                <center><label style="font-size: 21px; text-align: center; font-weight: bold; font-family: Vegur, 'PT Sans', Verdana, sans-serif;">HOJA RESUMEN</label></center>
+                                <br>
+                                <!-- Create the editor container -->
+                                <?php 
+                                
+                                 $consultar_datos = mysqli_query($conection, "SELECT 
+                                 gpv.id_venta as id_venta,
+                                 gpv.cancelado as cancelado,
+                                 gpv.devolucion as devolucion,
+                                 gpv.estado_devolucion as estado_devolucion,
+                                concat(dc.apellido_paterno,' ',dc.apellido_materno,' ',dc.nombres) as dato,
+                                dc.celular_1 as contacto,
+                                dc.email as correo,
+                                format(gpv.total,2) as precio_pactado,
+                                gpv.total as precio_pactado_cal,
+                                date_format(gpv.fecha_venta, '%d/%m/%Y') as fechaVenta,
+                                concat(SUBSTRING(gpm.nombre,9,2), ' - ',SUBSTRING(gpl.nombre,6,2)) as lote,
+                                format(gpv.monto_cuota_inicial,2) as importe_inicial,
+                                format((gpv.total - gpv.monto_cuota_inicial),2) as importe_financiado,
+                                cd.nombre_corto as tipo_casa,
+                                format((gpv.total - gpv.monto_cuota_inicial),2) as saldo_inicial,
+                                format(gpv.monto_cuota_inicial + (SELECT SUM(pagod.importe_pago) FROM gp_pagos_detalle pagod, gp_pagos_cabecera pagoc, gp_cronograma gpcr 
+                                WHERE pagod.idpago=pagoc.idpago AND pagoc.id_cronograma=gpcr.correlativo AND gpcr.id_venta=gpv.id_venta AND pagoc.id_venta=gpv.id_venta AND pagod.id_venta=gpv.id_venta AND gpcr.estado=2),2) as monto_pagado,
+                                date_format(gpv.fecha_entrega_casa, '%d/%m/%Y') as fecha_entrega,
+                                format((gpv.total*(gpv.tna/100)),2) as interes,
+                                if((gpv.cantidad_letra/12)>0, concat(format((gpv.cantidad_letra/12),0),' AÑOS (',gpv.cantidad_letra,' MESES)'), concat(gpv.cantidad_letra,' MESES')) as financiamiento,
+                                format((gpv.total + (gpv.total*(gpv.tna/100))),2) as precio_total_lote,
+                                format((gpv.total - gpv.monto_cuota_inicial) - (gpv.monto_cuota_inicial + (SELECT SUM(pago.importe_pago) FROM gp_pagos_detalle pago WHERE pago.id_venta=gpv.id_venta AND pago.estado=2)),2) as monto_pendiente,
+                                (SELECT COUNT(gpcr.id) FROM gp_cronograma gpcr WHERE gpcr.id_venta=gpv.id_venta AND gpcr.estado=2) as cont_pagadas,
+                                format((SELECT SUM(pagod.importe_pago) FROM gp_pagos_detalle pagod, gp_pagos_cabecera pagoc, gp_cronograma gpcr 
+                                WHERE pagod.idpago=pagoc.idpago AND pagoc.id_cronograma=gpcr.correlativo AND gpcr.id_venta=gpv.id_venta AND pagoc.id_venta=gpv.id_venta AND pagod.id_venta=gpv.id_venta AND gpcr.estado=2),2) as letras_pagadas,
+                                (SELECT COUNT(gpcr.id) FROM gp_cronograma gpcr WHERE gpcr.id_venta=gpv.id_venta AND gpcr.estado=3 AND gpcr.esta_borrado='0') as cont_vencidas,
+                                format((SELECT if(SUM(gpcr.monto_letra)>0,SUM(gpcr.monto_letra),0) FROM gp_cronograma gpcr WHERE gpcr.id_venta=gpv.id_venta AND gpcr.estado=3 AND gpcr.esta_borrado='0'),2) as letras_vencidas,
+                                (SELECT COUNT(gpcr.id) FROM gp_cronograma gpcr WHERE gpcr.id_venta=gpv.id_venta AND gpcr.estado=1 AND gpcr.esta_borrado='0') AS cont_pendientes,
+                                format((SELECT if(SUM(gpcr.monto_letra)>0,SUM(gpcr.monto_letra),0) FROM gp_cronograma gpcr WHERE gpcr.id_venta=gpv.id_venta AND gpcr.estado=1 AND gpcr.esta_borrado='0'),2) as letras_pendientes,
+                                format(((SELECT SUM(pagod.importe_pago) FROM gp_pagos_detalle pagod, gp_pagos_cabecera pagoc, gp_cronograma gpcr 
+                                WHERE pagod.idpago=pagoc.idpago AND pagoc.id_cronograma=gpcr.correlativo AND gpcr.id_venta=gpv.id_venta AND pagoc.id_venta=gpv.id_venta AND pagod.id_venta=gpv.id_venta 
+                                AND gpcr.estado=2) + (SELECT if(SUM(gpcr.monto_letra)>0,SUM(gpcr.monto_letra),0) FROM gp_cronograma gpcr WHERE gpcr.id_venta=gpv.id_venta AND gpcr.estado=3 AND gpcr.esta_borrado='0')),2) as total_cancelar
+                                FROM datos_cliente dc
+                                INNER JOIN gp_venta AS gpv ON gpv.id_cliente=dc.id
+                                INNER JOIN gp_pagos_cabecera AS gppc ON gppc.id_venta=gpv.id_venta
+                                INNER JOIN gp_pagos_detalle AS gppd ON gppd.idpago=gppc.idpago
+                                INNER JOIN gp_lote AS gpl ON gpl.idlote=gpv.id_lote
+                                INNER JOIN gp_manzana AS gpm ON gpm.idmanzana=gpl.idmanzana
+                                INNER JOIN configuracion_detalle AS cd ON cd.codigo_item=gpv.tipo_Casa AND cd.codigo_tabla='_TIPO_CASA'
+                                WHERE dc.esta_borrado=0
+                    			AND dc.documento='$valor'
+                    			$query_venta
+                    			$query_lote
+                    			GROUP BY dc.id");
+                    			
+                            	$respuesta_datos = mysqli_fetch_assoc($consultar_datos);
+                            	
+                            	$id_venta = $respuesta_datos['id_venta'];
+                            	$cancelado = $respuesta_datos['cancelado'];
+                            	$devolucion = $respuesta_datos['devolucion'];
+                            	$estado_devolucion = $respuesta_datos['estado_devolucion'];
+                            	
+                            	$ocultar_cancel = 'style="display: none;"';
+                            	if($cancelado=='1'){
+                            	   $ocultar_cancel = ""; 
+                            	}else{
+                            	   $ocultar_cancel = 'style="display: none;"';
+                            	}
+                            	
+                            	$ocultar_devolucion1 = 'style="display: none;"';
+                                $ocultar_devolucion2 = 'style="display: none;"';
+                            	if($devolucion=='1'){
+
+                                    if($estado_devolucion == '3'){
+                                        $ocultar_devolucion1 = ""; 
+                                    }else{
+                                        if($estado_devolucion == '2'){
+                                            $ocultar_devolucion2 = ""; 
+                                        }
+                                    }
+                            	  
+                            	}
+                            	
+                                $dato = $respuesta_datos['dato'];
+                                $contacto = $respuesta_datos['contacto'];
+                                $correo = $respuesta_datos['correo'];
+                                
+                                $precio_pactado = $respuesta_datos['precio_pactado'];
+                                $precio_pactado_cal = $respuesta_datos['precio_pactado_cal'];
+                                
+                                $fecha_venta = $respuesta_datos['fechaVenta'];
+                                
+                                $importe_inicial = $respuesta_datos['importe_inicial'];
+                                $importe_financiado = $respuesta_datos['importe_financiado'];
+                                $monto_pagado = $respuesta_datos['monto_pagado'];
+                                
+                                $saldo_inicial = $respuesta_datos['saldo_inicial'];
+                                $interes = $respuesta_datos['interes'];
+                                $monto_pendiente = $respuesta_datos['monto_pendiente'];
+                                
+                                $lote = $respuesta_datos['lote'];
+                                $tipo_casa = $respuesta_datos['tipo_casa'];
+                                $fecha_entrega = $respuesta_datos['fecha_entrega'];
+                                
+                                $letras_pagadas = $respuesta_datos['cont_pagadas']." - $ ".$respuesta_datos['letras_pagadas'];
+                                $letras_vencidas = $respuesta_datos['cont_vencidas']." - $ ".$respuesta_datos['letras_vencidas'];
+                                $letras_pendientes = $respuesta_datos['cont_pendientes']." - $ ".$respuesta_datos['letras_pendientes'];
+                                
+                                $PrecioTotalLote = $respuesta_datos['precio_total_lote'];
+                                $TiempoFinanciado = $respuesta_datos['financiamiento'];
+                                
+                                $nombre_archivo = $dato.'_'.$anio.$mes.$dia;
+                                
+                                $Total_Cancelar = $respuesta_datos['total_cancelar'];
+                                $Por_cancelar = $respuesta_datos['letras_vencidas'];
+                                
+                                $consultar_idcliente = mysqli_query($conection, "SELECT id as id FROM datos_cliente WHERE documento='$valor'");
+                                $respuesta_idcliente = mysqli_fetch_assoc($consultar_idcliente);
+                                $id_cliente = $respuesta_idcliente['id']; 
+                                
+                                $consultar_idventa = mysqli_query($conection, "SELECT gpv.id_venta as id FROM gp_venta gpv WHERE gpv.id_cliente='$id_cliente' $query_lote $query_venta");
+                                $respuesta_idventa = mysqli_fetch_assoc($consultar_idventa);
+                                $id_venta = $respuesta_idventa['id'];
+                                
+                                $consultar_total1 = mysqli_query($conection, "select (sum(gppd.pagado) + if((select sum(monto_letra) from gp_cronograma where id_venta='$id_venta' AND dscto_acuerdo='1')>0,(select sum(monto_letra) from gp_cronograma where id_venta='$id_venta' AND dscto_acuerdo='1'),0)) as total 
+                                from gp_pagos_cabecera gppc 
+                                INNER JOIN gp_pagos_detalle AS gppd ON gppd.idpago=gppc.idpago
+                                WHERE gppc.id_venta='$id_venta' AND gppc.esta_borrado='0' AND gppd.esta_borrado='0'");
+                                $respuesta_total1 = mysqli_fetch_assoc($consultar_total1);
+                                $total_11 = $respuesta_total1['total'];
+                                
+                                $total_pagado_letras = number_format($total_11, 2, '.', ',');
+                                
+                                $consultar_total2 = mysqli_query($conection, "select sum(round(gpcr.monto_letra,2)) as total from gp_cronograma gpcr 
+                                INNER JOIN gp_venta AS gpv ON gpv.id_venta=gpcr.id_venta
+                                INNER JOIN datos_cliente AS dc ON dc.id=gpv.id_cliente
+                                WHERE dc.documento='$valor' $query_lote $query_venta AND gpcr.dscto_acuerdo='0' AND gpcr.esta_borrado='0'");
+                                $respuesta_total2 = mysqli_fetch_assoc($consultar_total2);
+                                $total_22 = $respuesta_total2['total'];
+                                
+                                $tot_cal_cancelar = $total_22 - $total_11;
+                                if($tot_cal_cancelar<1){
+                                    $tot_cal_cancelar = '0.00';
+                                }
+                                        	
+                                $total_por_cancelar = number_format($tot_cal_cancelar, 2, '.', ',');
+                                
+                                $consultar_tcancelar = mysqli_query($conection, "select format(sum(round(gpcr.monto_letra,2)),2) as total, sum(round(gpcr.monto_letra,2)) as total_cal  from gp_cronograma gpcr WHERE gpcr.id_venta='$id_venta' AND gpcr.esta_borrado='0'");
+                                $respuesta_tcancelar = mysqli_fetch_assoc($consultar_tcancelar);
+                                $total_tcancelar = $respuesta_tcancelar['total'];
+                                $total_cal_cancelar = $respuesta_tcancelar['total_cal'];
+                                
+                                $intereses = 0;
+                                $intereses = number_format($total_cal_cancelar - $precio_pactado_cal, 2);
+                                
+                                ?>
+                                <style>
+                                    th, td {
+                                       width: 25%;
+                                       text-align: center;
+                                       vertical-align: top;
+                                       border: 1px solid #000;
+                                       border-collapse: collapse;
+                                       padding: 0.3em;
+                                       caption-side: bottom;
+                                    }
+                                    .cancel{
+                                        background-color: #D50A00; 
+                                        color: white; 
+                                        font-size: 16px;
+                                        font-weight: bold;
+                                        height: 20px;
+                                        text-align: center;
+                                        margin-top: 5px;
+                                    }
+                                </style>
+                                <div class="table-responsive">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="font-size: 15px;"><b><?php echo $dato; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px;"><b><?php echo $lote.' ('.$fecha_venta.')'; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px"><b>TELÉFONO : <?php echo $contacto; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px"><b>PRECIO DE VENTA : $ <?php echo $precio_pactado; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px"><b>PRECIO TOTAL DEL LOTE : $ <?php echo $total_tcancelar; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px"><b>INTERESES : $ <?php echo $intereses; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px"><b>TIEMPO DE FINANCIAMIENTO : <?php echo $TiempoFinanciado; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px"><b>DEUDA DE CAPITAL : $ <?php echo $total_por_cancelar; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px"><b>TOTAL CANCELADO : $ <?php echo $total_pagado_letras; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px"><b>CORREO : <?php echo $correo; ?></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 15px"><b>FECHA DE ENTREGA CASA : <?php echo $fecha_entrega; ?></b></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-12 text-center cancel" <?php echo $ocultar_cancel; ?>>C  A  N  C  E  L  A  D  O</div>
+                                <div class="col-md-12 text-center cancel" <?php echo $ocultar_devolucion1; ?>>D E V U E L T O</div>
+                                <div class="col-md-12 text-center cancel" <?php echo $ocultar_devolucion2; ?>>DEVOLUCI&Oacute;N PENDIENTE DE PAGO</div>
+                                <br>
+                                <!-- TABLA CONTENEDORA DE REGISTRO DE TRABAJADORES -->
+                                <div class="fn-frm-dt">                                  
+                                    <div class="table-responsive">
+                                        <?php
+                                        
+                                           $consulta_idventa = mysqli_query($conection, "SELECT gpv.id_venta as id_venta FROM gp_venta gpv, datos_cliente dc WHERE gpv.id_cliente=dc.id AND dc.documento='$valor' $query_lote $query_venta");
+                                        	$respuesta_idventa = mysqli_fetch_assoc($consulta_idventa);
+                                        	$idventa = $respuesta_idventa['id_venta'];
+                                            
+                                            $query_ventas = mysqli_query($conection,"SELECT
+                                                    date_format(gpcr.fecha_vencimiento, '%d/%m/%Y') as fecha,
+                                                    gpcr.item_letra as letra,
+                                                    format(gpcr.monto_letra,2) as monto,
+                                                    
+                                                    
+                                                    (select if(SUM(gppd.pagado)>0,format(SUM(gppd.importe_pago),2),'0.00') from gp_pagos_cabecera gppc INNER JOIN gp_pagos_detalle AS gppd ON gppd.idpago=gppc.idpago AND gppd.esta_borrado='0' 
+                                                    INNER JOIN configuracion_detalle AS cdx ON cdx.codigo_tabla='_TIPO_MONEDA' AND cdx.idconfig_detalle=gppd.moneda_pago WHERE cdx.texto1='PEN' AND  gppc.id_venta=gpcr.id_venta AND gppc.id_cronograma=gpcr.correlativo) as monto_soles,
+                                                    
+                                                    
+                                                    (select format(MAX(gppd.tipo_cambio),2) from gp_pagos_cabecera gppc inner join gp_pagos_detalle as gppd on gppc.idpago=gppd.idpago AND gppd.esta_borrado='0' where gppc.id_venta=gpcr.id_venta AND gppc.id_cronograma=gpcr.correlativo AND gppc.esta_borrado='0') as tipo_cambio,
+                                                    (select if(SUM(gppd.pagado)>0,format(SUM(gppd.pagado),2),'0.00') from gp_pagos_cabecera gppc INNER JOIN gp_pagos_detalle AS gppd ON gppd.idpago=gppc.idpago AND gppd.esta_borrado='0' INNER JOIN configuracion_detalle AS cdx ON cdx.codigo_tabla='_TIPO_MONEDA' AND cdx.idconfig_detalle=gppd.moneda_pago WHERE cdx.texto1='USD' AND gppc.id_venta=gpcr.id_venta AND gppc.id_cronograma=gpcr.correlativo) as monto_dolares,
+                                                    format((SELECT if((SUM(gppd.monto_soles))>0, SUM(gppd.monto_soles),'0.00') FROM gp_pagos_cabecera gppc, gp_pagos_detalle gppd WHERE gppc.idpago=gppd.idpago AND gppc.id_cronograma=gpcr.correlativo AND gppc.esta_borrado='0' AND gppc.id_venta=gpv.id_venta GROUP BY gppd.idpago),2) as soles,
+                                                    format((SELECT if((SUM(gppd.monto_dolares))>0, SUM(gppd.monto_dolares),'0.00') FROM gp_pagos_cabecera gppc, gp_pagos_detalle gppd WHERE gppc.idpago=gppd.idpago AND gppc.id_cronograma=gpcr.correlativo AND gppc.esta_borrado='0' AND gppc.id_venta=gpv.id_venta GROUP BY gppd.idpago),2) as dolares,
+                                                    gpcr.estado as estado,
+                                                    cd.nombre_corto as descEstado,
+                                                    cd.texto1 as color,
+                                                    if((gpcr.fecha_vencimiento<'$fecha' && gpcr.estado='3'),concat('-',TIMESTAMPDIFF(DAY, gpcr.fecha_vencimiento, '$fecha')),'0') as mora,
+                                                    (SELECT if((gppd.importe_pago)>0, gppd.nro_operacion,'Ninguno') FROM gp_pagos_cabecera gppc, gp_pagos_detalle gppd WHERE gppc.idpago=gppd.idpago AND gppc.id_cronograma=gpcr.correlativo AND gppc.esta_borrado='0' AND gppc.id_venta=gpv.id_venta GROUP BY gppd.idpago) as nro_operacion,
+                                                    (SELECT if((gppd.importe_pago)>0, concat(gppd.serie,'-',gppd.numero),'Ninguno') FROM gp_pagos_cabecera gppc, gp_pagos_detalle gppd WHERE gppc.idpago=gppd.idpago AND gppc.esta_borrado='0' AND gppc.id_cronograma=gpcr.correlativo AND gppc.id_venta=gpv.id_venta GROUP BY gppd.idpago) as boleta
+                                                    FROM gp_cronograma gpcr
+                                                    INNER JOIN gp_venta AS gpv ON gpv.id_venta=gpcr.id_venta
+                                                    INNER JOIN datos_cliente AS dc ON dc.id=gpv.id_cliente
+                                                    INNER JOIN gp_lote AS gpl ON gpl.idlote=gpv.id_lote
+                                                    INNER JOIN configuracion_detalle AS cd ON cd.codigo_item=gpcr.estado AND cd.codigo_tabla='_ESTADO_EC'
+                                                    WHERE gpcr.esta_borrado=0 AND gpcr.estado in (2,3) AND gpcr.pago_cubierto in (2,1,0)
+                                                    AND gpcr.id_venta='$idventa'
+                                                    ORDER BY gpcr.correlativo asc
+                                        			");
+                                        	
+                                        	$consultar_soles = mysqli_query($conection, "select format(sum(if(gppc.tipo_cambio='0.00','0.00',gppc.importe_pago)),2) as total from gp_pagos_cabecera gppc WHERE gppc.id_venta='$idventa' AND gppc.esta_borrado='0'");
+                                        	$respuesta_soles = mysqli_fetch_assoc($consultar_soles);
+                                        	$total_soles = $respuesta_soles['total'];
+                                        	
+                                        	$consultar_dolares = mysqli_query($conection, "select format((sum(gppd.pagado) + if((select sum(monto_letra) from gp_cronograma where id_venta='$idventa' AND dscto_acuerdo='1')>0,(select sum(monto_letra) from gp_cronograma where id_venta='$idventa' AND dscto_acuerdo='1'),0)),2) as total from gp_pagos_cabecera gppc 
+                                        	INNER JOIN gp_pagos_detalle AS gppd ON gppd.idpago=gppc.idpago 
+                                        	WHERE gppc.id_venta='$idventa' AND gppc.estado='2' AND gppc.visto_bueno in ('2','1') AND gppc.esta_borrado='0' AND gppd.esta_borrado='0'");
+                                        	$respuesta_dolares = mysqli_fetch_assoc($consultar_dolares);
+                                        	$total_dolares = $respuesta_dolares['total'];
+                                        	
+                                        	$consultar_total1 = mysqli_query($conection, "select sum(gppd.pagado) as total 
+                                        	from gp_pagos_cabecera gppc
+                                        	INNER JOIN gp_pagos_detalle AS gppd ON gppd.idpago=gppc.idpago
+                                            WHERE gppc.id_venta='$idventa' AND gppc.esta_borrado='0' AND gppd.esta_borrado='0'");
+                                        	$respuesta_total1 = mysqli_fetch_assoc($consultar_total1);
+                                        	$total_1 = $respuesta_total1['total'];
+                                        	
+                                        	$consultar_total2 = mysqli_query($conection, "select sum(round(gpcr.monto_letra,2)) as total from gp_cronograma gpcr WHERE gpcr.id_venta='$idventa' AND gpcr.dscto_acuerdo='0' AND gpcr.esta_borrado='0'");
+                                        	$respuesta_total2 = mysqli_fetch_assoc($consultar_total2);
+                                        	$total_2 = $respuesta_total2['total'];
+                                        	
+                                        	$tot_cal_cancelar_tot = $total_2 - $total_1;
+                                        	if($tot_cal_cancelar_tot<1){
+                                        	    $tot_cal_cancelar_tot = '0.00';
+                                        	}
+                                        	
+                                        	$total_por_cancelar = number_format($tot_cal_cancelar_tot, 2, '.', ',');
+                                        	$total_pagado_monto = number_format($total_1, 2, '.', ',');
+                                        	
+                                        	$consultar_cancelar = mysqli_query($conection, "select format(sum(round(gpcr.monto_letra,2)),2) as total from gp_cronograma gpcr WHERE gpcr.id_venta='$idventa' AND gpcr.esta_borrado='0'");
+                                        	$respuesta_cancelar = mysqli_fetch_assoc($consultar_cancelar);
+                                        	$total_cancelar = $respuesta_cancelar['total'];
+                                        
+                                        ?>
+										<table class="table table-striped table-bordered" cellspacing="0" id="TablaHojaResumen" style="width: 100%; text-align: center;">
+                                            <thead class="cabecera">
+                                                <tr>
+                                                    <th style="font-size: 13px;width: 120px">FECHA</th>
+                                                    <th style="font-size: 13px;width: 100px">LETRA</th>
+                                                    <th style="font-size: 13px;width: 100px">MONTO</th>
+                                                    <th colspan="2" style="font-size: 13px;width: 140px">SOLES</th>
+                                                    <th style="font-size: 13px;width: 100px">DOLARES</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="control-detalle">
+                                                <tr>
+                                                    <td colspan="2" style="background-color: #37A4E6; width: 160px; font-size: 12px;">CUOTA INICIAL</td>
+                                                    <td style="background-color: #37A4E6; font-size: 12px; text-align: right"><?php echo $importe_inicial; ?></td>
+                                                    <td style="font-size: 12px;"></td>
+                                                    <td style="font-size: 12px;">T.C.</td>
+                                                    <td style="font-size: 12px;"></td>
+                                                </tr>
+                                                <?php while($row = $query_ventas->fetch_assoc()){  ?>
+                                                <tr>
+                                                    <td <?php if($row['estado']=="1"){ ?> style="background-color: #FFA342; font-size: 12px" <?php }else{ if($row['estado']=="2"){ ?> style="background-color: #C9E9F7; font-size: 12px;" <?php }else{ ?> style="background-color: #DC0000; font-size: 12px;" <?php }} ?>><?php echo $row['fecha']; ?></td>
+                                                    <td <?php if($row['estado']=="1"){ ?> style="background-color: #FFA342; font-size: 12px" <?php }else{ if($row['estado']=="2"){ ?> style="background-color: #C9E9F7; font-size: 12px;" <?php }else{ ?> style="background-color: #DC0000; font-size: 12px;" <?php }} ?>><?php echo $row['letra']; ?></td>
+                                                    <td <?php if($row['estado']=="1"){ ?> style="background-color: #FFA342; font-size: 12px; text-align: right" <?php }else{ if($row['estado']=="2"){ ?> style="background-color: #C9E9F7; font-size: 12px; text-align: right" <?php }else{ ?> style="background-color: #DC0000; font-size: 12px; text-align: right" <?php }} ?>><?php echo $row['monto']; ?></td>
+                                                    <td style="font-size: 12px; width: 80px; text-align: right"><?php echo $row['monto_soles']; ?></td>
+                                                    <td style="font-size: 12px; text-align: right"><?php echo $row['tipo_cambio']; ?></td>
+                                                    <td style="font-size: 12px; text-align: right"><?php echo $row['monto_dolares']; ?></td>
+                                                </tr>
+                                                <?php  } ?>
+                                                <tr>
+                                                    <td colspan="6" style="height: 10px;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="background-color: #37A4E6; width: 160px; font-weight: bold;font-size: 12px;">TOTAL A CANCELAR</td>
+                                                    <td style="font-size: 12px; text-align: right"><?php echo $total_cancelar; ?></td>
+                                                    <td colspan="3" style="font-size: 12px;">PAGADO</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="background-color: #FAF1C7; width: 160px; font-weight: bold;font-size: 12px;">TOTAL CANCELADO</td>
+                                                   <!--$total_pagado_monto-->
+                                                    <td style="font-size: 12px; text-align: right"><?php echo $total_dolares; ?></td>
+                                                    <td colspan="2" style="font-size: 12px;"><?php //echo $total_soles; ?></td>
+                                                    <td style="font-size: 12px; text-align: right"><?php echo $total_dolares; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="background-color: #FBB3AE; width: 160px; font-weight: bold; font-size: 12px;">POR CANCELAR</td>
+                                                    <td style="font-size: 12px; text-align: right"><?php echo $total_por_cancelar; ?></td>
+                                                    <td colspan="3"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+										<br>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="../../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="../../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <script src="../../dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="../../dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="../../dist/js/custom.min.js"></script>
+    <!--This page JavaScript -->
+    <!-- <script src="../dist/js/pages/dashboards/dashboard1.js"></script> -->
+    <!-- Charts js Files -->
+    <script src="../../assets/libs/flot/excanvas.js"></script>
+    <script src="../../assets/libs/flot/jquery.flot.js"></script>
+    <script src="../../assets/libs/flot/jquery.flot.pie.js"></script>
+    <script src="../../assets/libs/flot/jquery.flot.time.js"></script>
+    <script src="../../assets/libs/flot/jquery.flot.stack.js"></script>
+    <script src="../../assets/libs/flot/jquery.flot.crosshair.js"></script>
+    <script src="../../assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+    <script src="../../dist/js/pages/chart/chart-page-init.js"></script>
+
+    <!-- datatables JS paginado ajax -->
+    <script src="../../datatables/paginado/datatables.bundle.js" type="text/javascript"></script>
+    <!-- datatables JS -->
+    <script src="../../datatables/datatables.min.js " type="text/javascript"></script>
+
+    <!-- datatables JS SELECCIONA FILA -->
+    <script src='../../datatables/select/js/dataTables.select.min.js'></script>
+    <!-- datatables JS RECORRE FILA CON TECLADO -->
+    <script src='../../datatables/paginado/dataTables.keyTable.min.js'></script>
+
+    <!-- para usar botones en datatables JS -->
+    <script src="../../datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="../../datatables/JSZip-2.5.0/jszip.min.js"></script>
+    <script src="../../datatables/pdfmake-0.1.36/pdfmake.min.js"></script>
+    <script src="../../datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
+    <script src="../../datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+    <!-- c¨®digo JS prop¨¬o-->
+    <script type="text/javascript" src="../../main.js"></script>
+
+    <script src="../../js/M02_Clientes/M02JS04_HojaResumen/ReporteHojaResumen.js?v=1.1.1"></script>
+
+    <script src="../../librerias/utilitario/jquery.blockUI.min.js?v=1.1.1"></script>
+    <script src="../../librerias/utilitario/utilitario.js?v=1.1.1"></script>
+    <script src="../../librerias/utilitario/sweetalert.min.js?v=1.1.1"></script>
+    <script src="../../librerias/utilitario/dialogs.js?v=1.1.1"></script>
+    <input type="hidden" id="__FECHA_ACTUAL" value="<?php echo strftime("%Y-%m-%d"); ?>">
+</body>
+
+</html>
+<?php
+
+$html = ob_get_clean();
+//echo $html;
+
+require_once '../../librerias/dompdf/autoload.inc.php';
+use Dompdf\Dompdf;
+$dompdf = new Dompdf();
+
+$options = $dompdf->getOptions();
+$options->set(array('isRemotoeEnabled' => true));
+$dompdf->setOptions($options);
+
+$dompdf->loadHtml($html);
+
+$dompdf->setPaper('letter');
+
+$dompdf->render();
+
+$dompdf->stream("".$nombre_archivo.".pdf", array("Attachment" => false));
+
+?>
+
