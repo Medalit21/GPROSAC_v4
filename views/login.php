@@ -1,33 +1,3 @@
-<?php
-session_start();
-include_once "config/codificar.php"; // Asegúrate que la ruta sea correcta
-
-// Redirecciona si ya hay sesión activa
-if (isset($_SESSION['usu']) && !empty($_SESSION['usu'])) {
-    $variable = encrypt($_SESSION['usu'], "123");
-    header("Location: views/M00_Home/M01_Home/home.php");
-    exit;
-}
-
-// Procesa el login si se envió el formulario
-if (isset($_POST['btnacceder'])) {
-    $usuario = trim($_POST['usuario'] ?? '');
-    $clave = trim($_POST['psw'] ?? '');
-
-    // Aquí debería ir la validación real con base de datos
-    if ($usuario === 'admin' && $clave === '1234') {
-        $_SESSION['usu'] = $usuario;
-
-        $variable = encrypt($usuario, "123");
-        header("Location: views/M00_Home/M01_Home/home.php");
-        exit;
-    } else {
-        $error = "Usuario o contraseña incorrectos";
-        echo "<script>alert('$error');</script>";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
