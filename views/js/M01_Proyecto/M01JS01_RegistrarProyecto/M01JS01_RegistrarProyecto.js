@@ -1454,7 +1454,7 @@ function EliminarZonaPopup(id){
 //Generacion de codigo correlativo para registro de zona
 function CargarCorrelativoZona(){
     var timeoutDefecto = 1000 * 60;
-    bloquearPantalla("Procesando...");
+    //bloquearPantalla("Procesando...");
     var data = {
         "btnCargarCodigoZona": true,
         "txtidProyectoZona": $("#txtidProyectocc").val()
@@ -1465,7 +1465,7 @@ function CargarCorrelativoZona(){
         data: data,
         dataType: "json",
         success: function (dato) {
-            desbloquearPantalla();
+            //desbloquearPantalla();
             if (dato.status == "ok") {               
                 $("#txtCodigoZonacc").val(dato.codigo);
                 $("#txtCorrelativoZonacc").val(dato.correlativo);

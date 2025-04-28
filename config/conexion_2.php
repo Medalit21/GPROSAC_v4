@@ -1,10 +1,10 @@
 <?php
 	//CONEXION SERVIDOR gprosac.acg-soft.com
 	
-	$host = 'localhost';
-	$user = 'root';
-	$password = '';
-	$db = 'gpros4c_gprosac';
+	$host = '216.246.46.167';
+	$user = 'acgsoft_gpros4c25';
+	$password = '5[_9EJ|hI>v2';
+	$db = 'acgsoft_gpros4c_gprosac';
 	
    /*
 	$host = '216.246.46.167';

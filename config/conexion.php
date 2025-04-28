@@ -9,7 +9,7 @@
 		public static function Conectar()
 		{	
 		    //CONEXION SERVIDOR gprosac.acg-soft.com
-		    $PDO = new PDO("mysql:host=localhost;dbname=gpros4c_gprosac;charset=utf8","root","");
+			$PDO = new PDO("mysql:host=216.246.46.167;dbname=acgsoft_gpros4c_gprosac;charset=utf8","acgsoft_gpros4c25","5[_9EJ|hI>v2");
 			$PDO->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			return $PDO;
 			

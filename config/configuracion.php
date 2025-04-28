@@ -1,8 +1,8 @@
 <?php    
 	//$NAME_SERVER = "http://localhost/gprosac/";
 	//$RUTA_ARCHIVOS_TEM = "C:/xampp/htdocs/NominasAcgSoft/views/archivosTemp/";	
-    $NAME_SERVER = "http://localhost/GPROSAC/";
-    $base_url = "http://localhost/GPROSAC/views/";		
+    $NAME_SERVER = "http://localhost/GPROSAC_v4/";
+    $base_url = "http://localhost/GPROSAC_v4/views/";		
     //$NAME_SERVER = "https://gprosac.acg-soft.com/";
     $NAME_APP = "GProsac";
     $NAME_LOGO = "gprosac_icono.png";
