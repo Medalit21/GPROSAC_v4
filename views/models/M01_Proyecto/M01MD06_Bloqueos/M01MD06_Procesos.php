@@ -68,7 +68,8 @@
         if(!empty($txtCodigoDesbloqueoLoter)){
 
             //VALIDAR CODIGO DE AUTORIZACION
-            $consultar_codigo = mysqli_query($conection, "SELECT idcodigo FROM codigo_permiso_lote WHERE clave_autoriza='$txtCodigoDesbloqueoLoter' AND estado='1'");
+            #$consultar_codigo = mysqli_query($conection, "SELECT idcodigo FROM codigo_permiso_lote WHERE clave_autoriza='$txtCodigoDesbloqueoLoter' AND estado='1'");
+            $consultar_codigo = mysqli_query($conection, "SELECT * FROM `usuario` where idPerfil = 1 and clave = '$txtCodigoDesbloqueoLoter'");
             $respuesta_codigo = mysqli_num_rows($consultar_codigo);
             
             if($respuesta_codigo > 0){

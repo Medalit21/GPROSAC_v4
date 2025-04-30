@@ -213,7 +213,7 @@
                             <div class="col-md-6 text-center mt-1">
                                 <button class="btn btn-registro-success" id="btnBuscarRegistro" name="btnBuscarRegistro"><i class="fas fa-search"></i> Buscar</button>
                                 <button class="btn btn-registro-primary" id="btnLimpiar" name="btnLimpiar"><i class="fas fa-sync-alt"></i> Limpiar</button>
-                                <button class="btn btn-registro" style="width: 190px;" id="btnConsultarClave" name="btnConsultarClave"><i class="fab fa-whatsapp"></i> Consultar clave bloqueo</button>
+                                <!--<button class="btn btn-registro" style="width: 190px;" id="btnConsultarClave" name="btnConsultarClave"><i class="fab fa-whatsapp"></i> Consultar clave bloqueo</button>-->
                             </div>
                         </div>
 						
