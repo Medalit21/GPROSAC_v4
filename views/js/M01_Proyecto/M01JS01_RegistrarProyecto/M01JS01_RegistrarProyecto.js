@@ -2373,8 +2373,9 @@ function AgregarLotePopup(){
                         mensaje_alerta("¡Correcto!", dato.data, "success");
                         BuscarLotesPopup();
 					
-						$("#bxZonaslte").val("");
-						$("#bxManzanaslte").val("");
+						//$("#bxZonaslte").val("");
+						//$("#bxManzanaslte").val("");
+						$("#txtNombreLotee").val("");
 						$("#txtAreaLotee").val("");
 						$("#cbxTipoMonedaLoteess").val("");
 						$("#txtValorCCLotee").val("");

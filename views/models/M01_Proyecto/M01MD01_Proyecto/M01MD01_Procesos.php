@@ -624,10 +624,10 @@ if(isset($_POST['btnAgregarManzanaPopup'])){
 
 							if (mysqli_affected_rows($conection) > 0) {
 								$data['status'] = "ok";
-								$data['data'] = "Se registró la manzana y su tipo de casa por defecto correctamente.";
+								$data['data'] = "Se registró la manzana y el tipo de casa.";
 							} else {
 								$data['status'] = "ok";
-								$data['data'] = "La manzana fue registrada, pero no se asignó el tipo de casa por defecto. ";
+								$data['data'] = "La manzana fue registrada, pero no se pudo asignar el tipo de casa. ";
 							}
 							
 						} else {
