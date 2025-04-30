@@ -22,7 +22,7 @@ if(isset($_POST['btnSeleccionarRegistro'])){
         provincia as provincia,
         distrito as distrito,
         nro_zonas as nro_zonas,
-        ROUND(area,2) as area,
+        FORMAT(area,2) as area,
         responsable as responsable
    from gp_proyecto where idproyecto='$IdReg'");
    if($query->num_rows > 0){
@@ -44,7 +44,7 @@ if(isset($_POST['btnSeleccionarZona'])){
         idzona as id,
         nombre as nombre,
         nro_manzanas as nro_manzanas,
-        ROUND(area,2) as area
+        FORMAT(area,2) as area
        FROM gp_zona 
        WHERE idzona='$IdReg' AND estado='1'");
    if($query->num_rows > 0){

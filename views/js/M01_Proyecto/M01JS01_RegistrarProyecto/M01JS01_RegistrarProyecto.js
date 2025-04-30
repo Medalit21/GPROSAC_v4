@@ -1809,7 +1809,7 @@ function EliminarManzanaPopup(id){
 //Generacion de correlativo para insercion de nueva manzana
 function CargarCorrelativoManzana(){
     var timeoutDefecto = 1000 * 60;
-    bloquearPantalla("Procesando...");
+    //bloquearPantalla("Procesando...");
     var data = {
         "btnCargarCodigoMz": true,
         "cbxZonas": $("#cbxZonascc").val()
@@ -1821,7 +1821,7 @@ function CargarCorrelativoManzana(){
         data: data,
         dataType: "json",
         success: function (dato) {
-            desbloquearPantalla();
+            //desbloquearPantalla();
             if (dato.status == "ok") {               
                 $("#txtCodigoManzanacc").val(dato.codigo);
                 $("#txtCorrelativoManzanacc").val(dato.correlativo);
@@ -3699,7 +3699,7 @@ function ListarManzanasReporte() {
 //CARGAR CODIGO DE LOTES
 function CargarCodigoLt(){
     var timeoutDefecto = 1000 * 60;
-    bloquearPantalla("Procesando...");
+    //bloquearPantalla("Procesando...");
     var data = {
         "btnCargarCodigoLt": true,
         "bxManzanaslte": $("#bxManzanaslte").val()
@@ -3711,7 +3711,7 @@ function CargarCodigoLt(){
         data: data,
         dataType: "json",
         success: function (dato) {
-            desbloquearPantalla();
+            //desbloquearPantalla();
 			console.log("Respuesta del servidor:", dato); // Verificar contenido
             if (dato.status == "ok") {               
                 $("#txtCodigoLotee").val(dato.codigo);

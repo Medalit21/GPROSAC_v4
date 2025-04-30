@@ -1,15 +1,7 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
-<?php 
-
-require_once "../../../config/configuracion.php";
-require_once "../../../config/control_sesion.php"; 
-require_once "../../../config/conexion_2.php";
-require_once "../../../controllers/ControllerCategorias.php";
-?>
-
-
+<?php require_once "../../../config/configuracion.php";?>
 
 <head>
     <meta charset="utf-8">
@@ -46,7 +38,7 @@ require_once "../../../controllers/ControllerCategorias.php";
     <script src="../../code/modules/accessibility.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
     <?php
-		/*session_start();
+		session_start();
 		include_once "../../../config/codificar.php";
 		
         if(empty($_SESSION['usu'])){            
@@ -64,7 +56,7 @@ require_once "../../../controllers/ControllerCategorias.php";
 		require_once "../../../config/conexion_2.php";
 		require_once "../../../config/control_sesion.php";
 		require_once "../../../controllers/ControllerCategorias.php";
-		$user_sesion = encrypt($valor_user,"123");*/
+		$user_sesion = encrypt($valor_user,"123");
 	?>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -134,7 +126,7 @@ require_once "../../../controllers/ControllerCategorias.php";
                                     class="fas fa-minus-circle"></i> Cancelar</button>
                             <button id="eliminar" type="button" class="btn btn-registro">
 							<i class="fas fa-trash"></i>
-                                Elminar</button>
+                                Eliminar</button>
                             <button id="busqueda_avanzada" type="button" class="btn btn-registro">
 							<i class="fas fa-list"></i>
                                 Lista</button>

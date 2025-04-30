@@ -1,24 +1,29 @@
 <?php 
-	session_start();
 
-    require_once "../../../config/control_sesion.php"; // Protege la vista
-
-    $EsAdmin = false;
-
+    $EsAdmin=false;
+	
+	if(empty($user_sesion) || empty($_SESSION['usu'])){
+		session_destroy();
+        echo '<script type="text/javascript">';
+        echo 'alert("El tiempo de su sesion ha expirado! Ingrese nuevamente.")';
+        echo '</script>';
+        echo '<script type="text/javascript">';
+        echo 'location.href="'.$NAME_SERVER.'"';
+        echo '</script>';
+	}
+    
     $user = $_SESSION['usu'];
-
-    // Obtener el perfil del usuario
     $consultar_idperfil = mysqli_query($conection, "SELECT IdPerfil as perfil FROM usuario WHERE usuario='$user'");
     $respuesta_idperfil = mysqli_fetch_assoc($consultar_idperfil);
     $id_perfil = $respuesta_idperfil['perfil']; 
-
-    if (empty($_SESSION['usuario_logueo'])) {
-        $_SESSION['usuario_logueo'] = $_SESSION['usu'];		
-    }
-
-    $IdPerfilUsuario = $id_perfil;
-    $_SESSION['IdPerfil'] = $id_perfil; 
 	
+	if(empty($_SESSION['usuario_logueo'])){
+		$_SESSION['usuario_logueo'] = $_SESSION['usu'];		
+	}
+     
+    $IdPerfilUsuario=$idperfil;
+    $_SESSION['IdPerfil'] = $idperfil; 
+
     //$IdPerfilUsuario=1;
     $ListaMenu = array();
     $query = mysqli_query($conection, "SELECT
@@ -42,7 +47,7 @@
   
 <nav class="sidebar-nav">
     <ul id="sidebarnav" class="p-t-30">
-        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo $NAME_SERVER; ?>views/M00_Home/M01_Home/home.php" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">INICIO</span></a></li>
+        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo $NAME_SERVER; ?>views/M00_Home/M01_Home/home.php<?php echo "?Vsr=".$user_sesion; ?>" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">INICIO</span></a></li>
       
         <?php 
         foreach ($ListaMenu as $ItemPadre) { 
@@ -77,7 +82,7 @@
             <?php
             foreach ($ListaOpcionHijo as $ItemHijo) {
             ?>
-                <li class="sidebar-item" ><a href="<?php echo $NAME_SERVER. $ItemHijo['Url']; ?>" class="sidebar-link"><i class=" <?php echo $ItemHijo['Icono'] ?>"></i><span class="hide-menu">&nbsp;&nbsp;<?php echo $ItemHijo['Nombre'] ?> </span></a></li>
+                <li class="sidebar-item" ><a href="<?php echo $NAME_SERVER. $ItemHijo['Url']."?Vsr=".$user_sesion.""; ?>" class="sidebar-link"><i class=" <?php echo $ItemHijo['Icono'] ?>"></i><span class="hide-menu">&nbsp;&nbsp;<?php echo $ItemHijo['Nombre'] ?> </span></a></li>
                 <?php
         }
         ?>

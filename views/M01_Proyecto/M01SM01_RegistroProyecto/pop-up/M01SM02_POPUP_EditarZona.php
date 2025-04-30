@@ -23,7 +23,7 @@
                 </div>
                 <div class="col">
                     <label for="" class="label-texto">Área (m<sup>2</sup>)</label>
-                    <input type="number" id="txtAreaPopup" class="caja-texto" placeholder="Area de Zona">
+                    <input type="text" id="txtAreaPopup" class="caja-texto" placeholder="Area de Zona">
                 </div>
             </div>
         </div>

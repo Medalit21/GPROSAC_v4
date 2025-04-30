@@ -15,12 +15,18 @@ $dataList = array();
 
 if(isset($_POST['btnConsultarDatosZona'])){
     $IdReg=$_POST['idZona'];
-   $query = mysqli_query($conection,"SELECT 
-        gpz.idzona as id,
-        count(gpm.idmanzana) as manzanas,
-        if(sum((select count(idlote) from gp_lote where idmanzana=gpm.idmanzana)) >0,sum((select count(idlote) from gp_lote where idmanzana=gpm.idmanzana)),0) as lotes
-   from gp_zona gpz, gp_manzana gpm
-   where gpz.idzona=gpm.idzona AND gpz.idzona='$IdReg'");
+   $query = mysqli_query($conection," SELECT 
+            gpz.idzona as id,
+            COUNT(gpm.idmanzana) as manzanas,
+            IFNULL(SUM((
+                SELECT COUNT(*) 
+                FROM gp_lote gl 
+                WHERE gl.idmanzana = gpm.idmanzana
+            )), 0) as lotes
+        FROM gp_zona gpz
+        LEFT JOIN gp_manzana gpm ON gpz.idzona = gpm.idzona
+        WHERE gpz.idzona = '$IdReg'
+        GROUP BY gpz.idzona");
    if($query->num_rows > 0){
        $resultado = $query->fetch_assoc();
        $data['status'] = 'ok';
@@ -872,11 +878,13 @@ if (isset($_POST['btnGuardarDatosManzana'])) {
 if(isset($_POST['btnConsultarDatosManzana'])){
     $IdReg=$_POST['idManzana'];
 	
-   $query = mysqli_query($conection,"SELECT 
-        gpm.idmanzana as id,
-        count(gpl.idlote) as lotes
-   from gp_manzana gpm, gp_lote gpl
-   where gpm.idmanzana=gpl.idmanzana AND gpm.idmanzana='$IdReg'");
+   $query = mysqli_query($conection," SELECT 
+            gpm.idmanzana as id,
+            COUNT(gpl.idlote) as lotes
+        FROM gp_manzana gpm
+        LEFT JOIN gp_lote gpl ON gpm.idmanzana = gpl.idmanzana
+        WHERE gpm.idmanzana = '$IdReg'
+        GROUP BY gpm.idmanzana");
 
    if($query->num_rows > 0){
        $resultado = $query->fetch_assoc();
