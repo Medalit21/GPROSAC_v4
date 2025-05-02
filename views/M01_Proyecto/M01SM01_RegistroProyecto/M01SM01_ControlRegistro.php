@@ -409,63 +409,10 @@
                                 <!-------------- **************************************************** --------------->
 
                                 <!-- SECCIÓN 04 : TIPO CASA -->
-                                <div role="tabpanel" class="tab-pane fade p-campos-2" id="TipoCasa">                         
-                                    <div class="form-row" hidden>
-                                        <div class="col-md-12">
-                                            <fieldset>
-                                                <legend>Nuevo Tipo Casa</legend>
-                                                <div class="form-row">
-                                                    <div class="col-md-4">
-                                                        <label class="label-texto">Nombre de Tipo Casa <small id="txtExtensionNombreLoteeHtml" class="form-text text-muted-validacion text-danger ocultar-info">
-                                                            </small></label>
-                                                        <input id="txtNombreTipoCasa" type="text" class="caja-texto" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
-                                                    </div>
-                                                    <form class="col-md mb-3" action="" method="POST" enctype="multipart/form-data" id="filesFormAdjuntosVenta">
-                                                        <div class="col-md">
-                                                            <!--<label for="fileSubirAdjuntoVenta" class="sr-only"><i class="fas fa-upload"></i> Seleccionar Documento (.pdf)</label>-->
-                                                            <label class="label-texto">Plano / Modelo Diseño<small id="txtDescripcionAdjuntoHtml" class="form-text text-muted-validacion text-danger ocultar-info"></small></label>
-                                                            <input type="file" id="fichero" name="fichero" accept=".pdf">
-                                                            <input type="hidden" id="ReturnSubirAdjuntoPdf" name="ReturnSubirAdjuntoPdf" value="true">                 
-                                                        </div>
-                                                    </form>
-                                                    <div class="col-md-1.5" style="margin-top: 2%">
-                                                        <button type="button" class="btn btn-model-info" id="btnAgregarTipoCasa"><i class="fa fa-plus-circle"></i> Añadir</button>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div><br>
-                                    <div class="form-row" hidden>
-                                        <div class="col-md-12">
-                                            <div class="form-row">
-                                                <div class="col-md" hidden>
-                                                    <label class="label-texto">Zona <small id="bxZonaslteHtml" class="form-text text-muted-validacion text-danger ocultar-info">
-                                                        </small></label>
-                                                    <select class="cbx-texto" id="bxZonaslte">
-                                                        <option selected="true" value="" disabled="disabled">Seleccione...</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md" hidden>
-                                                    <label class="label-texto">Manzana <small id="bxManzanaslteHtml" class="form-text text-muted-validacion text-danger ocultar-info">
-                                                        </small></label>
-                                                    <select class="cbx-texto" id="bxManzanaslte">
-                                                        <option selected="true" value="" disabled="disabled">Seleccione...</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md">
-                                                    <label class="label-texto">Tipos de Casa Registrados<small id="bxManzanaslteHtml" class="form-text text-muted-validacion text-danger ocultar-info">
-                                                        </small></label>
-                                                    <select class="cbx-texto" id="cbxTipoCasalista">
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-1.5" style="margin-top: 2%" hidden>
-                                                    <button type="button" class="btn btn-model-info" id="btnAgregarTP"><i class="fa fa-plus-circle"></i> Añadir</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div role="tabpanel" class="tab-pane fade p-campos-2" id="TipoCasa">                                                        
                                     <div class="form-row">
                                         <div class="table-responsive">
+											<!----------------------- TIPO CASA UPDATE ----------------------------->
                                             <div class="col-md-12">
                                                 <div class="form-row">
                                                     <div class="col-md text-left">
@@ -502,6 +449,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+											
                                             <table class="table table-striped table-bordered" cellspacing="0" id="TablaTipoCasa" style="margin-top: 5px;">
                                                 <thead class="cabecera">
                                                     <tr>
@@ -515,6 +463,7 @@
                                                 <tbody class="control-detalle">
                                                 </tbody>
                                             </table>
+											<!----------------------- TIPO CASA UPDATE ----------------------------->
                                             <br>
                                         </div>
                                     </div>

@@ -609,12 +609,37 @@ function Control() {
         });
 		/********* POPUP *******/
 		
+		/********* POPUP NUEVO *******/
+        $('#btnModificarTipoCasa').click(function () {
+            //ModificarTipoCasa();
+			habilitarCamposEdicionTipoCasa();
+        });
+		/********* POPUP *******/
+		
 		/********* EDITAR *******/
 		$('#btnGuardarTipCasEdit').click(function () {          
             GuardarTipoCasaEdit();
         });		
         /********* EDITAR *******/
 
+}
+
+function habilitarCamposEdicionTipoCasa() {
+    // Habilita campos
+    $("#txtNombreTipoCasaPop").prop('disabled', false);
+    $("#txtNroHabitaciones").prop('disabled', false);
+    $("#txtNroBanios").prop('disabled', false);
+    $("#txtNroCocina").prop('disabled', false);
+    $("#txtNroSala").prop('disabled', false);
+    $("#ficheros").prop('disabled', false);
+    $("#txtAreaDescripcion").prop('disabled', false);
+
+    // Deshabilita botones de nuevo/modificar
+    $("#btnModificarTipoCasa").prop('disabled', true);
+    $("#btnNuevoTipoCasa").prop('disabled', true);
+
+    // Habilita botón guardar
+    $("#btnGuardarTipoCasa").prop('disabled', false);
 }
 
 function GuardarTipoCasaEdit() {
@@ -2685,6 +2710,15 @@ function SeleccionarTipoCasa(id) {
                 $("#txtAreaDescripcion").val(dato.descripcion);
                 PintarPDF("archivos/"+dato.plano);       
                 
+				// Bloquea los campos
+                $("#txtNombreTipoCasaPop").prop('disabled', true);
+                $("#txtNroHabitaciones").prop('disabled', true);
+                $("#txtNroBanios").prop('disabled', true);
+                $("#txtNroCocina").prop('disabled', true);
+                $("#txtNroSala").prop('disabled', true);
+                $("#ficheros").prop('disabled', true);
+                $("#txtAreaDescripcion").prop('disabled', true);
+				
                 $("#btnGuardarTipoCasa").prop('disabled', true);
                 $("#btnNuevoTipoCasa").prop('disabled', false);
                 $("#btnModificarTipoCasa").prop('disabled', false);
@@ -2700,10 +2734,10 @@ function SeleccionarTipoCasa(id) {
 }
 
 function ModificarTipoCasa(id) {
-    
+
    bloquearPantalla("Buscando...");
     var data = {
-        "btnModificarTipoCasa": true,
+        "btnActualizarTipoCasa": true,
         "txtidTipoCasa": $("#txtidTipoCasa").val(),
         "txtNombreTipoCasaPop": $("#txtNombreTipoCasaPop").val(),          
         "txtNroHabitaciones": $("#txtNroHabitaciones").val(), 
@@ -2734,22 +2768,31 @@ function ModificarTipoCasa(id) {
     });      
 }
 
+/*function ModificarTipoCasa() {
+    Estado = Estados.Modificar;
+    $("#nuevo").prop('disabled', true);
+    $("#modificar").prop('disabled', true);
+    $("#guardar").prop('disabled', false);
+
+    $("#txtApellidoPaterno").focus();
+    $("#txtCodigoCliente").prop('disabled', false);
+}*/
 
 
 function NuevoTipoCasa(){
     var documento = "archivos/ejemplo.pdf"
     PintarPDF(documento);
-    $("#txtidTipoCasa, #txtNombreTipoCasa, #txtNroHabitaciones, #txtNroBanios, #txtNroCocina, #txtNroSala, #ficheros, #txtAreaDescripcion").val("");
+    $("#txtidTipoCasa, #txtNombreTipoCasaPop, #txtNroHabitaciones, #txtNroBanios, #txtNroCocina, #txtNroSala, #ficheros, #txtAreaDescripcion").val("");
     $("#btnGuardarTipoCasa").prop('disabled', false);
 }
 
 function ValidarCamposNuevoTipoCasa() {
     var flat = true;
-        if ($("#txtNombreTipoCasaPopup").val() === "" || $("#txtNombreTipoCasaPopup").val() === null) {            
+        if ($("#txtNombreTipoCasaPop").val() === "" || $("#txtNombreTipoCasaPop").val() === null) {            
             mensaje_alerta("\u00A1Falta Dato!", "Por favor, ingrese el nombre del tipo de casa a registrar.", "info");
             $("#txtNombreTipoCasaPopupHtml").html('(Requerido)');
             $("#txtNombreTipoCasaPopupHtml").show();
-            $("#txtNombreTipoCasaPopup").focus();
+            $("#txtNombreTipoCasaPop").focus();
             flat = false;
         } else if ($("#txtNroHabitaciones").val() === "") {
             $("#txtNroHabitaciones").focus();
@@ -2813,11 +2856,12 @@ function GuardarNuevoTipoCasa(){
      bloquearPantalla("Procesando...");
      var data = {
          "btnRegistrarNuevoTipoCasa": true,
-         "txtNombreTipoCasa": $("#txtNombreTipoCasaPopup").val(),
+         "txtNombreTipoCasaPop": $("#txtNombreTipoCasaPop").val(),
          "txtNroHabitaciones": $("#txtNroHabitaciones").val(),
          "txtNroBanios": $("#txtNroBanios").val(),
          "txtNroCocina": $("#txtNroCocina").val(),
          "txtNroSala": $("#txtNroSala").val(),
+         "ficheros": $("#ficheros").val(),
          "txtAreaDescripcion": $("#txtAreaDescripcion").val()
      };
      $.ajax({

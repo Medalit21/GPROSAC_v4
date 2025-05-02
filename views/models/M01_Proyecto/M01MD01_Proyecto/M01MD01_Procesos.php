@@ -1370,8 +1370,8 @@ if(isset($_POST['btnAgregarTipoCasaMz'])){
 
 if(isset($_POST['btnRegistrarNuevoTipoCasa'])){
 
-    $txtNombreTipoCasa = isset($_POST['txtNombreTipoCasa']) ? $_POST['txtNombreTipoCasa'] : Null;
-    $txtNombreTipoCasar = trim($txtNombreTipoCasa);
+    $txtNombreTipoCasaPop = isset($_POST['txtNombreTipoCasaPop']) ? $_POST['txtNombreTipoCasaPop'] : Null;
+    $txtNombreTipoCasar = trim($txtNombreTipoCasaPop);
     
     $txtNroHabitaciones = isset($_POST['txtNroHabitaciones']) ? $_POST['txtNroHabitaciones'] : Null;
     $txtNroHabitacionesr = trim($txtNroHabitaciones); 
@@ -1384,6 +1384,9 @@ if(isset($_POST['btnRegistrarNuevoTipoCasa'])){
 
     $txtNroSala = isset($_POST['txtNroSala']) ? $_POST['txtNroSala'] : Null;
     $txtNroSalar = trim($txtNroSala); 
+	
+	/*$ficheros = isset($_POST['ficheros']) ? $_POST['ficheros'] : Null;
+    $txtNroSalar = trim($ficheros); */
 
     $txtAreaDescripcion = isset($_POST['txtAreaDescripcion']) ? $_POST['txtAreaDescripcion'] : Null;
     $txtAreaDescripcionr = trim($txtAreaDescripcion); 
@@ -1396,7 +1399,11 @@ if(isset($_POST['btnRegistrarNuevoTipoCasa'])){
         $codigo = $codigo + 1;
         $nombre_file = "plano-".$codigo.".pdf";
 
-        $consultar_reg = mysqli_query($conection, "SELECT idconfig_detalle as id FROM configuracion_detalle WHERE nombre_corto='$txtNombreTipoCasar' AND codigo_item='$codigo' AND codigo_tabla='_TIPO_CASA' AND estado='ACTI' AND texto1='$nombre_file'");
+        $consultar_reg = mysqli_query($conection, "SELECT idconfig_detalle 
+		FROM configuracion_detalle 
+		WHERE nombre_corto = '$txtNombreTipoCasar' 
+		AND codigo_tabla = '_TIPO_CASA' 
+		AND estado = 'ACTI'");
         $respuesta_reg = mysqli_num_rows($consultar_reg);
 
         if($respuesta_reg<=0){        
@@ -1422,8 +1429,6 @@ if(isset($_POST['btnRegistrarNuevoTipoCasa'])){
         $data['data'] = "Completar todos los campos.";
             
     }
-
-    
 
    header('Content-type: text/javascript');
    echo json_encode($data,JSON_PRETTY_PRINT);                                 
