@@ -256,6 +256,7 @@ if (isset($_POST['ReturnListaLote'])) {
                 'urlVenta' => $NAME_SERVER."views/M03_Ventas/M03SM02_Venta/M03SM02_Venta.php?Vsr=".$usseer."&l=".$IdEncriptado."&r=".$IdReservaEncriptado,
                 'idProy'=> $row['idproy'],
                 'idZona'=> $row['idzona'],
+                'idBloqueado'=> $row['Bloqueado'],
             ]);
         }
         $data['data'] = $dataList;
