@@ -1598,6 +1598,10 @@ function ValidarDatosNuevoRequeridos() {
         $("#cbxTipoMonedaVenta").focus();
         mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccionar el Tipo de Moneda", "info");
         flat = false;
+    }else if ($("#txtPrecioNegocio").val() === "" || $("#txtPrecioNegocio").val() === null) {
+        $("#txtPrecioNegocio").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingresar el precio de negociación", "info");
+        flat = false;
     } else if ($("#cbxCondicionVenta").val() === "" || $("#cbxCondicionVenta").val() === null) {
         $("#cbxCondicionVenta").focus();
         mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccionar el tipo de pago.", "info");
