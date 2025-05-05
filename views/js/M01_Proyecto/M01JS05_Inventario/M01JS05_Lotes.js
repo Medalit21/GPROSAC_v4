@@ -196,6 +196,11 @@ function PintarLote(datos) {
             htmlBotones += '<button  class="btn btn-model-info m-1 text-white" onclick="LiberarLote(\'' + datos[i].idCliente + '\',\'' + datos[i].idLote + '\',\'' + datos[i].idReservacion + '\')">Liberar</button >';
             htmlBotones += `<a href='${datos[i].urlVenta}&Proyecto=${datos[i].idProy}&Zona=${datos[i].idZona}&Mz=${idManzana}&Lt=${datos[i].id}' class='btn btn-model-info m-1 text-white' >Vender</a>`;
         }
+        //console.log("Botones bloqueados"+parseInt(datos[i].idBloqueado));
+        if (parseInt(datos[i].idBloqueado) === 7) {
+            htmlBotones = '';
+            //console.log("Botones bloqueados");
+        }
         if (parseInt(datos[i].idEstado) === 5 || parseInt(datos[i].idEstado) === 6) {
             if (parseInt(datos[i].idCondicion) === 2) {
                 htmlBotones += '<button  class="btn btn-model-info m-1 text-white" onclick="VerCronogramaPago(\'' + datos[i].idVenta + '\')">Cronograma</button >';

@@ -6,8 +6,9 @@ $(document).ready(function() {
 function Control() {
     //InicializarGenericoModal();
     Ninguno();
-    asignarLote();
     
+    ConfiguracionInicioClientes();
+
     /*$('#txtDocumentoCliente,#txtDocumentoFiltro').keypress(function() {
         SoloNumeros1_9();
     });*/
@@ -35,6 +36,13 @@ function Control() {
 
     $('#eliminar').click(function() {
         Eliminar();
+    });
+
+    $('#btnNuevoCliente').click(function() {
+        abrirModalCliente();
+    });
+    $('#btnCancelarCliente').click(function() {
+        $('#modalClientes').modal('hide');
     });
 
     $('#busqueda_avanzada').click(function() {
@@ -156,6 +164,22 @@ function Control() {
         llenarCombo(url, datos, "bxFiltroLoteReserva");
     });
 
+    $("#btnBuscarCli").click(function() {
+        let ndoc=$("#txtDocumentoAdd").val();
+        if (ndoc=="" || ndoc==null) {
+            mensaje_alerta("Falta dato","Ingresar numero de documento","info");
+            $("#txtDocumentoAdd").focus();
+        } else {
+            let tipodoc = $("#cbxTipoDocumentoAdd").val();
+            if(tipodoc == '1'){
+                ConsultaReniec();
+            }
+        }
+        console.log('Num Doc: '+ndoc);
+        
+    });
+
+    asignarLote();
 
 }
 
@@ -1393,11 +1417,13 @@ function obtenerLote() {
     console.log("Lote:", lt);
     if (pro=='' && pro==null) {
         console.log("No viene desde Reserva Id")
-    } else {       
+    } else {
+
         LLenarZonaId(pro, zona);
         LLenarManzanaId(zona, mz);
         LLenarLoteId(mz, lt);
         obtenerLoteDesdeReserva(lt);
+        
     }
     
 }
@@ -1410,5 +1436,116 @@ function asignarLote() {
     } else {
         console.log("No viene desde Reserva Id")
         
+    }
+}
+
+/*================== CLIENTES =====================*/
+
+function abrirModalCliente(data) {
+    $('#modalClientes').modal('show');    
+}
+
+function ValidarPorTipoDocumento() {
+    var Cadena = $("#cbxTipoDocumentoAdd :selected").text();
+    if (Cadena.trim() === "DNI") {
+        $('#txtDocumentoAdd').attr('maxlength', 8);
+        $("#txtDocumentoAdd").val("");
+    } else if (Cadena.trim() === "RUC") {
+        $('#txtDocumentoAdd').attr('maxlength', 11);
+        $("#txtDocumentoAdd").val("");
+    } else {
+        $('#txtDocumentoAdd').attr('maxlength', 15);
+        $("#txtDocumentoAdd").val("");
+    }
+}
+
+function ConfiguracionInicioClientes() {
+    
+    $("#cbxPaisEmisorDocumento option:contains('Perú')").attr('selected', true);
+    $("#cbxNacionalidad option:contains('Perú')").attr('selected', true);
+    $("#cbxTipoDocumentoAdd option:contains('DNI')").attr('selected', true);
+
+    $('#cbxTipoDocumentoAdd').on('change', function() {
+        $("#cbxTipoDocumentoHtml").hide();
+        ValidarPorTipoDocumento();
+    });
+    $('#cbxPaisEmisorDocumento').on('change', function() {
+        $("#cbxPaisEmisorDocumentoHtml").hide();
+    });
+    $('#cbxNacionalidad').on('change', function() {
+        $("#cbxNacionalidadHtml").hide();
+    });
+    $('#cbxSexo').on('change', function() {
+        $("#cbxSexoHtml").hide();
+    });
+    $('#txtFechaNacimineto').on('change', function() {
+        $("#txtFechaNaciminetoHtml").hide();
+    });
+    $('#cbxDepartamentoDir').on('change', function() {
+        $("#cbxDepartamentoDirHtml").hide();
+    });
+    $('#cbxProvinciaDir').on('change', function() {
+        $("#cbxProvinciaDirHtml").hide();
+    });
+    $('#cbxDistritoDir').on('change', function() {
+        $("#cbxDistritoDirHtml").hide();
+    });
+
+    $('#txtDocumentoAdd').keydown(function() {
+        $("#txtDocumentoHtml").hide();
+    });
+    $('#txtApellidoPaterno').keydown(function() {
+        $("#txtApellidoPaternoHtml").hide();
+    });
+    $('#txtApellidoMaterno').keydown(function() {
+        $("#txtApellidoMaternoHtml").hide();
+    });
+    $('#txtNombres').keydown(function() {
+        $("#txtNombresHtml").hide();
+    });
+    $('#txtCelular').keydown(function() {
+        $("#txtCelularHtml").hide();
+    });
+    $('#txtCorreo').keydown(function() {
+        $("#txtCorreoHtml").hide();
+    });
+    $('#txtDocumentoAdd,#txtCelular2,#txtTelefono,#txtCelular').keypress(function() {
+        SoloNumeros1_9();
+    });
+    $('#txtApellidoPaterno,#txtApellidoMaterno,#txtNombres').keypress(function() {
+        SoloLetras();
+    });
+}
+
+
+
+/********************CONSULTA RENIEC************************* */
+function ConsultaReniec(){
+
+    bloquearPantalla("Consultando...");
+    var url = "../../models/generales/mdl_apis.php";
+    var dato = {
+        "btnSeleccionReniec": true,
+        "NroDocumento":  $("#txtDocumentoAdd").val()
+    };
+    realizarJsonPost(url, dato, respuestaSeleccionReniec, null, 10000, null);
+
+}
+
+function respuestaSeleccionReniec(dato){
+    desbloquearPantalla();
+    //console.log(dato);
+    if (dato.status == "ok") {                        
+             
+        $("#txtApellidoPaterno").val(dato.apellido_pat);
+        $("#txtApellidoMaterno").val(dato.apellido_mat);
+        $("#txtNombres").val(dato.nombres);
+
+    } else{
+        mensaje_alerta("SIN RESULTADOS!","No se encontraron registros con el nro de documento ingresado","info");
+        
+        $("#txtApellidoPaterno").val("");
+        $("#txtApellidoMaterno").val("");
+        $("#txtNombres").val("");
     }
 }

@@ -6,7 +6,7 @@ $(document).ready(function() {
 function Control() {
   
     Ninguno();
-    asignarLote();
+    
     /***************ACCION BOTONES CABECERA********** */
     $('#nuevo').click(function() {
         Nuevo();
@@ -45,7 +45,7 @@ function Control() {
         $("#cbxLote").prop("disabled", true);
         BuscarReservasCliente();
     });
-    LLenarZona();
+    //LLenarZona();
 
     $('#cbxZona').change(function() {
         $("#cbxManzana").val("");
@@ -318,7 +318,7 @@ function Control() {
         link.click();     
     });
     
-    
+    asignarLote();
   
 }
 
@@ -3174,7 +3174,7 @@ function obtenerLote() {
     console.log("Manzana:", mz);
     console.log("Lote:", lt);
     if (pro=='' && pro==null) {
-        console.log("No viene desde Venta Id")
+        console.log("No viene desde Venta Id");
     } else {       
         LLenarZonaId(pro, zona);
         LLenarManzanaId(zona, mz);
@@ -3191,6 +3191,6 @@ function asignarLote() {
         obtenerLote();
     } else {
         console.log("No viene desde Venta Id")
-        
+        LLenarZona();
     }
 }

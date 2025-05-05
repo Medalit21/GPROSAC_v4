@@ -473,7 +473,7 @@
                                                     foreach ($ClientesVer as $Cliente) {
                                                 ?>
                                                 <option value="<?php echo $Cliente['ID']; ?>" style="font-size: 11px;">
-                                                <?php echo $Cliente['Nombre']; ?>
+                                                <?php echo $Cliente['Nombre'].' - '.$Cliente['ID']; ?>
                                                 </option>
                                                 <?php }?>
                                         </select>

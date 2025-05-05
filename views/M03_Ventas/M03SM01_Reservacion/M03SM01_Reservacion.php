@@ -166,13 +166,14 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12" id="contenido_registro" style="display:none;">
+                        <div class="col-lg-12 col-md-12" id="contenido_registro" style="display:none;">
                             
-                            <div class="col-md-12">
-                                <label class="titulo-cont">Filtros de Busqueda:</label>
+                            <div class="col-lg-12 col-md-12">
+                                <label class="titulo-cont">Cliente :</label>
+                                <a href="javascript:void(0)" onclick="abrirModalCliente();" id="btnAgregarCliente" name="btnAgregarCliente" class="add-btn"> [+ Nuevo]</a>
                             </div>
-                            <div class="row col-md-12">
-                                <div class="col-md-4">
+                            <div class="row col-lg-12 col-md-12">
+                                <div class="col-lg-4 col-md-6 col-sm-6">
                                     <select id="txtDocumentoCliente" style="width: 100%; font-size: 11px;" class="cbx-texto">
                                         <option selected="true" value="" disabled="disabled">Buscar cliente</option>
                                         <?php
@@ -180,14 +181,16 @@
                                         $ClientesVer = $Clientes->VerClientesBusqueda();
                                         foreach ($ClientesVer as $Cliente) {
                                         ?>
-                                        <option value="<?php echo $Cliente['ID']; ?>" style="font-size: 11px;"><?php echo $Cliente['Nombre']; ?></option>
+                                        <option value="<?php echo $Cliente['ID']; ?>" style="font-size: 11px;"><?php echo $Cliente['Nombre'].' - '.$Cliente['ID']; ?></option>
                                         <?php }?>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-md-3 col-sm-6">
                                     <button type="button" class="btn btn-registro" id="btnBuscarCliente" style="margin-top:1px" disabled=""> <i class="fas fa-search" aria-hidden="true"></i> Buscar</button>
+                                    <!-- <button type="button" class="btn btn-registro" id="btnNuevoCliente" style="margin-top:1px" > <i class="fas fa-file-alt" aria-hidden="true"></i> Nuevo</button> -->
                                 </div>
-                                <div class="col-md-6"></div>
+                                
+                                <div class="col-lg-4 col-md-6"></div>
                             </div>
                             <br>
                             <fieldset>
@@ -214,22 +217,22 @@
 
                                         </select>
                                         <label class="col-md-1 label-texto-sm">Nro documento:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3 ">
                                             <input class="caja-texto tamano-text-10" id="txtNroDocumentoCliente" type="text" value="" disabled="">
                                         </div>
                                         
                                         <label class="col-md-1 label-texto-sm">Nombres:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3 ">
                                             <input class="caja-texto tamano-text-10" id="txtNombreCliente" type="text" value="" disabled="">
                                         </div>
                                         
                                         <label class="col-md-1 label-texto-sm">A. Paterno:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3 ">
                                             <input class="caja-texto tamano-text-10" id="txtApellidoPaternoCliente" type="text" value="" disabled="">
                                         </div>
                                         
                                         <label class="col-md-1 label-texto-sm">A. Materno:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3 ">
                                             <input class="caja-texto tamano-text-10" id="txtApellidoMaternoCliente" type="text" value="" disabled="" readonly="">
                                         </div>
                                     </div>
@@ -241,7 +244,7 @@
                                 <div class="row row-0" style="margin-top: -12px;" id="formularioRegistrarGeneralLote">
                                     <div class="col-md-12 row">
                                         <label class="col-md-1 label-texto-sm">Proyecto:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxProyecto" class="cbx-texto">
                                                 <?php
                                                     $verProyecto = new ControllerCategorias();
@@ -255,38 +258,38 @@
                                             </select>
                                         </div>
                                         <label class="col-md-1 label-texto-sm">Zona:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxZona" class="cbx-texto">
 
                                             </select>
                                         </div>
                                         <label class="col-md-1 label-texto-sm">Manzana:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxManzana" class="cbx-texto">
                                             </select>
                                         </div>
                                         <label class="col-md-1 label-texto-sm">Lote:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxLote" class="cbx-texto">
                                             </select>
                                         </div>
                                         <label class="col-md-1 label-texto-sm">Área (M²):</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto tamano-text-10" id="txtArea" type="text" value=""
                                                 disabled="" readonly="">
                                         </div>
                                         <label class="col-md-1 label-texto-sm">Tipo Moneda:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto tamano-text-10" id="txtTipoMonedaLote" type="text"
                                                 value="" disabled="" readonly="">
                                         </div>
                                         <label class="col-md-1 label-texto-sm">V. Lote - Casa:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto tamano-text-10" id="txtValorLoteCasa" type="text"
                                                 value="" disabled="" readonly="">
                                         </div>
                                         <label class="col-md-1 label-texto-sm">V. Lote - Solo:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto tamano-text-10" id="txtValorLoteSolo" type="text"
                                                 value="" disabled="" readonly="">
                                         </div>
@@ -299,7 +302,7 @@
                                 <div class="row row-0" style="margin-top: -12px;" id="formularioRegistrarReserva">
                                     <div class="col-md-12 row">
                                         <label class="col-md-1 label-texto-sm">Tipo Moneda</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxTipoMonedaReserva" class="cbx-texto">
                                                 <option selected="true" value="" disabled="disabled">Seleccione...
                                                 </option>
@@ -316,21 +319,21 @@
                                         </div>
                                         
                                         <label class="col-md-1 label-texto-sm">Tipo Cambio</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto" id="txtTipoCambio" type="number">
                                         </div>
                                         
                                         <label class="col-md-1 label-texto-sm">Monto Pagado</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto CurrencyInput" id="txtMontoPagado" type="text" value="0.00" onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
                                         </div>
                                         
                                         <label class="col-md-1 label-texto-sm">Total Reserva</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto CurrencyInput" id="txtMontoReserva" type="text" onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" readonly>
                                         </div>
                                         <label class="col-md-1 label-texto-sm">Tipo Casa</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxTipoCasa" class="cbx-texto">
                                                 <option selected="true" value="">Ninguno</option>
                                                 <?php
@@ -343,16 +346,16 @@
                                             </select>
                                         </div>
                                         <label class="col-md-1 label-texto-sm">Fecha Inicio</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto tamano-text-10" id="txtDesdeReserva" type="date"
                                                 value="" disabled="">
                                         </div>
                                         <label class="col-md-1 label-texto-sm">Fecha Fin:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto tamano-text-10" id="txtHastaReserva" type="date" value="" disabled="">
                                         </div>
                                         <label class="col-md-1 label-texto-sm">Precio negociación</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxTipoMonedaPrecio" class="col-md-6 cbx-texto">
                                                 <?php
                                                     $VerTipoMonedaSigl = new ControllerCategorias();
@@ -366,7 +369,7 @@
                                         </div>
                                         
                                         <label class="col-md-1 label-texto-sm">Medio de Pago</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxMedioPago" class="cbx-texto">
                                                 <option selected="true" disabled="disabled">Seleccionar..</option>
                                                 <?php
@@ -380,7 +383,7 @@
                                         </div>
                                         
                                         <label class="col-md-1 label-texto-sm">Tipo de Constancia:</label>    
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxTipoComprobante" class="cbx-texto">
                                                 <option selected="true" disabled="disabled">Seleccionar..</option>
                                                 <?php
@@ -394,7 +397,7 @@
                                         </div>
                                             
                                         <label class="col-md-1 label-texto-sm">Agencia bancaria:</label>    
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxAgenciaBancaria" class="cbx-texto">
                                                     <option selected="true" disabled="disabled">Seleccionar..</option>
                                                     <?php
@@ -408,12 +411,12 @@
                                         </div>  
                                         
                                         <label class="col-md-1 label-texto-sm">Nro de Operación:</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <input class="caja-texto tamano-text-10" id="txtNumeroOperacion" type="text" value="">                                                                                        
                                         </div> 
                                         
                                         <label class="col-md-1 label-texto-sm">Vendedor</label>
-                                        <div class="col-md-2">
+                                        <div class="col-lg-2 col-md-3">
                                             <select id="cbxVendedor" class="cbx-texto">
                                                 <option selected="true" value="" disabled="">Seleccione...</option>
                                                 <?php
@@ -429,7 +432,7 @@
                                         </div>
                                         
                                         <label class="col-md-1 label-texto-sm">Voucher de Pago</label>
-                                        <div class="col-md-8">
+                                        <div class="col-lg-7 col-md-7">
                                             <form action="" method="POST" enctype="multipart/form-data" id="filesFormAdjuntosVenta">
                                                 <!--<label for="fileSubirAdjuntoVenta" class="sr-only"><i class="fas fa-upload"></i> Seleccionar Documento (.pdf)</label>-->
                                                 <input type="file" class="caja-texto" id="ficheroVoucher" name="ficheroVoucher" accept=".pdf, .png, .jpg, .jpeg">
@@ -602,6 +605,12 @@
                 <div class="modal fade" id="modalVerVoucher" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
                     <?php
                         require_once "pop-up/M03MD02_POPUP_VerVoucher.php";
+                    ?>
+                </div>
+
+                <div class="modal fade" id="modalClientes" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
+                    <?php
+                        require_once "pop-up/M03MD03_POPUP_Cliente.php";
                     ?>
                 </div>
 
