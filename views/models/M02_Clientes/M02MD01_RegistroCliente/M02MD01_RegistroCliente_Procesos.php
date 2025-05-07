@@ -106,9 +106,9 @@ if (isset($_POST['ReturnGuardarRegCliente'])) {
     $EstadoCivil = $_POST['cbxEstadoCivil'];
     $SituacionDomiciliaria = $_POST['cbxSituacionDomiciliaria'];
     $documentoCliente = $_POST['documentoCliente'];
-    $txtCodigoCliente = $_POST['txtCodigoCliente'];
-    $txtCodigoAnio = $_POST['txtCodigoAnio'];
-    $txtCodigoCorrelativo = $_POST['txtCodigoCorrelativo'];
+    //$txtCodigoCliente = $_POST['txtCodigoCliente'];
+    // $txtCodigoAnio = $_POST['txtCodigoAnio'];
+    // $txtCodigoCorrelativo = $_POST['txtCodigoCorrelativo'];
 
     $__ID_USER = $_POST['__ID_USER'];
 
@@ -128,6 +128,23 @@ if (isset($_POST['ReturnGuardarRegCliente'])) {
     }else{
         $name_file = "Ninguno";
 	}
+
+    //CODIGO Y CORRELATIVO DEL CLIENTE
+    $anio = date('Y'); 
+    $consultar_correlativo = mysqli_query($conection, "SELECT max(codigo_correlativo) as correlativo FROM datos_cliente WHERE codigo_anio='$anio' AND esta_borrado=0");
+    $respuesta_correlativo = mysqli_fetch_assoc($consultar_correlativo);
+    $dato_correlativo = $respuesta_correlativo['correlativo'];
+    $dato_correlativo = $dato_correlativo + 1;
+
+    $dato_codigo_desc = "";
+    $length = 6;
+    $dato_codigo_desc = substr(str_repeat(0, $length).$dato_correlativo, - $length);
+    $nom_codigo = $anio.$dato_codigo_desc;
+
+    $txtCodigoCliente = $nom_codigo;
+    $txtCodigoAnio = $anio;
+    $txtCodigoCorrelativo = $dato_correlativo;
+    // ======================
 
     $query = mysqli_query($conection, "INSERT INTO datos_cliente( 
     tipodocumento, 
@@ -270,6 +287,7 @@ if (isset($_POST['ReturnVerificaExixtencia'])) {
 if(isset($_POST['ReturnClienteListaPaginada'])){
     $DocumentoFiltro=$_POST['txtDniFiltro'];
     $NombresApellidos=$_POST['txtApeNomFiltro'];
+    $vendedor=$_POST['txtVendedorFiltro'];
 
     $ColumnaOrden=$_POST['columns'][$_POST['order']['0']['column']]['data'].$_POST['order']['0']['dir'];
 
@@ -283,7 +301,7 @@ if(isset($_POST['ReturnClienteListaPaginada'])){
          $Start=1;
         }
 
-    $query = mysqli_query($conection,"call pa_datos_cliente_lista_paginada($Start,$Length,'$ColumnaOrden','$DocumentoFiltro','$NombresApellidos')");
+    $query = mysqli_query($conection,"call pa_datos_cliente_lista_paginada($Start,$Length,'$ColumnaOrden','$DocumentoFiltro','$NombresApellidos','$vendedor')");
 
     if($query->num_rows > 0){
      
@@ -526,19 +544,45 @@ if (isset($_POST['ReturnActualizarRegCliente'])) {
 
 /**************************ELIMINAR REGISTRO CLIENTE******************* */
 if (isset($_POST['ReturnEliminarRegCliente'])) {
-    $Id = $_POST['id'];
-    $query = mysqli_query($conection, "UPDATE datos_cliente
-    SET  esta_borrado=1,borrado=NOW(),id_usuario_auditoria=$IdUser
-    WHERE id=$Id");
-    if ($query) {
-        $data['status'] = 'ok';
-        $data['data'] = 'Se elimino con éxito';
+
+    $__ID_USER = $_POST['__ID_USER'];
+    $idCliente = $_POST['id'];
+
+    $idUsuario = decrypt($__ID_USER,"123");
+    $consulta_idusu = mysqli_query($conection, "SELECT idusuario as id FROM usuario WHERE usuario='$idUsuario'");
+    $respuesta_idusu = mysqli_fetch_assoc($consulta_idusu);
+    $idUsuario=$respuesta_idusu['id'];
+
+    // VERIFICAR SI EL CLIENTE TIENE UN LOTO COMPRADO O RESERVADO
+    $consulta_venta = mysqli_query($conection, "SELECT count(*) as cantidad FROM gp_venta WHERE esta_borrado=0 and id_cliente='$idCliente'");
+    $respuesta_venta = mysqli_fetch_assoc($consulta_venta);
+    $cant_venta=$respuesta_venta['cantidad'];
+
+    $consulta_reserva = mysqli_query($conection, "SELECT count(*) as cantidad FROM gp_reservacion WHERE esta_borrado=0 and id_cliente='$idCliente'");
+    $respuesta_reserva = mysqli_fetch_assoc($consulta_reserva);
+    $cant_reserva=$respuesta_reserva['cantidad'];
+
+    if($cant_venta>0){
+        $data['status'] = 'info';
+        $data['data'] = 'No se puede eliminar, el cliente tiene una venta asignada.';
+    } else if($cant_reserva>0){
+        $data['status'] = 'info';
+        $data['data'] = 'No se puede eliminar, el cliente tiene una reserva asignada.';
     } else {
-        if (!$query) {
-            $data['dataDB'] = mysqli_error($conection);
+
+        $query = mysqli_query($conection, "UPDATE datos_cliente
+        SET  esta_borrado=1,borrado=NOW(),id_usuario_auditoria=$idUsuario
+        WHERE id=$idCliente");
+        if ($query) {
+            $data['status'] = 'ok';
+            $data['data'] = 'Se elimino con éxito';
+        } else {
+            if (!$query) {
+                $data['dataDB'] = mysqli_error($conection);
+            }
+            $data['status'] = 'bad';
+            $data['data'] = 'Ocurrió un problema al guardar el registro.';
         }
-        $data['status'] = 'bad';
-        $data['data'] = 'Ocurrió un problema al guardar el registro.';
     }
     header('Content-type: text/javascript');
     echo json_encode($data, JSON_PRETTY_PRINT);
@@ -658,6 +702,3 @@ if (isset($_POST['VerClientesBusqueda'])) {
 	echo json_encode(["status" => "ok", "data" => $data], JSON_PRETTY_PRINT);
 	exit; // Asegura que la respuesta no tenga más datos inesperados
 }
-
-
-

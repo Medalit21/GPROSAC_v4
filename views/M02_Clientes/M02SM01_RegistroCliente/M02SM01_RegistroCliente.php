@@ -30,7 +30,31 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 	<script src="../../code/select2/select2.min.js"></script>
 </head>
-
+<style>
+    .btn-dni{
+        /* margin-left: 5px; */
+        1:
+        px;
+        text-decoration: none;
+        border: #337ab7;
+        outline: none;
+        background: #337ab7;
+        color: #fff;
+        display: inline-block;
+        /* width: 100px; */
+        text-align: center;
+        /* line-height: 22px; */
+        padding: 1px 1px;
+        /* -webkit-border-radius: 4px; */
+        /* border-radius: 4px; */
+        border-radius: 0px 4px 4px 0px;
+        position: relative;
+        /* margin-top: 2px; */
+        /* color: #fff; */
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+</style>
 <body class="fond-back">
 
     <?php
@@ -146,9 +170,13 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-lg-2 col-md-4">
                                         <label class="label-texto">Documento <small id="txtDocumentoHtml" class="form-text text-muted-validacion text-danger ocultar-info"></small></label>
-                                        <input id="txtDocumento" class="caja-texto" maxlength="20" placeholder="# Documento" required>
+                                        <!-- <input id="txtDocumento" class="caja-texto" maxlength="20" placeholder="# Documento" required> -->
+                                        <div class="input-group">
+                                            <input id="txtDocumento" class="form-control input-min caja-texto" maxlength="12" placeholder="# Documento" required="">
+                                            <button class="btn btn-primary shadow-none btn-sm btn-dni" type="button" id="btnBuscarCli" name="btnBuscarCli">Buscar</button>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-2">
@@ -211,7 +239,7 @@
                                 <div class="form-row">
                                     <div class="col-md">
                                         <label class="label-texto">Código Cliente <small id="txtCodigoClienteHtml" class="form-text text-muted-validacion text-danger ocultar-info"></small></label>
-                                        <input type="text" id="txtCodigoCliente" class="caja-texto" maxlength="10" placeholder="Ejm: 2022000001" required>
+                                        <input type="text" id="txtCodigoCliente" class="caja-texto" maxlength="10" placeholder="Ejm: 2022000001" required readonly>
                                         <input type="hidden" id="txtCodigoAnio" class="caja-texto">
                                         <input type="hidden" id="txtCodigoCorrelativo" class="caja-texto">
                                     </div>
@@ -463,7 +491,7 @@
                             <label class="titulo-cont">FILTROS DE B&Uacute;SQUEDA</label>
                             <div class="p-campos">
                                 <div class="form-row">
-                                    <div class="col-md-4">
+                                    <div class="col-lg-4 col-md-4">
                                         <label class="label-texto">Cliente</label>
                                         <select id="txtdocumentoFiltro" style="width: 100%; font-size: 11px;" class="cbx-texto">
                                                 <option selected="true" value="" disabled="disabled">TODOS</option>
@@ -477,6 +505,22 @@
                                                 </option>
                                                 <?php }?>
                                         </select>
+                                    </div>                                    
+                                    <div class="col-lg-3 col-md-4">
+                                        <label class="label-texto">Vendedor</label>
+                                        <select id="cbxFiltroVendedor" class="cbx-texto">
+                                            <option selected="true" value="" >TODOS</option>
+                                            <?php
+                                            $VerVendedor = new ControllerCategorias();
+                                            $vendedor = $VerVendedor->VerFiltroVendedor();
+                                            foreach ($vendedor as $item) {
+                                                ?>
+                                                <option value="<?php echo $item['ID']; ?>" style="font-size: 11px;">
+                                                    <?php echo $item['Nombre']; ?>
+                                                </option>
+                                            <?php }?>
+                                        </select>
+                                        
                                     </div>
                                     <div class="col" hidden>
                                         <label class="label-texto">Apellidos y Nombres:</label>
@@ -662,5 +706,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#txtdocumentoFiltro').select2();
+        $('#cbxFiltroVendedor').select2();
 	});
 </script>

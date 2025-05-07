@@ -113,13 +113,34 @@ function Control() {
 
     ConfiguracionInfoRequeridosctualizar();
     
-    
-     $("#txtDocumento").blur(function() {
-        var tipodoc = $("#cbxTipoDocumento").val();
-        if(tipodoc == '1'){
-            ConsultaReniec();
+    $("#btnBuscarCli").click(function() {
+        let ndoc=$("#txtDocumento").val();
+        if (ndoc=="" || ndoc==null) {
+            mensaje_alerta("Falta dato","Ingresar numero de documento","info");
+            $("#txtDocumento").focus();
+        } else {
+            let tipodoc = $("#cbxTipoDocumento").val();
+            if(tipodoc == '1'){
+                if(ndoc.length==8) {
+                    ConsultaReniec();
+                } else {
+                    mensaje_alerta("Falta dato","Nro de documento no tiene los digitos necesarios","info");
+                    $("#txtDocumento").focus();
+                }
+                
+            } else {
+                 mensaje_alerta("Informacion","No se encontró informacion, agregar de forma manual","info");
+            }
         }
-    });  
+        console.log('Num Doc: '+ndoc);
+        
+    });
+    // $("#txtDocumento").blur(function() {
+    //     var tipodoc = $("#cbxTipoDocumento").val();
+    //     if(tipodoc == '1'){
+    //         ConsultaReniec();
+    //     }
+    // });  
     
 }
 
@@ -244,6 +265,7 @@ function MostrarLista() {
 function LimpiarFiltro() {
     $('#txtdocumentoFiltro').val(null).trigger('change');
     $("#txtNombreApellidoFiltro").val("");
+    $('#cbxFiltroVendedor').val(null).trigger('change');
 }
 
 function AbrirModalRegistroNuevo() {
@@ -396,7 +418,8 @@ function CargarGrillaBusquedaClienteReportes() {
                 return $.extend({}, d, {
                     "ReturnClienteListaPaginada": true,
                     "txtDniFiltro": $("#txtdocumentoFiltro").val(),
-                    "txtApeNomFiltro": $("#txtNombreApellidoFiltro").val()
+                    "txtApeNomFiltro": $("#txtNombreApellidoFiltro").val(),
+                    "txtVendedorFiltro": $("#cbxFiltroVendedor").val()
                 });
             }
         },
@@ -481,7 +504,8 @@ function CargarGrillaBusquedaClienteListaPaginado() {
                 return $.extend({}, d, {
                     "ReturnClienteListaPaginada": true,
                     "txtDniFiltro": $("#txtdocumentoFiltro").val(),
-                    "txtApeNomFiltro": $("#txtNombreApellidoFiltro").val()
+                    "txtApeNomFiltro": $("#txtNombreApellidoFiltro").val(),
+                    "txtVendedorFiltro": $("#cbxFiltroVendedor").val(),
                 });
             }
         },
@@ -1300,7 +1324,7 @@ function RespuestaGuardarActualizarRegistro(dato) {
 
 /************************************ELIMINAR REGISTRO CLIENTES******************************** */
 function EliminarCliente() {
-    mensaje_condicionalUNO("¿Est\u00E1 seguro de eliminar?", "Al confirmar se proceder\u00E1 a eliminar el registro selecionado", ConfirmarEliminarRegistroCliente, CancelEliminarLicenciaProgramado, "");
+    mensaje_condicionalUNO("¿Est\u00E1 seguro de eliminar?", "Al confirmar se proceder\u00E1 a eliminar el registro selecionado, recordando que este cliente no tenga un reserva o venta agregada", ConfirmarEliminarRegistroCliente, CancelEliminarLicenciaProgramado, "");
 }
 
 function CancelEliminarLicenciaProgramado() {
@@ -1312,7 +1336,8 @@ function ConfirmarEliminarRegistroCliente() {
     var url = "../../models/M02_Clientes/M02MD01_RegistroCliente/M02MD01_RegistroCliente_Procesos.php";
     var dato = {
         "ReturnEliminarRegCliente": true,
-        "id": $("#__ID_DATOS_CLIENTE").val()
+        "id": $("#__ID_DATOS_CLIENTE").val(),
+        "__ID_USER": $("#__ID_USER").val()
     };
     realizarJsonPost(url, dato, RespuestaConfirmarEliminarRegistroCliente, null, 10000, null);
 }
@@ -1325,6 +1350,11 @@ function RespuestaConfirmarEliminarRegistroCliente(dato) {
             mensaje_alerta("\u00A1Eliminado!", dato.data, "success");
         }, 100);
         return;
+    }else if(dato.status == "info"){
+        setTimeout(function() {
+            mensaje_alerta("Adventencia!", dato.data + "\n", "info");
+        }, 100);
+
     } else {
         setTimeout(function() {
             mensaje_alerta("\u00A1Error!", dato.data + "\n" + dato.dataDB, "error");
