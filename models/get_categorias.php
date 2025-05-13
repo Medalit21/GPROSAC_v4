@@ -934,7 +934,7 @@ public function VerAnio(){
 	}
 	public function VerTipoCondicionVenta(){
 
-		$consulta= "SELECT codigo_item as ID, nombre_corto as Nombre FROM configuracion_detalle WHERE codigo_tabla='_CONDICION_VENTA' AND estado='ACTI' ORDER BY idconfig_detalle";
+		$consulta= "SELECT codigo_item as ID, nombre_corto as Nombre FROM configuracion_detalle WHERE codigo_tabla='_CONDICION_VENTA' AND estado='ACTI' ORDER BY texto1";
 		return $this->con->query($consulta);
 	}
 	public function VerTipoCreditoVenta(){

@@ -1078,6 +1078,7 @@ function AnularReserva(id){
         if (dato.status == "ok") {
             //console.log(dato);
             mensaje_alerta("\u00A1Anulado!", dato.data, "success");
+			BusacarReservacionPaginado();
         }else{
             mensaje_alerta("\u00A1Error!", dato.data, "info");
         } 

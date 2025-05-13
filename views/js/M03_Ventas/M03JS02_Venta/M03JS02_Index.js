@@ -212,6 +212,8 @@ function Control() {
             $("#txtMontoCuotaInicialr").prop("disabled", true);
         }
     });
+	// Forzar que se ejecute con el valor cargado por defecto
+	$('#cbxCondicionVenta').trigger('change');
 
     $('#cbxTipoDescuento').on('change', function() {
         if (parseInt($("#cbxTipoDescuento").val()) === 1) {

@@ -558,7 +558,7 @@
                                         <label class="col-md-1 label-texto-sm">Tipo Pago:</label>
                                         <div class="col-md-2">
                                             <select id="cbxCondicionVenta" class="cbx-texto">
-                                                <option selected="true" value="" disabled="">Seleccionar</option>
+                                                <!--<option selected="true" value="" disabled="">Seleccionar</option>-->
                                                 <?php
                                                 $VerTipoCondicion = new ControllerCategorias();
                                                 $verTipoCondicion = $VerTipoCondicion->VerTipoCondicionVenta();
