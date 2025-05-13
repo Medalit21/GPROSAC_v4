@@ -187,7 +187,9 @@
                                 </div>
                                 <div class="col-lg-4 col-md-6 col-sm-6 col-md-3 col-sm-6">
                                     <button type="button" class="btn btn-registro" id="btnBuscarCliente" style="margin-top:1px" disabled=""> <i class="fas fa-search" aria-hidden="true"></i> Buscar</button>
-                                    <!-- <button type="button" class="btn btn-registro" id="btnNuevoCliente" style="margin-top:1px" > <i class="fas fa-file-alt" aria-hidden="true"></i> Nuevo</button> -->
+
+									<button type="button" class="btn btn-registro-primary" id="btnLimpiarFiltroCliente"> <i class="fas fa-sync-alt" aria-hidden="true"></i> Limpiar</button>
+									
                                 </div>
                                 
                                 <div class="col-lg-4 col-md-6"></div>

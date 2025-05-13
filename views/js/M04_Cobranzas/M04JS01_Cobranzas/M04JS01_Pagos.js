@@ -230,7 +230,7 @@ function LlenarTabalaHojaResumenGenerados(datos) {
                 "render": function (data, type, row) {
                     var html = "";
                     if(row.estado == '2'){
-                         if(row.estado_cierre== '4'){
+                         if(row.estado_cierre== '1'){
                             html = '<span class="badge" style="background-color: #00BC17; color: white; font-weight: bold;">FINALIZADO</span>';    
                         }else{
                             

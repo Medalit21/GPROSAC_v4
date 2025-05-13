@@ -32,6 +32,7 @@ function Control() {
         MostrarLista();
     });
     
+	
     
     /******************NUEVO -- INICIALIZAR CARGA DE COMBOS PROYECTO, ZONA ,MANZANA, LOTE********************** */
     $('#cbxProyecto').change(function() {
@@ -122,8 +123,11 @@ function Control() {
     });
 
     $('#btnLimpiarFiltrosCliente').click(function() {
-        $("#__ID_CLIENTE,#__ID_RESERVA,#__ID_MONTO_RESERVA,#txtNombreCliente,#txtApellidoPaternoCliente,#txtApellidoMaternoCliente,#txtDireccionCliente,#txtArea,#txtTipoMonedaLote,#txtValorLoteCasa,#txtValorLoteSolo,#cbxZona,#cbxManzana,#cbxLote, #bxFiltroZonaVenta, #bxFiltroManzanaVenta, #bxFiltroLoteVenta, #txtDocumentoCliente").val("");
+        $("#__ID_CLIENTE,#__ID_RESERVA,#__ID_MONTO_RESERVA,#bxFiltroProyectoVenta,#txtNombreCliente,#txtApellidoPaternoCliente,#txtApellidoMaternoCliente,#txtDireccionCliente,#txtArea,#txtTipoMonedaLote,#txtValorLoteCasa,#txtValorLoteSolo,#cbxZona,#cbxManzana,#cbxLote, #bxFiltroZonaVenta, #bxFiltroManzanaVenta, #bxFiltroLoteVenta, #txtContactoCliente").val("");
         
+		// Limpiar Select2
+		$('#txtDocumentoCliente').val(null).trigger('change');
+		
     });
 
     $('#txtDocumentoCliente').keydown(function() {
@@ -319,6 +323,17 @@ function Control() {
     });
     
     asignarLote();
+	
+	// Detecta cambios en los campos de filtro
+	$('#txtDocumentoCliente').on('change', validarActivacionBuscarCliente);
+	$('#bxFiltroProyectoVenta').on('change', validarActivacionBuscarCliente);
+	$('#bxFiltroZonaVenta').on('change', validarActivacionBuscarCliente);
+	$('#bxFiltroManzanaVenta').on('change', validarActivacionBuscarCliente);
+	$('#bxFiltroLoteVenta').on('change', validarActivacionBuscarCliente);
+
+	// Si txtDocumentoCliente usa Select2:
+	$('#txtDocumentoCliente').on('select2:select', validarActivacionBuscarCliente);
+
   
 }
 
@@ -830,6 +845,9 @@ function Nuevo() {
     $("#formularioReservasRelacionadasAlCliente").removeClass("disabled-form");
     $("#txtDocumentoCliente").focus();
     $("#cbxTipoCronograma").prop('disabled', false);
+	
+	$("#btnBuscarCliente").prop('disabled', true); // Desactivar por defecto
+
 }
 
 function Modificar() {
@@ -903,6 +921,30 @@ function Consulta() {
 function MostrarLista(){
     RetornaListaVentas();
 }
+
+/****************** validacion de campos de filtro busq *********************/
+function validarActivacionBuscarCliente() {
+    let cliente = $("#txtDocumentoCliente").val();
+    let proyecto = $("#bxFiltroProyectoVenta").val();
+    let zona = $("#bxFiltroZonaVenta").val();
+    let manzana = $("#bxFiltroManzanaVenta").val();
+    let lote = $("#bxFiltroLoteVenta").val();
+
+    // Si cliente está lleno
+    if (cliente !== null && cliente !== "") {
+        $("#btnBuscarCliente").prop('disabled', false);
+        return;
+    }
+
+    // Si todos los filtros están llenos
+    if (proyecto && zona && manzana && lote) {
+        $("#btnBuscarCliente").prop('disabled', false);
+    } else {
+        $("#btnBuscarCliente").prop('disabled', true);
+    }
+}
+
+/****************** validacion de campos de filtro busq *********************/
 
 /****************** LIMPIAR TODO LOS CAMPOS VISTA PRINCIPAL************************** */
 function LimpiarCamposRegistro() {
@@ -1139,7 +1181,7 @@ function RespuestaBuscarDatoCliente(dato) {
     } else {
         $("#txtDocumentoCliente").focus();
         //mensaje_cliente_no_encontrado("Importante!", "No se encontro datos para el documento y/o lote seleccionado.", IrRegistroCliente, SeguirBuscando, dato.urlRegistroCliente);
-        mensaje_alerta("\u00A1ERROR!", dato.data, "info");
+        mensaje_alerta("¡Advertencia!", dato.data, "info");
     }
 }
 

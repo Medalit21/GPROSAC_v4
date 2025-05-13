@@ -200,7 +200,7 @@ if (isset($_POST['ReturnManzana'])) {
 if (isset($_POST['ReturnLote'])) {
     $IdManzana = $_POST['idManzana'];
 
-    $query = mysqli_query($conection, "select idlote as id , nombre from gp_lote where esta_borrado=0 and estado=1 and idmanzana=$IdManzana;");
+    $query = mysqli_query($conection, "select idlote as id , nombre from gp_lote where esta_borrado=0 and estado=1 and idmanzana=$IdManzana and bloqueo_estado != 7;");
 
     array_push($dataList, [
         'valor' => '',
@@ -1112,3 +1112,183 @@ if (isset($_POST['btnEliminarCopropiet'])) {
 
 
 /*************** NUEVO MODELO ***********/
+
+
+/**************************INSERTAR NUEVO REGISTRO TRABAJADOR******************* */
+if (isset($_POST['ReturnGuardarRegCliente'])) {
+
+    $TipoDocumento = $_POST['cbxTipoDocumento'];
+    $Documento = $_POST['txtDocumento'];
+    $Nacionalidad = $_POST['cbxNacionalidad'];
+    $PaisEmisorDocumento = $_POST['cbxPaisEmisorDocumento'];
+    $ApellidoPaterno = $_POST['txtApellidoPaterno'];
+    $ApellidoMaterno = $_POST['txtApellidoMaterno'];
+    $Nombres = $_POST['txtNombres'];
+    $DepartamentoNacimiento = $_POST['cbxDepartamentoNacimiento'];
+    $ProvinciaNacimiento = $_POST['cbxProvinciaNacimiento'];
+    $PaisNacimiento = $_POST['cbxPaisNacimiento'];
+    $FechaNacimiento = $_POST['txtFechaNacimineto'];
+    $Sexo = $_POST['cbxSexo'];
+    $TipoVia = $_POST['cbxTipoVia'];
+    $NombreVia = $_POST['txtNombreVia'];
+    $NroVia = $_POST['txtNroVia'];
+    $NroDpto = $_POST['txtNroDpto'];
+    $Interior = $_POST['txtInterior'];
+    $Mz = $_POST['txtMz'];
+    $Lt = $_POST['txtLt'];
+    $Km = $_POST['txtKm'];
+    $Block = $_POST['txtBlock'];
+    $Etapa = $_POST['txtEtapa'];
+    $TipoZona = $_POST['cbxTipoZona'];
+    $NombreZona = $_POST['txtNombreZona'];
+    $Referencia = $_POST['txtReferencia'];
+    $DistritoDireccion = $_POST['cbxDistritoDir'];
+    $ProvinciaDireccion = $_POST['cbxProvinciaDir'];
+    $DepartamentoDireccion = $_POST['cbxDepartamentoDir'];
+    $Telefono = $_POST['txtTelefono'];
+    $Celular = $_POST['txtCelular'];
+    $Celular2 = $_POST['txtCelular2'];
+    $Correo = $_POST['txtCorreo'];
+    $EstadoCivil = $_POST['cbxEstadoCivil'];
+    $SituacionDomiciliaria = $_POST['cbxSituacionDomiciliaria'];
+
+    $__ID_USER = $_POST['__ID_USER'];
+
+    $idUsuario = decrypt($__ID_USER,"123");
+    $consulta_idusu = mysqli_query($conection, "SELECT idusuario as id FROM usuario WHERE usuario='$idUsuario'");
+    $respuesta_idusu = mysqli_fetch_assoc($consulta_idusu);
+    $idUsuario=$respuesta_idusu['id'];
+	
+	//VALIDAR si ya existe un cliente con ese documento
+	$validar_doc = mysqli_query($conection, "SELECT id FROM datos_cliente WHERE documento='$Documento' AND esta_borrado=0");
+	if (mysqli_num_rows($validar_doc) > 0) {
+		$data['status'] = 'warning';
+		$data['data'] = 'Ya existe un cliente registrado con el mismo número de documento.';
+		echo json_encode($data, JSON_PRETTY_PRINT);
+		exit;
+	}
+
+    
+    //CODIGO Y CORRELATIVO DEL CLIENTE
+    $anio = date('Y'); 
+    $consultar_correlativo = mysqli_query($conection, "SELECT max(codigo_correlativo) as correlativo FROM datos_cliente WHERE codigo_anio='$anio' AND esta_borrado=0");
+    $respuesta_correlativo = mysqli_fetch_assoc($consultar_correlativo);
+    $dato_correlativo = $respuesta_correlativo['correlativo'];
+    $dato_correlativo = $dato_correlativo + 1;
+
+    $dato_codigo_desc = "";
+    $length = 6;
+    $dato_codigo_desc = substr(str_repeat(0, $length).$dato_correlativo, - $length);
+    $nom_codigo = $anio.$dato_codigo_desc;
+
+    $txtCodigoCliente = $nom_codigo;
+    $txtCodigoAnio = $anio;
+    $txtCodigoCorrelativo = $dato_correlativo;
+    // ======================
+
+    $query = mysqli_query($conection, "INSERT INTO datos_cliente( 
+    tipodocumento, 
+    documento, 
+    nacionalidad, 
+    pais_emisor_doc, 
+    apellido_paterno, 
+    apellido_materno, 
+    nombres, 
+    id_fndepartamento, 
+    id_fnprovincia, 
+    id_fnpais, 
+    fec_nacimiento, 
+    id_sexo, 
+    tipo_via, 
+    nombre_via, 
+    nro_via, 
+    nro_dpto, 
+    interior, 
+    manzana, 
+    lote, 
+    km, 
+    block_dir, 
+    etapa, 
+    tipo_zona, 
+    nombre_zona, 
+    referencia, 
+    id_dom_distrito, 
+    id_dom_provincia, 
+    id_dom_departamento, 
+    telefono, 
+    celular_1,
+    celular_2, 
+    email, 
+    id_estado_civil, 
+    situacion_domiciliaria,
+    id_usuario,
+    id_usuario_auditoria,
+    id_vendedor,
+    codigo, 
+    codigo_anio, 
+    codigo_correlativo)
+    VALUES (
+    '$TipoDocumento',
+    '$Documento',
+    '$Nacionalidad',
+    '$PaisEmisorDocumento',
+    '$ApellidoPaterno',
+    '$ApellidoMaterno',
+    '$Nombres',
+    '$DepartamentoNacimiento',
+    '$ProvinciaNacimiento',
+    '$PaisNacimiento',
+    '$FechaNacimiento',
+    '$Sexo',
+    '$TipoVia',
+    '$NombreVia',
+    '$NroVia',
+    '$NroDpto',
+    '$Interior',
+    '$Mz',
+    '$Lt',
+    '$Km',
+    '$Block',
+    '$Etapa',
+    '$TipoZona',
+    '$NombreZona',
+    '$Referencia',
+    '$DistritoDireccion',
+    '$ProvinciaDireccion',
+    '$DepartamentoDireccion',
+    '$Telefono',
+    '$Celular',
+    '$Celular2',
+    '$Correo',
+    '$EstadoCivil',
+    '$SituacionDomiciliaria',
+    '$idUsuario',
+    '$idUsuario',
+    '$idUsuario',
+    '$txtCodigoCliente',
+    '$txtCodigoAnio',
+    '$txtCodigoCorrelativo'    
+     )");
+
+
+    if ($query) {
+		// Recupera el cliente recién insertado
+		$ultimoCliente = mysqli_query($conection, "SELECT id, documento, nombres, apellido_paterno, apellido_materno FROM datos_cliente WHERE documento = '$Documento' ORDER BY id DESC LIMIT 1");
+		$clienteData = mysqli_fetch_assoc($ultimoCliente);
+		
+        $data['status'] = 'ok';
+        $data['data'] = 'Se guardó con éxito';
+		$data['cliente'] = $clienteData; // cliente
+
+    } else {
+        if (!$query) {
+            $data['dataDB'] = mysqli_error($conection);
+        }
+        $data['status'] = 'bad';
+        $data['data'] = 'Ocurrió un problema al guardar el registro.';
+        //$data['path'] = $documentoCliente;
+    }
+    header('Content-type: text/javascript');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
+

@@ -49,6 +49,12 @@ function Control() {
         MostrarLista();
         $('#txtDocumentoFiltro').val(null).trigger('change');
     });
+	
+	$('#btnGuardarCliente').click(function() {
+		if (ValidarCamposRequeridosG()) {
+			GuardarClientePopups();
+		}
+	});
     
     $('input.CurrencyInput').on('blur', function() {
         const value = this.value.replace(/,/g, '');
@@ -180,6 +186,43 @@ function Control() {
     });
 
     asignarLote();
+	
+	    /******************NUEVO -- INICIALIZAR CARGA DE COMBOS PROVINCIA, DISTRITO DIRECCION********************** */
+    $('#cbxDepartamentoDir').change(function() {
+        $("#cbxProvinciaDir").val("");
+        $("#cbxDistritoDir").val("");
+        var url = '../../../models/General/BusquedaUbigeo.php';
+        var datos = {
+            "ReturnListaProvincia": true,
+            "ubigeo": $('#cbxDepartamentoDir').val()
+        }
+        llenarCombo(url, datos, "cbxProvinciaDir");
+        document.getElementById('cbxDistritoDir').selectedIndex = 0;
+        $("#cbxDistritoDir").prop("disabled", true);
+
+    });
+
+    $('#cbxProvinciaDir').change(function() {
+        $("#cbxDistritoDir").val("");
+        var url = '../../../models/General/BusquedaUbigeo.php';
+        var datos = {
+            "ReturnListaDistritos": true,
+            "ubigeo": $('#cbxProvinciaDir').val()
+        };
+        llenarCombo(url, datos, "cbxDistritoDir");
+        $("#cbxDistritoDir").prop("disabled", false);
+    });
+	
+	
+	$('#btnLimpiarFiltroCliente').click(function() {
+        $("#__ID_CLIENTE,#__ID_LOTE_RESERVAR,#__ID_RESERVACION,#___DIAS_RESERVA_REFERENCIAL,#txtNroDocumentoCliente,#txtNombreCliente,#txtApellidoPaternoCliente,#txtApellidoMaternoCliente,#cbxProyecto,#cbxZona,#cbxManzana,#cbxLote,#txtArea,#txtTipoMonedaLote,#txtValorLoteCasa,#txtValorLoteSolo,#cbxTipoCasa,#cbxMedioPago,#cbxTipoComprobante,#txtPrecioNegocio").val("");
+        
+		// Limpiar Select2
+		$('#txtDocumentoCliente').val(null).trigger('change');
+		
+    });
+	
+	
 
 }
 
@@ -1549,3 +1592,212 @@ function respuestaSeleccionReniec(dato){
         $("#txtNombres").val("");
     }
 }
+
+/**********************CONTROLAR BOTON GUARDAR************************ */
+function VerificarCorreoValido(id) {
+    var flat = true;
+    var email = ValidarEmail($("#" + id).val());
+    if ($("#" + id).val().trim().length > 0) {
+        if (!email) {
+            flat = false;
+        }
+    }
+    return flat;
+}
+
+function ValidarCamposRequeridosG() {
+    var flat = true;
+    if ($("#cbxTipoDocumentoAdd").val() === "" || $("#cbxTipoDocumentoAdd").val() === null) {
+        $("#cbxTipoDocumentoAdd").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el TIPO DOCUMENTO", "info");
+        $("#cbxTipoDocumentoHtml").html('(Requerido)');
+        $("#cbxTipoDocumentoHtml").show();
+        flat = false;
+    } else if ($("#txtDocumentoAdd").val() === "") {
+        $("#txtDocumentoAdd").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el N° de Documento", "info");
+        $("#txtDocumentoHtml").html('(Requerido)');
+        $("#txtDocumentoHtml").show();
+        flat = false;
+    } else if ($("#cbxPaisEmisorDocumento").val() === "" || $("#cbxPaisEmisorDocumento").val() === null) {
+        $("#cbxPaisEmisorDocumento").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el País Emisor de Documento.", "info");
+        $("#cbxPaisEmisorDocumentoHtml").html('(Requerido)');
+        $("#cbxPaisEmisorDocumentoHtml").show();
+        flat = false;
+    } else if ($("#txtApellidoPaterno").val() === "") {
+        $("#txtApellidoPaterno").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Paterno", "info");
+        $("#txtApellidoPaternoHtml").html('(Requerido)');
+        $("#txtApellidoPaternoHtml").show();
+        flat = false;
+    } else if ($("#txtApellidoMaterno").val() === "") {
+        $("#txtApellidoMaterno").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Materno", "info");
+        $("#txtApellidoMaternoHtml").html('(Requerido)');
+        $("#txtApellidoMaternoHtml").show();
+        flat = false;
+    } else if ($("#txtNombres").val() === "") {
+        $("#txtNombres").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese los nombres.", "info");
+        $("#txtNombresHtml").html('(Requerido)');
+        $("#txtNombresHtml").show();
+        flat = false;
+    } else if ($("#cbxNacionalidad").val() === "" || $("#cbxNacionalidad").val() === null) {
+        $("#cbxNacionalidad").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione la Nacionalidad.", "info");
+        $("#cbxNacionalidadHtml").html('(Requerido)');
+        $("#cbxNacionalidadHtml").show();
+        flat = false;
+    } else if ($("#cbxSexo").val() === "" || $("#cbxSexo").val() === null) {
+        $("#cbxSexo").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el Sexo.", "info");
+        $("#cbxSexoHtml").html('(Requerido)');
+        $("#cbxSexoHtml").show();
+        flat = false;
+    } else if ($("#txtCelular").val() === "") {
+        $("#txtCelular").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el N° de celular.", "info");
+        $("#txtCelularHtml").html('(Requerido)');
+        $("#txtCelularHtml").show();
+        flat = false;
+    } else if (!VerificarCorreoValido("txtCorreo")) {
+        $("#txtCorreo").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese un correo válido.", "info");
+        $("#txtCorreoHtml").html('(Verifique)');
+        $("#txtCorreoHtml").show();
+        flat = false;
+    } else if ($("#txtFechaNacimineto").val() === "") {
+        $("#txtFechaNacimineto").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese la Fecha de Nacimiento.", "info");
+        $("#txtFechaNaciminetoHtml").html('(Requerido)');
+        $("#txtFechaNaciminetoHtml").show();
+        flat = false;
+    } else if ($("#cbxDepartamentoDir").val() === "" || $("#cbxDepartamentoDir").val() === null) {
+        $("#cbxDepartamentoDir").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el Departamento de la dirección.", "info");
+        $("#cbxDepartamentoDirHtml").html('(Requerido)');
+        $("#cbxDepartamentoDirHtml").show();
+        flat = false;
+    } else if ($("#cbxProvinciaDir").val() === "" || $("#cbxProvinciaDir").val() === null) {
+        $("#cbxProvinciaDir").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione la Provincia de la dirección.", "info");
+        $("#cbxProvinciaDirHtml").html('(Requerido)');
+        $("#cbxProvinciaDirHtml").show();
+        flat = false;
+    } else if ($("#cbxDistritoDir").val() === "" || $("#cbxDistritoDir").val() === null) {
+        $("#cbxDistritoDir").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el Distrito de la dirección.", "info");
+        $("#cbxDistritoDirHtml").html('(Requerido)');
+        $("#cbxDistritoDirHtml").show();
+        flat = false;
+    }
+    return flat;
+}
+
+
+function GuardarClientePopups() {
+    bloquearPantalla("Guardando...");
+	var url = "../../models/M03_Ventas/M03MD01_Reservacion/M03MD01_Reservacion_Proceso.php";
+    var dato = {
+        "ReturnGuardarRegCliente": true,
+        "cbxTipoDocumento": $("#cbxTipoDocumentoAdd").val()?.trim() ?? "",
+        "txtDocumento": $("#txtDocumentoAdd").val()?.trim() ?? "",
+        "cbxNacionalidad": $("#cbxNacionalidad").val()?.trim() ?? "",
+        "cbxPaisEmisorDocumento": $("#cbxPaisEmisorDocumento").val() ?? "",
+        "txtApellidoPaterno": $("#txtApellidoPaterno").val() ?? "",
+        "txtApellidoMaterno": $("#txtApellidoMaterno").val() ?? "",
+        "txtNombres": $("#txtNombres").val() ?? "",
+        "cbxDepartamentoNacimiento": $("#cbxDepartamentoNacimiento").val() ?? "",
+        "cbxProvinciaNacimiento": $("#cbxProvinciaNacimiento").val() ?? "",
+        "cbxPaisNacimiento": $("#cbxPaisNacimiento").val() ?? "",
+        "txtFechaNacimineto": $("#txtFechaNacimineto").val() ?? "",
+        "cbxSexo": $("#cbxSexo").val() ?? "",
+        "cbxTipoVia": $("#cbxTipoVia").val() ?? "",
+        "txtNombreVia": $("#txtNombreVia").val() ?? "",
+        "txtNroVia": $("#txtNroVia").val() ?? "",
+        "txtNroDpto": $("#txtNroDpto").val() ?? "",
+        "txtInterior": $("#txtInterior").val() ?? "",
+        "txtMz": $("#txtMz").val() ?? "",
+        "txtLt": $("#txtLt").val() ?? "",
+        "txtKm": $("#txtKm").val() ?? "",
+        "txtBlock": $("#txtBlock").val() ?? "",
+        "txtEtapa": $("#txtEtapa").val() ?? "",
+        "cbxTipoZona": $("#cbxTipoZona").val() ?? "",
+        "txtNombreZona": $("#txtNombreZona").val() ?? "",
+        "txtReferencia": $("#txtReferencia").val() ?? "",
+        "cbxDistritoDir": $("#cbxDistritoDir").val() ?? "",
+        "cbxProvinciaDir": $("#cbxProvinciaDir").val() ?? "",
+        "cbxDepartamentoDir": $("#cbxDepartamentoDir").val() ?? "",
+        "txtCelular2": $("#txtCelular2").val() ?? "",
+        "txtTelefono": $("#txtTelefono").val() ?? "",
+        "txtCelular": $("#txtCelular").val() ?? "",
+        "txtCorreo": $("#txtCorreo").val() ?? "",
+        "cbxEstadoCivil": $("#cbxEstadoCivil").val() ?? "",
+        "cbxSituacionDomiciliaria": $("#cbxSituacionDomiciliaria").val() ?? "",
+        "txtCodigoCliente": $("#txtCodigoCliente").val() ?? "",
+        "txtCodigoAnio": $("#txtCodigoAnio").val() ?? "",
+        "txtCodigoCorrelativo": $("#txtCodigoCorrelativo").val() ?? "",
+        "__ID_USER": $("#__ID_USER").val() ?? ""
+    };
+    realizarJsonPost(url, dato, respuestaGuardarNuevoRegistroPop, null, 10000, null);
+}
+
+/*********************RESPUESTA GUARDAR NUEVO CLIENTE*********************** */
+/*function respuestaGuardarNuevoRegistroPop(dato) {
+    desbloquearPantalla();
+    //console.log(dato);
+    if (dato.status == "ok") {
+    
+        mensaje_alerta("\u00A1Guardado!", dato.data, "success");
+		
+        return;
+    } else {
+        mensaje_alerta("\u00A1Error!", dato.data + "\n" + dato.dataDB, "error");
+    }
+}*/
+
+function respuestaGuardarNuevoRegistroPop(dato) {
+    desbloquearPantalla();
+
+    let mensaje = dato.data;
+    if (dato.dataDB !== undefined && dato.dataDB !== null && dato.dataDB !== "") {
+        mensaje += "\n" + dato.dataDB;
+    }
+
+    if (dato.status === "ok") {
+		
+		CargarClienteEnFormularioPrincipal(dato.cliente); //pasa datos al formulario
+        mensaje_alerta("¡Guardado!", mensaje, "success");
+		
+    } else if (dato.status === "warning") {
+		
+        mensaje_alerta("¡Advertencia!", mensaje, "info");
+		
+    } else {
+		
+        mensaje_alerta("¡Error!", mensaje, "error");
+		
+    }
+}
+
+function CargarClienteEnFormularioPrincipal(cliente) {
+    $("#txtNroDocumentoCliente").val(cliente.documento);
+    $("#txtNombreCliente").val(cliente.nombres);
+    $("#txtApellidoPaternoCliente").val(cliente.apellido_paterno);
+    $("#txtApellidoMaternoCliente").val(cliente.apellido_materno);
+    $("#__ID_CLIENTE").val(cliente.id); // ← Ahora sí usas el nombre correcto
+}
+
+
+
+
+/**********************CONTROLAR BOTON GUARDAR************************ */

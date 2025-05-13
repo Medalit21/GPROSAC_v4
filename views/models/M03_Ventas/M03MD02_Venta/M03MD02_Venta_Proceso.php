@@ -781,7 +781,7 @@ if (isset($_POST['ReturnBuscarCliente'])) {
     } else {
         $data['status'] = 'bad';
         $data['query'] = $my;
-        $data['data'] = 'No se encontro datos para el documento y/o lote seleccionado.';
+        $data['data'] = 'El lote no tiene asignado un cliente.';
         /*
         if($resul_query == "NewRegister"){
 
@@ -2083,7 +2083,7 @@ if (isset($_POST['ListarManzanas'])) {
 if (isset($_POST['ListarLotes'])) {
 
     $idManzana = intval($_POST['idManzana']);
-    $query = mysqli_query($conection, "SELECT idlote as valor, nombre as texto FROM gp_lote WHERE idmanzana='$idManzana' AND estado NOT IN (5,6,7)");
+    $query = mysqli_query($conection, "SELECT idlote as valor, nombre as texto FROM gp_lote WHERE idmanzana='$idManzana' AND estado NOT IN (5,6,7) AND bloqueo_estado NOT IN (7)");
 
     array_push($dataList, [
         'valor' => '',
