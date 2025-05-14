@@ -71,7 +71,7 @@
     if (isset($_POST['ListarLotes'])) {
 
         $idmanzana = $_POST['idmanzana'];
-        $query = mysqli_query($conection, "SELECT idlote as valor, nombre as texto FROM gp_lote WHERE idmanzana='$idmanzana' AND estado IN (5,6) ORDER BY correlativo ASC");
+        $query = mysqli_query($conection, "SELECT idlote as valor, nombre as texto FROM gp_lote WHERE idmanzana='$idmanzana' AND estado IN (5,6) AND bloqueo_estado != 7 ORDER BY correlativo ASC");
 
         array_push($dataList, [
             'valor' => '',

@@ -49,7 +49,7 @@ if(isset($_POST['btnCargarDatosCliente'])){
            $data['data'] = $resultado;
        }else{
            $data['status'] = 'bad';
-           $data['data'] = 'No se encontraron registros para el filtro seleccionado.';
+           $data['data'] = 'No se encontraron registros del Cliente seleccionado.';
        }
     
    header('Content-type: text/javascript');

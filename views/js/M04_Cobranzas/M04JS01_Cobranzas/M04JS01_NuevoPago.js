@@ -74,7 +74,9 @@ function Control() {
     });
 
   $('#btnPagar').click(function() {
-     RegistrarPago();
+	  	if (ValidarCamposNuevoPago()) {
+			RegistrarPago();
+		}
   });
 
   //FORMATEAR MILES EN INPUT DE MONEDA
@@ -106,10 +108,10 @@ function Control() {
 		document.getElementById('bxFiltroEstadoEC').selectedIndex = 0;
 		$("#txtDocCliente").val("");
 		$("#txtNomCliente").val("");
-		$("#txtTipoDocCliente").val("");
-		$("#txtNacionalidadCliente").val("");
 		$("#txtApePaternoCliente").val("");
 		$("#txtApeMaternoCliente").val("");
+		$("#txtTipoDocCliente").val("");
+		$("#txtNacionalidadCliente").val("");
 		
     });
     
@@ -243,6 +245,11 @@ function Nuevo(){
     document.getElementById('bxTipoComprobante').selectedIndex = 0;
     document.getElementById('bxAgenciaBancaria').selectedIndex = 0;
     document.getElementById('bxTipoMoneda').selectedIndex = 0;
+    $("#txtDocCliente").val("");
+    $("#txtNomCliente").val("");
+    $("#txtApePaternoCliente").val("");
+    $("#txtApeMaternoCliente").val("");
+	
     $("#txtTipoCambio").val("");
     $("#txtMontoPagado").val("");
     $("#txtFechaPago").val("");
@@ -448,6 +455,126 @@ function VerificarTipoMoneda(){
         timeout: timeoutDefecto
     });   
 }
+
+//validar
+function ValidarCamposNuevoPago() {
+    var flat = true;
+    if ($("#txtDocCliente").val() === "") {
+        $("#txtDocCliente").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el cliente", "info");
+        $("#txtDocumentoHtml").html('(Requerido)');
+        $("#txtDocumentoHtml").show();
+        flat = false;
+    } else if ($("#txtNomCliente").val() === "") {
+        $("#txtNomCliente").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese los nombres", "info");
+        $("#txtApellidoPaternoHtml").html('(Requerido)');
+        $("#txtApellidoPaternoHtml").show();
+        flat = false;
+    } else if ($("#txtApePaternoCliente").val() === "") {
+        $("#txtApePaternoCliente").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Paterno", "info");
+        $("#txtApellidoMaternoHtml").html('(Requerido)');
+        $("#txtApellidoMaternoHtml").show();
+        flat = false;
+    } else if ($("#txtApeMaternoCliente").val() === "") {
+        $("#txtApeMaternoCliente").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Materno.", "info");
+        $("#txtNombresHtml").html('(Requerido)');
+        $("#txtNombresHtml").show();
+        flat = false;
+    } else if ($("#bxListaLote").val() === "" || $("#bxListaLote").val() === null) {
+        $("#bxListaLote").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione la propiedad.", "info");
+        $("#cbxNacionalidadHtml").html('(Requerido)');
+        $("#cbxNacionalidadHtml").show();
+        flat = false;
+    } else if ($("#bxNroCuotas").val() === "" || $("#bxNroCuotas").val() === null) {
+        $("#bxNroCuotas").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el nro. de cuota.", "info");
+        $("#cbxSexoHtml").html('(Requerido)');
+        $("#cbxSexoHtml").show();
+        flat = false;
+    }  else if ($("#bxMedioPago").val() === "" || $("#bxMedioPago").val() === null) {
+        $("#bxMedioPago").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el medio de pago.", "info");
+        $("#cbxSexoHtml").html('(Requerido)');
+        $("#cbxSexoHtml").show();
+        flat = false;
+    } else if ($("#bxTipoComprobante").val() === "" || $("#bxTipoComprobante").val() === null) {
+        $("#bxTipoComprobante").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el tipo de constancia.", "info");
+        $("#cbxSexoHtml").html('(Requerido)');
+        $("#cbxSexoHtml").show();
+        flat = false;
+    } else if ($("#txtMontoPagar").val() === "") {
+        $("#txtMontoPagar").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Importe a pagar.", "info");
+        $("#txtCelularHtml").html('(Requerido)');
+        $("#txtCelularHtml").show();
+        flat = false;
+    } else if ($("#bxTipoMoneda").val() === "" || $("#bxTipoMoneda").val() === null) {
+        $("#bxTipoMoneda").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el Tipo de moneda.", "info");
+        $("#cbxDepartamentoDirHtml").html('(Requerido)');
+        $("#cbxDepartamentoDirHtml").show();
+        flat = false;
+    } else if ($("#txtTipoCambio").val() === "") {
+        $("#txtTipoCambio").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Tipo de cambio", "info");
+        $("#txtApellidoPaternoHtml").html('(Requerido)');
+        $("#txtApellidoPaternoHtml").show();
+        flat = false;
+    } else if ($("#txtMontoPagado").val() === "") {
+        $("#txtMontoPagado").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Importe pagado.", "info");
+        $("#txtApellidoMaternoHtml").html('(Requerido)');
+        $("#txtApellidoMaternoHtml").show();
+        flat = false;
+    } else if ($("#txtTotalPagado").val() === "") {
+        $("#txtTotalPagado").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Total pagado.", "info");
+        $("#txtNombresHtml").html('(Requerido)');
+        $("#txtNombresHtml").show();
+        flat = false;
+    } else if ($("#bxAgenciaBancaria").val() === "" || $("#bxAgenciaBancaria").val() === null) {
+        $("#bxAgenciaBancaria").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione la Agencia bancaria.", "info");
+        $("#cbxProvinciaDirHtml").html('(Requerido)');
+        $("#cbxProvinciaDirHtml").show();
+        flat = false;
+    } else if ($("#bxFlujoCaja").val() === "" || $("#bxFlujoCaja").val() === null) {
+        $("#bxFlujoCaja").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el Flujo de Caja.", "info");
+        $("#cbxDistritoDirHtml").html('(Requerido)');
+        $("#cbxDistritoDirHtml").show();
+        flat = false;
+    } else if ($("#txtFechaPago").val() === "") {
+        $("#txtFechaPago").focus();
+        $('[href="#DatosPersonalesss"]').tab('show');
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese la Fecha de pago.", "info");
+        $("#txtFechaNaciminetoHtml").html('(Requerido)');
+        $("#txtFechaNaciminetoHtml").show();
+        flat = false;
+    } else if ($("#txtNumeroOperacion").val() === "") {
+        $("#txtNumeroOperacion").focus();
+        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Nro de Operación.", "info");
+        $("#txtApellidoMaternoHtml").html('(Requerido)');
+        $("#txtApellidoMaternoHtml").show();
+        flat = false;
+    }
+	
+    return flat;
+}
+
 
 function RegistrarPago(){
      var data = {
