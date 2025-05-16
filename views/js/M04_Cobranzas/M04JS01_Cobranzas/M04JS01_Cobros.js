@@ -2297,14 +2297,39 @@ function LlenarTablaPagosGeneradosReporteRES2() {
     $('#TablaPagosRealizadosReporteVRES').DataTable(options);
 }
 
+/**************** limpiar modal ***********/
+$('#modalCobros').on('hidden.bs.modal', function () {
+    LimpiarCamposPagoDetalle();
+});
 
+function LimpiarCamposPagoDetalle() {
+	/************* FORM 01 **************/
+    $("#txtID_PAGO").val('');
+    $("#txtFechaPagoDetalle").val('');
 
+    /******** selects *********/
+    $("#bxTipoComprobanteDetalle").val('').prop("selected", true).trigger("change");
+    $("#bxAgenciaBancariaDetalle").val('').prop("selected", true).trigger("change");
+    $("#bxTipoMonedaDetalle").val('').prop("selected", true).trigger("change");
+    $("#bxMedioPagoDetalle").val('').prop("selected", true).trigger("change");
+    /******** selects *********/
 
+    $("#txtSerieBoletaDetalle").val('');
+    $("#txtNumeroBoletaDetalle").val('');
+    $("#txtImportePagadoDetalle").val('');
+    $("#txtTipoCambioDetalle").val('');
+    $("#txtNroOperacionDetalle").val('');
+	/************* FORM 01 **************/
+	
+	/************* FORM 02 **************/
+	$("#txtID_PAGO2").val('');
+    $("#txtFechaPagoDetalle2").val('');
+    $("#bxTipoComprobanteDetalle2").val('').trigger("change");
+    $("#bxTipoMonedaDetalle2").val('').trigger("change");
+    $("#txtTipoCambioDetalle2").val('');
+    $("#txtMontoPagado2").val('');
+    $("#txtImportePagadoDetalle2").val('');
+	/************* FORM 02 **************/
+}
 
-
-
-
-
-
-
-
+/**************** limpiar modal ***********/

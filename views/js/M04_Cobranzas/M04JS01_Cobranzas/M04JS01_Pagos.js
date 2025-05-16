@@ -205,7 +205,7 @@ function LlenarTabalaHojaResumenGenerados(datos) {
         ],
         columns: [{
                 "data": "id",
-                "render": function (data, type, row) {
+                /*"render": function (data, type, row) {
                     var html = "";
                     if(row.estado == '2'){
                          if(row.estado_cierre== '4'){
@@ -223,14 +223,48 @@ function LlenarTabalaHojaResumenGenerados(datos) {
                 
                     }  
                     return html;
-               }
+                }*/
+				
+				/*"render": function (data, type, row) {
+					var html = "";
+
+					// Si estado_cierre es 1 (FINALIZADO) -> NO MOSTRAR BOTONES
+					if (row.estado !== '2') {
+						html += '<button href="javascript:void(0)" class="btn btn-edit-action" onclick="EditarReserva(\'' + data + '\')" title="Editar"><i class="fas fa-pencil-alt"></i></button> ';
+						html += '<button href="javascript:void(0)" class="btn btn-delete-action" onclick="ConfirmarAnularPago(\'' + data + '\')" title="Anular Pago"><i class="fas fa-times"></i></button>';
+					}
+
+					return html;
+				}*/
+				
+				"render": function (data, type, row) {
+					var html = "";
+
+					if (parseInt(row.estado) === 2) {
+						// FINALIZADO: 
+						//html = '<i class="fas fa-lock" style="color: #888;" title="Finalizado: No editable"></i>';
+						
+					} else if (row.estado_validacion === 'RECHAZADO') {
+						// Solo mostrar botón de Anular
+						html += '<button href="javascript:void(0)" class="btn btn-delete-action" onclick="ConfirmarAnularPago(\'' + data + '\')" title="Anular Pago"><i class="fas fa-times"></i></button>';
+					} else {
+						// Mostrar ambos botones: Editar y Anular
+						html += '<button href="javascript:void(0)" class="btn btn-edit-action" onclick="EditarReserva(\'' + data + '\')" title="Editar"><i class="fas fa-pencil-alt"></i></button> ';
+						html += '<button href="javascript:void(0)" class="btn btn-delete-action" onclick="ConfirmarAnularPago(\'' + data + '\')" title="Anular Pago"><i class="fas fa-times"></i></button>';
+					}
+
+					return html;
+				}
+
+				
+
             },
             {
                 "data": "id",
                 "render": function (data, type, row) {
                     var html = "";
                     if(row.estado == '2'){
-                         if(row.estado_cierre== '1'){
+                        if(row.estado_cierre== '1'){
                             html = '<span class="badge" style="background-color: #00BC17; color: white; font-weight: bold;">FINALIZADO</span>';    
                         }else{
                             
