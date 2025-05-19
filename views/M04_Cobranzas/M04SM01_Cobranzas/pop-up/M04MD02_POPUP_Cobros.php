@@ -76,7 +76,8 @@
                             <div class="col-md">
                                 <label for="" class="label-texto">Tipo de Comprobante</label>
                                 <select id="bxTipoComprobanteDetalle" class="cbx-texto">
-                                    <option selected="true" disabled="disabled">Seleccionar..</option>
+                                    <option value="" selected="true" disabled="disabled">Seleccionar..</option>
+
                                     <?php
                                     $TipoComprobanteVenta = new ControllerCategorias();
                                     $verTipoComprobanteVenta = $TipoComprobanteVenta->VerTipoComprobanteVentas();
@@ -98,7 +99,8 @@
                             <div class="col-md">
                                 <label for="" class="label-texto">Agencia Bancaria</label>
                                 <select id="bxAgenciaBancariaDetalle" class="cbx-texto">
-                                    <option selected="true" disabled="disabled">Seleccionar..</option>
+                                    <option value="" selected="true" disabled="disabled">Seleccionar..</option>
+									
                                     <?php
                                     $Bancos = new ControllerCategorias();
                                     $verBancos = $Bancos->VerBancos();
@@ -111,7 +113,7 @@
                             <div class="col-md">
                                 <label for="" class="label-texto">Tipo de Moneda</label>
                                 <select id="bxTipoMonedaDetalle" class="cbx-texto">
-                                    <option selected="true" disabled="disabled">Seleccionar..</option>
+                                    <option value="" selected="true" disabled="disabled">Seleccionar..</option>
                                     <?php
                                     $tipoMod = new ControllerCategorias();
                                     $vertipoMod = $tipoMod->VerTipoMoneda();
@@ -133,7 +135,8 @@
                             <div class="col-md">
                                 <label for="" class="label-texto">Medio de Pago</label>
                                 <select id="bxMedioPagoDetalle" class="cbx-texto">
-                                    <option selected="true" disabled="disabled">Seleccionar..</option>
+                                    <option value="" selected="true" disabled="disabled">Seleccionar..</option>
+									
                                     <?php
                                     $MedioPago = new ControllerCategorias();
                                     $verMedioPago = $MedioPago->VerMedioPago();
@@ -253,7 +256,7 @@
                         <div class="col-md">
                             <label for="" class="label-texto">Tipo de Comprobante</label>
                             <select id="bxTipoComprobanteDetalle2" class="cbx-texto" disabled>
-                                <option selected="true" disabled="disabled">Seleccionar..</option>
+                                <option value="" selected="true" disabled="disabled">Seleccionar..</option>
                                 <?php
                                 $TipoComprobanteVenta = new ControllerCategorias();
                                 $verTipoComprobanteVenta = $TipoComprobanteVenta->VerTipoComprobanteVentas();
@@ -267,7 +270,7 @@
                         <div class="col-md">
                             <label for="" class="label-texto">Tipo Moneda</label>
                             <select id="bxTipoMonedaDetalle2" class="cbx-texto" disabled>
-                                <option selected="true" disabled="disabled">Seleccionar..</option>
+                                <option value="" selected="true" disabled="disabled">Seleccionar..</option>
                                 <?php
                                 $tipoMod = new ControllerCategorias();
                                 $vertipoMod = $tipoMod->VerTipoMoneda();
@@ -344,8 +347,6 @@
                 <br>
             </div>
             <!-- FIN TABLA FINAL DE PAGOS VERIFICADOS -->
-
-
         </div>
     </div>
 </div>

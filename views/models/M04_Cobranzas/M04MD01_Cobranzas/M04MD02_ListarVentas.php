@@ -36,54 +36,53 @@ if(isset($_POST['VerificarPerfil'])){
     }
 }
 
-if (isset($_POST['btnListarLotes'])) {
+	if (isset($_POST['btnListarLotes'])) {
 
-    $valor_documento = $_POST['txtFiltroDocumentoEC'];
-    $valor_idlote = $_POST['idlote'];
-    
-    if(!empty($valor_documento) && empty($valor_idlote)){
-         $consultar_idlote = mysqli_query($conection, "SELECT gpv.id_lote as idlote FROM gp_venta gpv, datos_cliente dc WHERE gpv.id_cliente=dc.id AND dc.documento='$valor_documento'");
-         $respuesta_idlote = mysqli_fetch_assoc($consultar_idlote);
-         $idlote = $respuesta_idlote['idlote'];
-         $valor_idlote = $idlote;
-    }
-   
-    
-    $query = mysqli_query($conection, "SELECT 
-        gpv.id_lote as valor,
-        concat(tbl2.nombre,' - ',concat(tbl3.nombre,' - ',concat(tbl4.nombre,' - ',tbl5.nombre))) as texto
-        FROM gp_venta gpv 
-        INNER JOIN gp_lote AS tbl2 ON tbl2.idlote=gpv.id_lote 
-        INNER JOIN gp_manzana AS tbl3 ON tbl3.idmanzana=tbl2.idmanzana
-        INNER JOIN gp_zona AS tbl4 ON tbl4.idzona=tbl3.idzona
-        INNER JOIN gp_proyecto AS tbl5 ON tbl5.idproyecto=tbl4.idproyecto
-        INNER JOIN datos_cliente AS dc ON dc.id=gpv.id_cliente
-        WHERE gpv.esta_borrado=0
-        AND gpv.id_lote='$valor_idlote'
-        AND dc.documento='$valor_documento'
-        ");
+		$valor_documento = $_POST['txtFiltroDocumentoEC'];
+		$valor_idlote = $_POST['idlote'];
 
-    array_push($dataList, [
-        'valor' => '',
-        'texto' => 'Seleccionar',
-    ]);
+		$condiciones = "gpv.esta_borrado = 0";
 
-    if ($query->num_rows > 0) {
+		// Filtros dinámicos
+		if (!empty($valor_documento)) {
+			$condiciones .= " AND dc.documento = '$valor_documento'";
+		}
 
-        while ($row = $query->fetch_assoc()) {
-            array_push($dataList, [
-                'valor' => $row['valor'],
-                'texto' => $row['texto'],
-            ]);}
-        $data['data'] = $dataList;
-        header('Content-type: text/javascript');
-        echo json_encode($data, JSON_PRETTY_PRINT);
-    } else {
-        $data['data'] = $dataList;
-        header('Content-type: text/javascript');
-        echo json_encode($data, JSON_PRETTY_PRINT);
-    }
-}
+		if (!empty($valor_idlote)) {
+			$condiciones .= " AND gpv.id_lote = '$valor_idlote'";
+		}
+
+		$query = mysqli_query($conection, "SELECT 
+			gpv.id_lote as valor,
+			CONCAT(tbl2.nombre, ' - ', tbl3.nombre, ' - ', tbl4.nombre, ' - ', tbl5.nombre) as texto
+			FROM gp_venta gpv 
+			INNER JOIN gp_lote AS tbl2 ON tbl2.idlote = gpv.id_lote 
+			INNER JOIN gp_manzana AS tbl3 ON tbl3.idmanzana = tbl2.idmanzana
+			INNER JOIN gp_zona AS tbl4 ON tbl4.idzona = tbl3.idzona
+			INNER JOIN gp_proyecto AS tbl5 ON tbl5.idproyecto = tbl4.idproyecto
+			INNER JOIN datos_cliente AS dc ON dc.id = gpv.id_cliente
+			WHERE $condiciones
+			GROUP BY gpv.id_lote");
+
+		$dataList = [];
+		array_push($dataList, [
+			'valor' => '',
+			'texto' => 'Seleccionar',
+		]);
+
+		if ($query->num_rows > 0) {
+			while ($row = $query->fetch_assoc()) {
+				array_push($dataList, [
+					'valor' => $row['valor'],
+					'texto' => $row['texto'],
+				]);
+			}
+		}
+
+		$data['data'] = $dataList;
+		header('Content-type: text/javascript');
+		echo json_encode($data, JSON_PRETTY_PRINT);
+	}
 
 if (isset($_POST['btnCuotas'])) {
     $iddlote = $_POST['idLote'];

@@ -195,7 +195,7 @@
                                             foreach ($ClientesVer as $Cliente) {
                                         ?>
                                         <option value="<?php echo $Cliente['ID']; ?>" style="font-size: 11px;">
-                                        <?php echo $Cliente['Nombre']; ?>
+                                        <?php echo $Cliente['Nombre'].' - '.$Cliente['ID']; ?>
                                         </option>
                                         <?php }?>
                                     </select>
@@ -558,7 +558,7 @@
                                         <label class="col-md-1 label-texto-sm">Tipo Pago:</label>
                                         <div class="col-md-2">
                                             <select id="cbxCondicionVenta" class="cbx-texto">
-                                                <!--<option selected="true" value="" disabled="">Seleccionar</option>-->
+                                                <option selected="true" value="" disabled="">Seleccionar</option>
                                                 <?php
                                                 $VerTipoCondicion = new ControllerCategorias();
                                                 $verTipoCondicion = $VerTipoCondicion->VerTipoCondicionVenta();
@@ -724,7 +724,7 @@
                                             foreach ($ClientesVer as $Cliente) {
                                         ?>
                                         <option value="<?php echo $Cliente['ID']; ?>" style="font-size: 11px;">
-                                        <?php echo $Cliente['Nombre']; ?>
+                                        <?php echo $Cliente['Nombre'].' - '.$Cliente['ID']; ?>
                                         </option>
                                         <?php }?>
                                 </select>
