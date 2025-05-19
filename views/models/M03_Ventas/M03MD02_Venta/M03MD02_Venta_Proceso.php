@@ -194,8 +194,7 @@ if(isset($_POST['btnVerificarVenta'])){
     }
     
     header('Content-type: text/javascript');
-    echo json_encode($data, JSON_PRETTY_PRINT);
-    
+    echo json_encode($data, JSON_PRETTY_PRINT);   
 }
 
 if(isset($_POST['btnMostrarVoucher'])){
@@ -215,7 +214,6 @@ if(isset($_POST['btnMostrarVoucher'])){
     
     header('Content-type: text/javascript');
     echo json_encode($data, JSON_PRETTY_PRINT);
-    
 }
 
 if (isset($_POST['btnCalcularTotal'])) {
@@ -232,7 +230,6 @@ if (isset($_POST['btnCalcularTotal'])) {
     
     header('Content-type: text/javascript');
     echo json_encode($data, JSON_PRETTY_PRINT);    
-
 }
 
 if (isset($_POST['ReturnIrCliente'])) {
@@ -249,12 +246,12 @@ if (isset($_POST['ReturnIrCliente'])) {
     
     header('Content-type: text/javascript');
     echo json_encode($data, JSON_PRETTY_PRINT);    
-
 }
 
 if(isset($_POST['btnCargarArchivo'])){
 
     $__ID_VENTA = $_POST['__ID_VENTA'];
+    #$DECRYPT_ID_VENTA = decrypt($__ID_VENTA,"123");
 
     $consultar_idventa = mysqli_query($conection, "SELECT id_venta as id FROM gp_venta WHERE id_venta='$__ID_VENTA'");
     $respuesta_idventa = mysqli_num_rows($consultar_idventa);
@@ -1002,134 +999,53 @@ if (isset($_POST['ReturnGuardarVenta'])) {
     $respuesta_venta = mysqli_num_rows($consultar_venta);
     
     if($respuesta_venta==0){
-
-        $query = mysqli_query($conection, "call pa_gp_venta_insertar(
-        '$IdCliente',
-        '$IdLote',
-        'Registro Venda de Lote',
-        '$TipoComprobante',
-        '$Serie',
-        '$Numero',
-        '$FechaVenta',
-        '$TipoInmobiliario',
-        '$TipoCasa',
-        '$Condicion',
-        '$TipoMoneda',
-        '$DescuentoMonto',
-        '0',
-        '0',
-        '$totalNegociado',
-        '$TipoCredito',
-        '$CantidadLetra',
-        '$TEA',
-        '$PrimeraFechaPago',
-        '$CoutaInicial',
-        '$MontoCuotaInical',
-        '$IdReservacion',
-        '$IdUser',
-        '$txtFechaEntregaCasa',
-        '$bxFiltroVendedor',
-        '$cbxTipoVenta',
-        '$cbxTipoCronograma'
-        )");
-        
-        if($cbxTipoVenta=="canje"){
-            //ACTUALIZAR ESTADO DE LOTE - MOTIVO
-            $actualizar_estadolote = mysqli_query($conection, "UPDATE gp_lote SET motivo='8' WHERE idlote='$IdLote'");
-        }
-        
-        
-    /*
-        if($Condicion=="2"){
-        
-            $txtTEAr = 0;
-            $txtCuotasr = 0;
-            $txtPrecioVentar = 0;
-            $txtCuotaInicialr = 0;
-           
-            $txtTEAr = $TEA;
-            $txtCuotasr = $CantidadLetra;
-            $txtPrecioVentar = str_replace(',', '',$total);
-            $txtCuotaInicialr = $MontoCuotaInical;
-            
-            $valor_TEA = 0;
-            $valor_TEM = 0;
-            
-            //Consultar ID VENTA
-            $consultar_idventa = mysqli_query($conection, "SELECT id_venta as id FROM gp_venta WHERE id_cliente='$IdCliente' AND id_lote='$IdLote'");
-            $respuesta_idventa = mysqli_fetch_assoc($consultar_idventa);
-            $IDVENTA = $respuesta_idventa['id'];
-            
-            //CONVERTIR DATOS TEM
-            $valor_TEA= $txtTEAr/100;
-            $valor_TEM = pow(( 1 + $valor_TEA),(30/360)) - 1;
-            
-           
-           //fechas de pago
-           $fecha_pago_cuota = $PrimeraFechaPago;
-           
-            //CALCULO CUOTA MENSUAL
-            //$capital_vivo = $txtPrecioVentar - $txtCuotaInicialr;
-            $capital_vivo = $txtPrecioVentar;
-            $valor_cuota = (($capital_vivo * ($valor_TEM * pow((1 + $valor_TEM),$txtCuotasr)))/((pow((1+$valor_TEM),$txtCuotasr))-1));
-            $amortizacion = 0;
-            
-            //INSERTAR PAGOS REALIZADOS , INICIALMENTE
-            
-            $consultar_pagos = mysqli_query($conection, "SELECT fecha_pago as fecha, importe as monto, tipo_moneda as tipo_moneda, importe as importe, descripcion as descripcion, voucher as voucher, correlativo as correlativo FROM gp_pagos_venta WHERE id_lote='$IdLote' AND id_cliente='$IdCliente'");
-            $contar_pagos = mysqli_num_rows($consultar_pagos);
-            if($contar_pagos>0){
-                
-                for($i=1; $i<=$contar_pagos; $i++){
-                    
-                    $respuesta_pagos = mysqli_fetch_assoc($consultar_pagos);
-                    $fecha_p = $respuesta_pagos['fecha'];
-                    $monto_p = $respuesta_pagos['monto'];
-                    $tipo_moneda = $respuesta_pagos['tipo_moneda'];
-                    $importe = $respuesta_pagos['importe'];
-                    $descripcion = $respuesta_pagos['descripcion'];
-                    $voucher = $respuesta_pagos['voucher'];
-                    $correlativo = $respuesta_pagos['correlativo'];
-                    $contador_valor=0;
-                    $capital = str_replace(',', '',$totalNegociado);
-                    
-                    $insertar_fila0 = mysqli_query($conection,"INSERT INTO gp_cronograma(id_venta, item_letra, correlativo, fecha_vencimiento, monto_letra, interes_amortizado, capital_amortizado, capital_vivo, estado, id_usuario_crea) VALUES
-                    ('$IDVENTA','C.I.','$i','$fecha_p', '$monto_p', '0.00', '0.00', '$capital', '1', '$IdUser')");
-                    
-                    $contador_valor = $contador_valor+1;  
-                    $capital = $capital - $monto_p;
-
-                    $insertar_comprobantes= mysqli_query($conection,"INSERT INTO gp_comprobante_venta(id_venta, fecha_pago, tipo_moneda, importe, descripcion, voucher, correlativo, estado) VALUES
-                    ('$IDVENTA','$fecha_p','$tipo_moneda','$importe', '$descripcion', '$voucher', '$correlativo',  '1')");
-
-                }
-                
-                $c= $contador_valor;
-            }else{
-                $c= 0;
-            }
-            //ACTUALIZAR ESTADOS 
-            $actualizar_pagos = mysqli_query($conection, "UPDATE gp_pagos_venta SET estado_venta='2' WHERE id_lote='$IdLote' AND id_cliente='$IdCliente'");
-
-            //INSERTAR LETRAS/CUOTAS
-            for($cont=1; $cont<=$txtCuotasr; $cont++){
-                    $capital_inicial = $capital_vivo;
-                    $cuota = $valor_cuota;
-                    $intereses = $capital_vivo * $valor_TEM;
-                    $amortizacion = $cuota - $intereses;
-                    $capital_vivo = $capital_vivo - $amortizacion;
-                    $capital_amortizado = $amortizacion;
-                    $total_pagado = $cuota;
-                    $fecha_pago_cuota = date("Y-m-d",strtotime($fecha_pago_cuota."+ 1 month"));
-                    $c = $c + 1;
-                     $insertar_fila0 = mysqli_query($conection,"INSERT INTO gp_cronograma(id_venta, item_letra, correlativo, fecha_vencimiento, monto_letra, interes_amortizado, capital_amortizado, capital_vivo, estado, id_usuario_crea) VALUES
-                    ('$IDVENTA','$cont','$c','$fecha_pago_cuota', '$cuota', '$intereses', '$capital_amortizado', '$capital_vivo', '1', '$IdUser')");
-     
-            }
-        }
-    */
+        $query = mysqli_query($conection, "
+            INSERT INTO gp_venta (
+                id_cliente, id_lote, id_vendedor, descripcion, tipo_comprobante,
+                serie, numero, fecha_venta, tipo_inmobiliaria, tipo_casa, condicion,
+                tipo_moneda, dscto_monto, sub_total, igv, total, tipo_credito,
+                cantidad_letra, tna, primera_fecha, tiene_cuota_inicial, monto_cuota_inicial,
+                id_reserva, id_usuario_crea, fecha_entrega_casa, tipo_venta, tipo_cronograma
+            )
+            VALUES (
+                '$IdCliente', '$IdLote', '$bxFiltroVendedor', 'Registro Venta de Lote', '$TipoComprobante',
+                '$Serie', '$Numero', '$FechaVenta', '$TipoInmobiliario', '$TipoCasa', '$Condicion',
+                '$TipoMoneda', '$DescuentoMonto', '0', '0', '$totalNegociado', '$TipoCredito',
+                '$CantidadLetra', '$TEA', '$PrimeraFechaPago', '$CoutaInicial', '$MontoCuotaInical',
+                '$IdReservacion', '$IdUser', '$txtFechaEntregaCasa', '$cbxTipoVenta', '$cbxTipoCronograma'
+            )
+        ");
 
         if ($query) {
+            $id_insertado = mysqli_insert_id($conection);
+
+            if ($cbxTipoVenta == "canje") {
+                // Actualizar estado de lote - motivo
+                $actualizar_estadolote = mysqli_query($conection, "
+                    UPDATE gp_lote SET motivo = '8' WHERE idlote = '$IdLote'
+                ");
+            }
+
+            if($TipoInmobiliario=="1"){
+                $actualizar_lote = mysqli_query($conection, "UPDATE gp_lote SET estado='6' WHERE idlote='$IdLote'");
+            }else{
+                $actualizar_lote = mysqli_query($conection, "UPDATE gp_lote SET estado='5' WHERE idlote='$IdLote'");
+            }
+
+            $data['status'] = 'ok';
+            $data['data'] = 'Se guardo con exito';
+            $data['idventa']= $id_insertado;
+        } else {
+            if (!$query) {
+                $data['dataDB'] = mysqli_error($conection);
+            }
+            $data['status'] = 'bad';
+            $data['res'] = $id_insertado.','.$fecha_pago_cuota.', '.$cuota.', '.$intereses.', '.$capital_amortizado.', '.$capital_vivo.','.$IdUser;
+            $data['data'] = 'Ocurrio un problema al guardar el registro.';
+        }
+
+
+        /*if ($query) {
             
             if($TipoInmobiliario=="1"){
                 $actualizar_lote = mysqli_query($conection, "UPDATE gp_lote SET estado='6' WHERE idlote='$IdLote'");
@@ -1148,7 +1064,7 @@ if (isset($_POST['ReturnGuardarVenta'])) {
             $data['status'] = 'bad';
             $data['res'] = $IDVENTA.','.$fecha_pago_cuota.', '.$cuota.', '.$intereses.', '.$capital_amortizado.', '.$capital_vivo.','.$IdUser;
             $data['data'] = 'Ocurrio un problema al guardar el registro.';
-        }
+        }*/
         
     }else{
         
@@ -1880,7 +1796,7 @@ if (isset($_POST['ReturnEliminarAdjuntoInfo'])) {
 if (isset($_POST['ReturnListaDocuemntosAdjuntos'])) {
     
     $IdVenta = $_POST['idVenta'];
-    //$IdVenta = decrypt($IdVenta, "123");
+    #$IdVenta = $IdVenta;
 
     $query = mysqli_query($conection, "SELECT 
     gpav.id as id,
@@ -1907,13 +1823,42 @@ if (isset($_POST['ReturnListaDocuemntosAdjuntos'])) {
     WHERE gpav.id_venta='$IdVenta' AND gpav.esta_borrado=0
     ORDER BY gpav.fecha_adjunto DESC");
 
+    $query1 = "SELECT 
+    gpav.id as id,
+    cddddx.nombre_corto as tipo_documento,
+    gpav.fecha_adjunto as fecha,
+    cdx.nombre_corto as notaria,
+    gpav.fechafirma as fecha_firma,
+    concat(cddx.texto1,' - ',format(gpav.importe_inicial,2)) as valor_inicial,
+    concat(cdddx.texto1,' - ',format(gpav.valor_cerrado,2)) as valor_cerrado,
+    gpav.descripcion as descripcion,
+    gpav.nombre_adjunto as adjunto,
+    concat(dc.apellido_paterno,' ',dc.apellido_materno,' ',dc.nombres) as dato,
+    concat(SUBSTRING(gpm.nombre,9,2), ' - ',SUBSTRING(gpl.nombre,6,2)) as lote,
+    gpav.nombre_archivo as nom_archivo
+    FROM gp_archivo_venta gpav
+    INNER JOIN gp_venta AS gpv ON gpv.id_venta=gpav.id_venta
+    INNER JOIN datos_cliente AS dc ON dc.id=gpv.id_cliente
+    INNER JOIN gp_lote AS gpl ON gpl.idlote=gpv.id_lote
+    INNER JOIN gp_manzana AS gpm ON gpm.idmanzana=gpl.idmanzana
+    INNER JOIN configuracion_detalle AS cdx ON cdx.idconfig_detalle=gpav.notaria AND cdx.codigo_tabla='_NOTARIA'
+    INNER JOIN configuracion_detalle AS cddx ON cddx.idconfig_detalle=gpav.tipomoneda_importeinicial AND cddx.codigo_tabla='_TIPO_MONEDA'
+    INNER JOIN configuracion_detalle AS cdddx ON cdddx.idconfig_detalle=gpav.tipomoneda_valorcerrado AND cdddx.codigo_tabla='_TIPO_MONEDA'
+    INNER JOIN configuracion_detalle AS cddddx ON cddddx.codigo_item=gpav.id_tipo_documento AND cddddx.codigo_tabla='_TIPO_DOCUMENTO_VENTA'
+    WHERE gpav.id_venta='$IdVenta' AND gpav.esta_borrado=0
+    ORDER BY gpav.fecha_adjunto DESC";
+
     if ($query->num_rows > 0) {
         while ($row = $query->fetch_assoc()) {
             array_push($dataList, $row);
         }
         $data['data'] = $dataList;
+        $data['query'] = $query1;
+        $data['IdVenta'] = $IdVenta;
     } else {
         $data['status'] = 'bad';
+        $data['query1'] = $query1;
+        $data['IdVenta'] = $IdVenta;
     }
     header('Content-type: text/javascript');
     echo json_encode($data, JSON_PRETTY_PRINT);
@@ -2331,7 +2276,6 @@ if (isset($_POST['btnConsultarIdReserva'])) {
     
     header('Content-type: text/javascript');
     echo json_encode($data, JSON_PRETTY_PRINT);    
-
 }
 
 if (isset($_POST['btnIrListaVentas'])) {
@@ -2343,11 +2287,9 @@ if (isset($_POST['btnIrListaVentas'])) {
         
     header('Content-type: text/javascript');
     echo json_encode($data, JSON_PRETTY_PRINT);    
-
 }
 
 if (isset($_POST['btnRegistrarPagosPrevios'])) {
-
     $cbxTipoMonedaPP = $_POST['cbxTipoMonedaPP'];
     $txtImportePP = $_POST['txtImportePP'];
     $cbxTipoPagoPP = $_POST['cbxTipoPagoPP'];
@@ -2591,10 +2533,3 @@ if (isset($_POST['ReturnListaVerAdjuntos'])) {
     header('Content-type: text/javascript');
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
-
-
-
-
-
-
-

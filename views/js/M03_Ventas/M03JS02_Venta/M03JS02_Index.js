@@ -108,13 +108,11 @@ function Control() {
         llenarCombo(url, datos, "bxFiltroLoteVenta");
     });
 
-
     $('#cbxTipoInmueble').change(function() {
         LLenarTipoCasa();
         ListarPagosPrevios();
         CalcularTotal();
     });
-
 
     $('#btnBuscarCliente').click(function() {
         BuscarDatoCliente();
@@ -127,7 +125,6 @@ function Control() {
         
 		// Limpiar Select2
 		$('#txtDocumentoCliente').val(null).trigger('change');
-		
     });
 
     $('#txtDocumentoCliente').keydown(function() {
@@ -137,8 +134,6 @@ function Control() {
             LLenarLotes();
         }
     });
-
-
     //InicializarAtributosTablaBusquedaVenta();
 
     $('#btnBuscarRegistro').click(function() {
@@ -188,8 +183,6 @@ function Control() {
     $('#txtDescuento').keyup(delayTime(function(e) {
         BuscarDatoLoteParaDescuento();
     }, 1000));
-
-   
 
     $('#cbxCondicionVenta').on('change', function() {
         if (parseInt($("#cbxCondicionVenta").val()) === 2) {
@@ -565,7 +558,7 @@ function VerImportePago(dato){
 
 function EnviarAdjunto(){
 
-   var file_data = $('#fichero').prop('files')[0];   
+    var file_data = $('#fichero').prop('files')[0];   
     var form_data = new FormData();                  
     form_data.append('file', file_data);
     //alert(form_data);                             
@@ -604,11 +597,11 @@ function RegistrarAdjuntoVenta(){
         "ValidUsuario": $("#ValidUsuario").val()
 
     };
-    realizarJsonPost(url, dato, EjecutarCargaArchivo, null, 10000, null);
-   
+    realizarJsonPost(url, dato, EjecutarCargaArchivo, null, 10000, null);  
 }
 
 function EjecutarCargaArchivo(dato){
+    console.log('HOLA MUNDO');
     console.log(dato);
     if(dato.status == "ok"){
         EnviarAdjunto();
@@ -654,9 +647,7 @@ function CalcularTotal(){
         $("#txtPrecioVenta").val($("#txtValorLoteSolo").val());
     }
     
-    CalculaTotalDato();
-    
-    
+    CalculaTotalDato();    
 }
 
 function CalculaTotalDato(){
@@ -679,8 +670,7 @@ function CalTot(dato){
     desbloquearPantalla();
     $("#txtImporteVenta").val(dato.precioVenta);
     $("#txtMontoInicial").val(dato.montoInicial);
-    $("#txtMontoDscto").val(dato.montoDscto);
-    
+    $("#txtMontoDscto").val(dato.montoDscto);    
 }
 
 function milliFormat (num) {// Agregar miles
@@ -849,7 +839,6 @@ function Nuevo() {
     $("#cbxTipoCronograma").prop('disabled', false);
 	
 	$("#btnBuscarCliente").prop('disabled', true); // Desactivar por defecto
-
 }
 
 function Modificar() {
@@ -872,7 +861,6 @@ function Modificar() {
     $("#txtFechaPrimerPagor").prop('disabled', false);
     $("#txtMontoInicial").prop('disabled', false);
     $("#txtFechaEntregaCasa").prop('disabled', false);
-    
 }
 
 function VerificaVenta() {    
@@ -993,7 +981,6 @@ function IdCliente(dato){
 }
 
 /***********************VOLVER A LISTADO DE VENTAS ********************** */
-
 function RetornaListaVentas() {    
     bloquearPantalla("Buscando...");
     var url = "../../models/M03_Ventas/M03MD02_Venta/M03MD02_Venta_Proceso.php";
@@ -1093,13 +1080,10 @@ function MostrarDatosReserva(idreserva){
             desbloquearPantalla();
         },
     });
-         
-
 }
 
 
 /***********************LLENA ZONAS ********************** */
-
 function LLenarZona() {
     var url = "../../models/M03_Ventas/M03MD02_Venta/M03MD02_Venta_Proceso.php";
     var datos = {
@@ -1110,7 +1094,6 @@ function LLenarZona() {
 }
 
 /***********************LLENA MANZANA ********************** */
-
 function LLenarManzanas() {
     var url = "../../models/M03_Ventas/M03MD02_Venta/M03MD02_Venta_Proceso.php";
     var datos = {
@@ -1473,7 +1456,6 @@ function RespuestaBuscarDatoLotePrecio(dato) {
     }
 }
 
-
 /***************************VALIDAR DATOS REQUERIDOS****************************** */
 
 function ValidarBusquedaLote() {
@@ -1501,7 +1483,6 @@ function ValidarBusquedaLote() {
     }
     return flat;
 }
-
 
 /**************************VALIDAR DESCUENTO************************** */
 function BuscarDatoLoteParaDescuento() {
@@ -1594,7 +1575,6 @@ function LLenarTipoCasa() {
             $("#txtFechaEntregaCasa").prop('disabled', true);
         } 
 }
-
 
 /**********************CONTROLAR BOTON GUARDAR************************ */
 function Guardar() { 
@@ -1719,8 +1699,6 @@ function BuscarIDVENTA() {
         }
     });
 }
-
-
 
 /*********************RESPUESTA GUARDAR NUEVO CLIENTE*********************** */
 function respuestaGuardarNuevoRegistro(dato) {
@@ -2073,7 +2051,6 @@ function VerAdjunto(adjunto) {
           $("#modalVerAdjuntos").modal("show");  
 }
 
-
 function IrConformidad(id){
     mensaje_condicionalDOS("\u00BFEst\u00E1 seguro que desea finalizar el registro de venta?", "Al confirmar se proceder\u00E1 con el envio de los pagos registrados en la venta, asi como la generaci\u00F3n del cronograma correspondiente segun la informaci\u00F3n ingresada.", FinalizarVenta, id);
 }
@@ -2205,8 +2182,6 @@ function IrDetalleVenta(ID){
         },
         timeout: timeoutDefecto
     });
-         
-
 }
 
 function ListarPagosPrevios(){
@@ -2394,7 +2369,6 @@ function RespuestaDetallePP(dato) {
         mensaje_alerta("ERROR!", dato.data + "\n" + dato.dataDB, "error");
     }
 }
-
 
 /**************************BUSCAR ELIMINAR PAGOS PREVIOS ************************** */
 function IrEliminarPagosPrevios(id) {
@@ -2594,7 +2568,6 @@ function LLenarLoteId(idManzana, idLote) {
     }
     llenarComboSelecionar(url, datos, "cbxLote", idLote);
 }
-
 /***********************LLENA TIPO CASA ********************** */
 
 function LLenarTipoCasaId(idmanzana, propiedad, idTipoCasa) {
@@ -2833,7 +2806,6 @@ function ActualizarAdjunto(){
            // mensaje_alerta("Correcto!", "El adjunto fue cargado correctamente", "success"); 
         }
      });
-
 }
 
 /**************************LISTA DE DOCUMENTOS ADJUNTOS ************************** */
@@ -2848,7 +2820,9 @@ function BuscarListaDocumentosAdjuntos() {
 
 function RespuestaBuscarListaDocumentosAdjuntos(dato) {
     LlenarTablaAdjuntosVenta(dato.data);
-    //console.log(dato.data);
+    console.log('--------------INICIO----------------');
+    console.log(dato);
+    console.log('----------------FINAL--------------');
 }
 
 var tablaAdjuntosVenta = null;
@@ -2877,6 +2851,7 @@ function LlenarTablaAdjuntosVenta(dato) {
         "info": false,
         "bSort": false,
         "paging": false,
+        "async": false,
         "pageLength": 1000, // default record count per page,
         "columns": [{
                 "data": "id",
@@ -2908,8 +2883,6 @@ function LlenarTablaAdjuntosVenta(dato) {
     });
 
     tablaAdjuntosVenta = $('#dataAdjuntoTable').DataTable(options);
-
-    
 }
 
 function VerDocumento(adjunto) {  
@@ -2921,7 +2894,7 @@ function VerDocumento(adjunto) {
               "' style='width: 100%'></object> ";
           $("#my_img_doc").html(html);
           $("#modalVerDocumento").modal("show");  
-  }
+}
 
 /************************************ELIMINAR ARCHIVOS ADJUNTOS******************************** */
 function EliminarDocumentoAdjunto(id) {
@@ -3111,8 +3084,6 @@ function RegistrarPagosPrevios(){
             },
         });
     }
-         
-
 }
 
 function CargarVoucher(){
@@ -3134,7 +3105,6 @@ function CargarVoucher(){
             // mensaje_alerta("Correcto!", "El adjunto fue cargado correctamente", "success"); 
          }
       });
- 
 }
 
 function ActualizarPagosPrevios(){    
@@ -3182,13 +3152,10 @@ function ActualizarPagosPrevios(){
             desbloquearPantalla();
         },
     });
-         
-
 }
 
 // Modificaciones para obtener información de inventario de lote
 const paramsLote = new URLSearchParams(window.location.search);
-
 
 function obtenerLoteDesdeVenta(loteId) {
     bloquearPantalla("Buscando...");

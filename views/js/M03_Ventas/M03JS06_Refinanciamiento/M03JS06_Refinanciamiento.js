@@ -372,7 +372,7 @@ function Ninguno() {
 }
 
 function Nuevo() {
-
+console.log('ref');
     var doc = $("#txtDocumentoCliente").val();
     if(doc==""){
         LimpiarCapmosAmortizacion();
