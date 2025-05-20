@@ -127,9 +127,9 @@
                             <button id="cancelar" type="button" class="btn btn-registro">
 								<i class="fas fa-minus-circle"></i> Cancelar
 							</button>
-                            <button id="eliminar" type="button" class="btn btn-registro">
+                            <!--<button id="eliminar" type="button" class="btn btn-registro">
 								<i class="fas fa-trash"></i>Eliminar
-							</button>
+							</button>-->
                             <button id="busqueda_avanzada" type="button" class="btn btn-registro">
 								<i class="fas fa-list"></i>Lista
 							</button>
@@ -144,7 +144,7 @@
                                 <div id="formularioRegistrarGeneral">
 									<div class="form-row" style="margin-top: -8px;" >
 										<div class="col-md-2">
-											<input type="hidden" id="__ID_DATOS_PERSONAL">
+											<input type="hidden" id="__ID_DATOS_MANTENIMIENTO">
 											
 											<label class="label-texto">Categoría <code class="text-danger">*</code>
 												<small id="cbxCategoriaHtml" class="form-text text-muted-validacion text-danger ocultar-info">
@@ -219,7 +219,7 @@
                             <div class="p-campos">
                                 <div class="form-row">
                                     <div class="col-md-4">
-                                        <label class="label-texto">Código de tabla  </label>
+                                        <label class="label-texto">Categoría </label>
                                         <!--<input type="text" id="txtFiltroDatoCliente" class="caja-texto" placeholder="Nro Documento">-->
                                         <select id="cbxFiltroTrabajador" style="width: 100%; font-size: 11px;" class="cbx-texto">
                                             <option selected="true" value="" disabled="disabled">TODOS</option>
@@ -261,7 +261,7 @@
                                                 <th>COD TABLA</th>
                                                 <th>NOMBRE L</th>
                                                 <th>NOMBRE CORTO</th>
-                                                <th>FECHA NACIMIENTO</th>
+                                             
                                             </tr>
                                         </thead>
                                         <tbody class="control-detalle">
@@ -272,11 +272,10 @@
                                         <thead class="cabecera">
                                             <tr>
                                                 <th scope="col"></th>
-                                                <th scope="col">COD TABLA</th>
-                                                <th scope="col">NOMBRE Cab.</th>
-                                                <th scope="col">NOMBRE L</th>
-                                              
-                                                <th scope="col">NOMBRE CORTO</th>
+                                                <th scope="col">CATEGORÍA</th>
+                                                <!--<th scope="col">NOMBRE Cab.</th>-->
+                                                <th scope="col">DETALLE LARGO</th>
+                                                <th scope="col">DETALLE CORTO</th>
                                                 <th scope="col" style="text-align: center;">ESTADO</th>
                                             </tr>
                                         </thead>

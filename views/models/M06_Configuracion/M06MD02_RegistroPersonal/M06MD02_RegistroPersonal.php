@@ -234,6 +234,7 @@ if(isset($_POST['ReturnPersonalListaPaginada'])){
                 'FechaNacimiento' => $row['FechaNacimiento'],
                 'Telefono'=>  $row['Telefono'],
                 'adjunto'=>  $row['adjunto'],
+                'Area'=>  $row['Area'],
                 'estado'=>  $row['estado']
             ]);
 		}
@@ -315,7 +316,7 @@ if (isset($_POST['ReturnDetalleRegistroCliente'])) {
 
 
 /**************************GUARDAR ACTUALIZAR REGISTRO CLIENTE******************* */
-if (isset($_POST['ReturnActualizarRegCliente'])) {
+if (isset($_POST['ReturnActualizarRegPersonal'])) {
 
     /*****************ID REGISTROS PRINCIPALES****************** */
     $Id = $_POST['id'];

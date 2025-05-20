@@ -216,7 +216,7 @@ if(isset($_POST['btnMostrarAdjunto'])){
 }
 
 /**************************OBTENER DETALLE MANTENIMIENTO******************* */
-if (isset($_POST['ReturnDetalleRegistroCliente'])) {
+if (isset($_POST['ReturnDetalleRegistroMant'])) {
     $IdReg = $_POST['IdRegistro'];
     $query = mysqli_query($conection, "SELECT 
 		det.idconfig_detalle AS idconfig_detalle, 
@@ -295,10 +295,9 @@ if (isset($_POST['ReturnDetalleRegistroCliente'])) {
 
 
 /******* new *******/
-if (isset($_POST['ReturnActualizarRegCliente'])) {
+if (isset($_POST['ReturnActualizarRegMantenimiento'])) {
     $Id = $_POST['id'];
-    $CodigoSunat = $_POST['codigo_sunat'];  // Example for additional fields
-    $CodigoItem = $_POST['codigo_item'];
+
     $NombreCorto = $_POST['txtAbreviat'];
     $NombreLargo = $_POST['txtNombres'];
     $Texto1 = $_POST['txtTexto1'];
@@ -307,12 +306,11 @@ if (isset($_POST['ReturnActualizarRegCliente'])) {
     $Texto4 = $_POST['txtTexto4'];
     $Texto5 = $_POST['txtTexto5'];
     $Estado = $_POST['cbxEstado'];
-    $UsuarioModifica = 'some_user_id';  // Assuming you fetch this from session or similar
-    $FechaModifica = date('Y-m-d H:i:s');  // Current timestamp
+
+    $FechaModifica = date('Y-m-d H:i:s'); 
 
     $sql = "UPDATE configuracion_detalle SET
-        codigo_sunat='$CodigoSunat',
-        codigo_item='$CodigoItem',
+   
         nombre_corto='$NombreCorto',
         nombre_largo='$NombreLargo',
         texto1='$Texto1',
@@ -321,7 +319,7 @@ if (isset($_POST['ReturnActualizarRegCliente'])) {
         texto4='$Texto4',
         texto5='$Texto5',
         estado='$Estado',
-        usuario_modifica='$UsuarioModifica',
+
         fecha_modifica='$FechaModifica'
         WHERE idconfig_detalle='$Id'";
 

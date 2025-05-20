@@ -59,7 +59,7 @@ header('Content-Type: text/html; charset=UTF-8');
  	
  	public function VerFiltroTrabajadores(){
 
-		$consultaBS= "SELECT idpersona as ID, CONCAT(SUBSTRING_INDEX(nombre,' ',1),' ',apellido) as Nombre FROM persona WHERE estado='1' AND idArea!='0' ORDER BY nombre asc";
+		$consultaBS= "SELECT idpersona as ID, CONCAT(SUBSTRING_INDEX(nombre,' ',1),' ',apellido) as Nombre, DNI as DNI FROM persona WHERE idArea!='0' ORDER BY nombre asc";
 		return $this->con->query($consultaBS);
 	}
  	

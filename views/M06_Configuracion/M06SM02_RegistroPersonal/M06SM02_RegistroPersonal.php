@@ -127,9 +127,9 @@
                             <button id="cancelar" type="button" class="btn btn-registro">
 								<i class="fas fa-minus-circle"></i> Cancelar
 							</button>
-                            <button id="eliminar" type="button" class="btn btn-registro">
+                            <!--<button id="eliminar" type="button" class="btn btn-registro">
 								<i class="fas fa-trash"></i>Eliminar
-							</button>
+							</button>-->
                             <button id="busqueda_avanzada" type="button" class="btn btn-registro">
 								<i class="fas fa-list"></i>Lista
 							</button>
@@ -142,7 +142,7 @@
                                 <div id="formularioRegistrarGeneral">
 									<div class="form-row" style="margin-top: -8px;" >
 										<div class="col-md-2">
-											<input type="hidden" id="__ID_DATOS_PERSONAL">
+											<input type="text" id="__ID_DATOS_PERSONAL">
 											
 											<label class="label-texto">Tipo Documento 
 												<small id="cbxTipoDocumentoHtml" class="form-text text-muted-validacion text-danger ocultar-info">
@@ -160,8 +160,15 @@
 											</select>
 										</div>
 										<div class="col-md-2">
-											<label class="label-texto">Documento <code class="text-danger">*</code><small id="txtDocumentoHtml" class="form-text text-muted-validacion text-danger ocultar-info"></small></label>
-											<input id="txtDocumento" class="caja-texto" maxlength="20" placeholder="Nro Documento" required>
+											<label class="label-texto">Documento <code class="text-danger">*</code>
+											<small id="txtDocumentoHtml" class="form-text text-muted-validacion text-danger ocultar-info"></small>
+											</label>
+											
+											<div class="input-group">
+												<input id="txtDocumento" class="form-control input-min caja-texto" maxlength="12" placeholder="# Documento" required="">
+												<button class="btn btn-primary shadow-none btn-sm btn-dni" type="button" id="btnBuscarCli" name="btnBuscarCli" style="height: 25px; background-color: #337ab7; border-color: #337ab7;">Buscar</button>
+											</div>
+											
 										</div>
 										<div class="col-md-4">
 											<label class="label-texto">Apellidos <code class="text-danger">*</code><small id="txtApellidosHtml" class="form-text text-muted-validacion text-danger ocultar-info"></small></label>
@@ -299,7 +306,7 @@
 										</select>
 									</div>
 									<div class="col-md-12">
-                                       <label class="col-md-12 label-texto">Adjunto <small>(Documento)</small> <code class="text-danger">*</code></label>
+                                       <label class="col-md-12 label-texto">Adjunto <small>(Documento)</small> </label>
                                         <form action="" method="POST" enctype="multipart/form-data" id="filesFormAdjuntosVenta">
                                             <div class="col-md-12" style="margin-left: -7px;">
                                                 <input type="file" class="caja-texto" id="constancia" name="constancia" accept=".pdf">
@@ -335,7 +342,7 @@
                                                 foreach ($ClientesVer as $Cliente) {
                                             ?>
                                             <option value="<?php echo $Cliente['ID']; ?>" style="font-size: 11px;">
-                                            <?php echo $Cliente['Nombre']; ?>
+                                            <?php echo $Cliente['Nombre']; ?>  - <?php echo $Cliente['DNI']; ?> 
                                             </option>
                                             <?php }?>
                                         </select>
@@ -368,7 +375,7 @@
                                                 <th>APELLIDOS</th>
                                                 <th>NOMBRES</th>
 												<th>CELULAR</th>
-                                                <th>FECHA NACIMIENTO</th>
+                                                <th>ÁREA</th>
                                             </tr>
                                         </thead>
                                         <tbody class="control-detalle">
@@ -384,6 +391,7 @@
                                                 <th scope="col">NOMBRES</th>
 												<th scope="col">CELULAR</th>
                                                 <th scope="col">FECHA NAC.</th> 
+                                                <th scope="col">ÁREA</th> 
                                                 <th scope="col">DOC. ADJUNTO</th>  
                                                 <th scope="col" style="text-align: center;">ESTADO</th>
                                             </tr>

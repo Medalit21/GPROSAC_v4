@@ -69,10 +69,98 @@ function Control() {
 	ConfiguracionInicioAcciones();
 	
 	
-	 $('#txtDocumento').on('blur', function() {
+	/*$('#txtDocumento').on('blur', function() {
         BuscarDocumento();
+    });*/
+	
+	$("#btnBuscarCli").click(function() {
+        let ndoc=$("#txtDocumento").val();
+        if (ndoc=="" || ndoc==null) {
+            mensaje_alerta("Falta dato","Ingresar numero de documento","info");
+            $("#txtDocumento").focus();
+        } else {
+            let tipodoc = $("#cbxTipoDocumento").val();
+            if(tipodoc == '1'){
+                if(ndoc.length==8) {
+                    ConsultaReniec();
+                } else {
+                    mensaje_alerta("Falta dato","Nro de documento no tiene los digitos necesarios","info");
+                    $("#txtDocumento").focus();
+                }
+                
+            } else {
+                 mensaje_alerta("Informacion","No se encontró informacion, agregar de forma manual","info");
+            }
+        }
+        console.log('Num Doc: '+ndoc);
+        
     });
+	
+	
 }
+
+/********************CONSULTA RENIEC************************* */
+function ConsultaReniec(){
+
+    bloquearPantalla("Consultando...");
+    var url = "../../models/generales/mdl_apis.php";
+    var dato = {
+        "btnSeleccionReniecSolApellid": true,
+        "NroDocumento":  $("#txtDocumento").val()
+    };
+    realizarJsonPost(url, dato, respuestaSeleccionReniec, null, 10000, null);
+
+}
+
+function respuestaSeleccionReniec(dato){
+    desbloquearPantalla();
+    //console.log(dato);
+    if (dato.status == "ok") {                        
+             
+		$("#txtApellidos").val(dato.apellido_pat + ' ' + dato.apellido_mat);
+
+        $("#txtNombres").val(dato.nombres);
+
+    } else{
+        mensaje_alerta("SIN RESULTADOS!","No se encontraron registros con el nro de documento ingresado","info");
+        
+        $("#txtApellidos").val("");
+        $("#txtNombres").val("");
+    }
+}
+
+
+/*function BuscarDocumento(){
+    bloquearPantalla("Buscando Documento...");
+    var data = {
+        "btnBuscarDocumento": true,
+        "cbxTipoDocumento": $("#cbxTipoDocumento").val(),
+        "txtNroDocumento": $("#txtDocumento").val()
+    };
+    $.ajax({
+        type: "POST",
+        url: "../../models/M06_Configuracion/M06MD02_RegistroPersonal/M06MD02_RegistroPersonal.php",
+        data: data,
+        dataType: "json",
+        success: function (dato) {
+            desbloquearPantalla();
+            //console.log(dato);
+            if (dato.status == "ok") {
+                $("#txtApellidos").val(dato.apellidos);
+                $("#txtNombres").val(dato.nombres);
+               
+            } else {
+                $("#txtdatos").val("");
+                $("#txtDireccionCliente").val("");
+                //mensaje_alerta("\u00A1ERROR!", dato.data, "info");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ': ' + errorThrown);
+            desbloquearPantalla();
+        }
+    });   
+}*/
 
 /********************CONFIGURAR BOTONES************************* */
 var Estados = { Ninguno: "Ninguno", Nuevo: "Nuevo", Modificar: "Modificar", Guardado: "Guardado", SoloLectura: "SoloLectura", Consulta: "Consulta" };
@@ -180,38 +268,6 @@ function LimpiarDatosPersonales() {
 }
 
 
-function BuscarDocumento(){
-    bloquearPantalla("Buscando Documento...");
-    var data = {
-        "btnBuscarDocumento": true,
-        "cbxTipoDocumento": $("#cbxTipoDocumento").val(),
-        "txtNroDocumento": $("#txtDocumento").val()
-    };
-    $.ajax({
-        type: "POST",
-        url: "../../models/M06_Configuracion/M06MD02_RegistroPersonal/M06MD02_RegistroPersonal.php",
-        data: data,
-        dataType: "json",
-        success: function (dato) {
-            desbloquearPantalla();
-            //console.log(dato);
-            if (dato.status == "ok") {
-                $("#txtApellidos").val(dato.apellidos);
-                $("#txtNombres").val(dato.nombres);
-               
-            } else {
-                $("#txtdatos").val("");
-                $("#txtDireccionCliente").val("");
-                //mensaje_alerta("\u00A1ERROR!", dato.data, "info");
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(textStatus + ': ' + errorThrown);
-            desbloquearPantalla();
-        }
-    });   
-}
-
 /**************************Configuracion Inicio Acciones *************************** */
 function ConfiguracionInicioAcciones() {
     $("#cbxTipoDocumento option:contains('DNI')").attr('selected', true);
@@ -301,7 +357,7 @@ function CargarGrillaBusquedaPersonalReportes() {
             { "data": "apellido" },
             { "data": "nombre" },
 			{ "data": "Telefono" },
-            { "data": "FechaNacimiento" }
+            { "data": "Area" }
             
         ],
         "language": {
@@ -391,6 +447,7 @@ function CargarGrillaBusquedaPersonalListaPaginado() {
             { "data": "nombre" },
 			{ "data": "Telefono" },
             { "data": "FechaNacimiento" },
+            { "data": "Area" },
 			{ 
                 "data": "adjunto",
                 "render": function(data, type, row, host) {
@@ -407,9 +464,11 @@ function CargarGrillaBusquedaPersonalListaPaginado() {
                 "data": "estado",
                 "render": function(data, type, row) {
                     if(row.estado === '1'){
-                        return '<img src="../../../images/conforme.png" alt="" width="25px" height="25px">';
+                        return '<span class="badge text-center" style="background-color: #00B403; color: white; font-weight: bold;">Activo</span>';
+						  
+
                     }else{
-                        return '<img src="../../../images/notificacion.png" alt="" width="25px" height="25px">';
+						return '<span class="badge text-center" style="background-color: #BF0000; color: white; font-weight: bold;">Inactivo</span>';
                     }
                 }
             }
@@ -636,10 +695,6 @@ function ValidarDatosNuevoRequeridos() {
         mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el Jefe Inmediato del personal.", "info");
         $("#cbxJefeInmedHtml").html('(Requerido)');
         $("#cbxJefeInmedHtml").show();
-        flat = false;
-    } else if ($("#constancia").val() === "") {
-        $("#constancia").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, seleccionar el Adjunto del documento del usuario.", "info");
         flat = false;
     }
     return flat;
@@ -981,7 +1036,7 @@ function GuardarActualizarRegistro() {
         bloquearPantalla("Guardando...");
         var url = "../../models/M06_Configuracion/M06MD02_RegistroPersonal/M06MD02_RegistroPersonal.php";
         var dato = {
-            "ReturnActualizarRegCliente": true,
+            "ReturnActualizarRegPersonal": true,
             "id": $("#__ID_DATOS_PERSONAL").val(),
             "cbxTipoDocumento": $("#cbxTipoDocumento").val(),
             "txtDocumento": $("#txtDocumento").val(),

@@ -299,7 +299,7 @@ function CargarGrillaBusquedaPersonalReportes() {
         },
         "columns": [
 			{ "data": "categoria" },
-            { "data": "codigo_tabla" },
+            //{ "data": "codigo_tabla" },
 			{ "data": "nombre_largo" },
             { "data": "nombre_corto" }
         ],
@@ -387,7 +387,7 @@ function CargarGrillaBusquedaPersonalListaPaginado() {
                 }
             },
             { "data": "categoria" },
-            { "data": "codigo_tabla" },
+            //{ "data": "codigo_tabla" },
 			{ "data": "nombre_largo" },
             { "data": "nombre_corto" },
             {
@@ -763,7 +763,7 @@ function AbrirModalRegistroActualizar(id) {
     bloquearPantalla("Buscando...");
     var url = "../../models/M06_Configuracion/M06MD07_Mantenimiento/M06MD07_Mantenimiento.php";
     var dato = {
-        "ReturnDetalleRegistroCliente": true,
+        "ReturnDetalleRegistroMant": true,
         "IdRegistro": id
     };
     realizarJsonPost(url, dato, RespuestaAbrirModalRegistroActualizar, null, 10000, null);
@@ -774,7 +774,7 @@ function RespuestaAbrirModalRegistroActualizar(dato) {
     //console.log(dato);
     if (dato.status == "ok") {
         var resultado = dato.data;
-        $("#__ID_DATOS_PERSONAL").val(resultado.id);
+        $("#__ID_DATOS_MANTENIMIENTO").val(resultado.idconfig_detalle);
 		
         $("#cbxCategoria").val(resultado.codigo_tabla);
         $("#cbxCategoria").prop("disabled", true);
@@ -860,8 +860,8 @@ function GuardarActualizarRegistro() {
 		bloquearPantalla("Guardando...");
         var url = "../../models/M06_Configuracion/M06MD07_Mantenimiento/M06MD07_Mantenimiento.php";
         var dato = {
-            "ReturnActualizarRegCliente": true,
-            "id": $("#__ID_DATOS_PERSONAL").val(),
+            "ReturnActualizarRegMantenimiento": true,
+            "id": $("#__ID_DATOS_MANTENIMIENTO").val(),
             "codigo_sunat": $("#codigoSunatInput").val(), // Make sure these inputs exist
             "codigo_item": $("#codigoItemInput").val(),
             "txtNombres": $("#txtNombres").val(),
@@ -905,7 +905,7 @@ function ConfirmarEliminarRegistroCliente() {
     var url = "../../models/M06_Configuracion/M06MD07_Mantenimiento/M06MD07_Mantenimiento.php";
     var dato = {
         "ReturnEliminarRegPersonal": true,
-        "id": $("#__ID_DATOS_PERSONAL").val()
+        "id": $("#__ID_DATOS_MANTENIMIENTO").val()
     };
 
     realizarJsonPost(url, dato, RespuestaConfirmarEliminarRegistroCliente, null, 10000, null);
