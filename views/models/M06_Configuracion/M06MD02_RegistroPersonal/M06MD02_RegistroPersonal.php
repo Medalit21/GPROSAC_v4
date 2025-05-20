@@ -417,7 +417,7 @@ if (isset($_POST['ReturnActualizarRegPersonal'])) {
         
         }else{
             $data['status'] = 'bad';
-            $data['data'] = 'La clave ingresada debe ser igual en ambos campos (Clave y Repetir Clave). Verificar';
+            $data['data'] = 'La clave ingresada no coincide. Verificar.';
         }
     } else {
         if (!$query) {

@@ -1077,9 +1077,12 @@ function RespuestaGuardarActualizarRegistro(dato) {
         mensaje_alerta("\u00A1Actualizado!", dato.data, "success");
         return;
     } else {
-        mensaje_alerta("\u00A1Error!", dato.data + "\n" + dato.dataDB, "error");
+		mensaje_alerta("\u00A1Error!", dato.data, "error");
+
     }
 }
+
+
 
 /************************************ELIMINAR REGISTRO CLIENTES******************************** */
 function EliminarCliente() {
