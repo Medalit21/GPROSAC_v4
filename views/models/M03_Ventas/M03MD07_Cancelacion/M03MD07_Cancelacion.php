@@ -118,13 +118,64 @@ if (isset($_POST['ReturnTablaVentasCancelacion'])) {
         }
     }
     
-    if(!empty($cbxFiltroEstado)){
+    /*if(!empty($cbxFiltroEstado)){
        if($cbxFiltroEstado == 2){
            $query_estado = "AND gpv.cancelado ='0'"; 
         } else {
            $query_estado = "AND gpv.cancelado ='$cbxFiltroEstado'"; 
         }
+    }*/
+	
+	if (!empty($cbxFiltroEstado)) {
+    if ($cbxFiltroEstado == 1) {
+        // CANCELADO
+        $query_estado = "AND gpv.cancelado = '1'";
+    } elseif ($cbxFiltroEstado == 2) {
+        // POR CANCELAR
+        $query_estado = "AND gpv.cancelado = '0' AND 
+            (
+                IFNULL((
+                    SELECT SUM(monto_letra) 
+                    FROM gp_cronograma 
+                    WHERE id_venta = gpv.id_venta 
+                      AND dscto_acuerdo = '0' 
+                      AND esta_borrado = '0'
+                ), 0)
+                -
+                IFNULL((
+                    SELECT SUM(pagado) 
+                    FROM gp_pagos_detalle 
+                    WHERE id_venta = gpv.id_venta 
+                      AND estado = '2' 
+                      AND esta_borrado = '0'
+                ), 0)
+            ) < 1";
+    } elseif ($cbxFiltroEstado == 3) {
+        // PENDIENTE
+        $query_estado = "AND gpv.cancelado = '0' AND 
+            (
+                IFNULL((
+                    SELECT SUM(monto_letra) 
+                    FROM gp_cronograma 
+                    WHERE id_venta = gpv.id_venta 
+                      AND dscto_acuerdo = '0' 
+                      AND esta_borrado = '0'
+                ), 0)
+                -
+                IFNULL((
+                    SELECT SUM(pagado) 
+                    FROM gp_pagos_detalle 
+                    WHERE id_venta = gpv.id_venta 
+                      AND estado = '2' 
+                      AND esta_borrado = '0'
+                ), 0)
+            ) >= 1";
     }
+}
+
+
+
+
 
     $query = mysqli_query($conection, "SELECT
     gpv.id_venta as id,

@@ -106,14 +106,18 @@ function ListarReggistrosVentasCancelacion(datos) {
         columns: [{
             "data": "id",
             "render": function (data, type, row) {
-                var html="";
-                if(row.estado === 'POR CANCELAR'){
-                    html = '<a href="javascript:void(0)" class="btn btn-success-action" onclick="CancelarVenta(\'' + data + '\')" title="Indicar Venta cancelada"><i class="fas fa-check-square"></i></a>';
-                }else{
-                    html = '<a href="javascript:void(0)" class="btn btn-delete-action" onclick="AnularCancelacionVenta(\'' + data + '\')" title="Anular cancelación venta"><i class="fas fa-undo"></i></a>';
-                }
-                return html;
-            }
+				var html = "";
+
+				if (row.estado === 'POR CANCELAR') {
+					html = '<a href="javascript:void(0)" class="btn btn-success-action" onclick="CancelarVenta(\'' + data + '\')" title="Indicar Venta cancelada"><i class="fas fa-check-square"></i></a>';
+				} else if (row.estado === 'CANCELADO') {
+					html = '<a href="javascript:void(0)" class="btn btn-delete-action" onclick="AnularCancelacionVenta(\'' + data + '\')" title="Anular cancelación venta"><i class="fas fa-undo"></i></a>';
+				} else {
+					html = ''; // PENDIENTE u otros: no muestra botón
+				}
+
+				return html;
+			}
         },
         {
             "data": "estado",

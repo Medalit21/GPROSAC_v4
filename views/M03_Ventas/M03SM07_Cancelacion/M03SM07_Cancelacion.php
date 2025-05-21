@@ -167,7 +167,7 @@
                                     $ClientesVer = $Clientes->VerClientesBusqueda();
                                     foreach ($ClientesVer as $Cliente) {
                                     ?>
-                                    <option value="<?php echo $Cliente['ID']; ?>" style="font-size: 11px;"><?php echo $Cliente['Nombre']; ?></option>
+                                    <option value="<?php echo $Cliente['ID']; ?>" style="font-size: 11px;"><?php echo $Cliente['Nombre']; ?> - <?php echo $Cliente['ID']; ?> </option>
                                     <?php }?>
                                 </select>
                             </div>
@@ -179,14 +179,18 @@
                                 <label class="label-texto">Hasta</label>
                                 <input type="date" id="txtFiltroHasta" class="caja-texto" placeholder="Documento Cliente" value="">
                             </div>
-                            <div class="col-md">
-                                <label class="label-texto">Estado</label>
-                                <select id="cbxFiltroEstado" class="cbx-texto">
-                                    <option selected="true" value="" disabled="disabled">TODOS</option>
-                                    <option value="1">CANCELADO</option>
-                                    <option value="2">POR CANCELAR</option>
-                                </select>
-                            </div>
+							
+							<div class="col-md">
+								<label class="label-texto">Estado</label>
+								<select id="cbxFiltroEstado" class="cbx-texto">
+									<option selected value="">TODOS</option>
+									<option value="1">CANCELADO</option>
+									<option value="2">POR CANCELAR</option>
+									<option value="3">PENDIENTE</option>
+								</select>
+							</div>
+
+							
                             <div class="col-md-1.5" style=" margin-top: 12px;">
                                 <button class="btn btn-registro-success" id="btnBuscarRegistro" name="btnBuscarRegistro"><i class="fas fa-search"></i> Buscar</button>
                             </div>
