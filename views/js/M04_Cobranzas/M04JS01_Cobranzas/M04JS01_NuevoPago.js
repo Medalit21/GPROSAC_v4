@@ -239,12 +239,19 @@ function VerificarPerfil(){
 
 
 function Nuevo(){
+    document.getElementById('txtFiltroDocumentoEC').selectedIndex = 0;
+    document.getElementById('bxFiltroProyectoEC').selectedIndex = 0;
+    document.getElementById('bxFiltroZonaEC').selectedIndex = 0;
+    document.getElementById('bxFiltroManzanaEC').selectedIndex = 0;
+    document.getElementById('bxFiltroLoteEC').selectedIndex = 0;
+
     document.getElementById('bxListaLote').selectedIndex = 0;
     document.getElementById('bxNroCuotas').selectedIndex = 0;
     document.getElementById('bxMedioPago').selectedIndex = 0;
     document.getElementById('bxTipoComprobante').selectedIndex = 0;
     document.getElementById('bxAgenciaBancaria').selectedIndex = 0;
     document.getElementById('bxTipoMoneda').selectedIndex = 0;
+    document.getElementById('bxFlujoCaja').selectedIndex = 0;
     $("#txtDocCliente").val("");
     $("#txtNomCliente").val("");
     $("#txtApePaternoCliente").val("");
@@ -257,6 +264,9 @@ function Nuevo(){
     $("#file").val("");
     $("#txtidVenta").val("");
     $("#bxNroCuotas").val("");
+    $("#txtTotalPagado").val("");
+    $("#txtMontoPagar").val("");
+
 }
 
 
@@ -372,6 +382,7 @@ function CargarDatosAdicionales(){
                 $("#txtidVenta").val(resultado.id);
                 
                 $("#txtMontoPagar").val(dato.monto);
+                $("#txtTotalPagado").val(dato.monto);
                 $("#txtMontoPagado").val(dato.monto);
                 $("#bxTipoMoneda").val(dato.moneda);
                 $("#bxMedioPago").val(dato.medio_pago);
