@@ -2721,7 +2721,9 @@ if(isset($_POST['btnMostrarVoucher2'])){
     
     $idRegistro = $_POST['idRegistro'];
 
-    $consultar_voucher = mysqli_query($conection, "SELECT gppd.voucher as voucher FROM gp_pagos_cabecera gppc INNER JOIN gp_pagos_detalle AS gppd ON gppd.idpago=gppc.idpago WHERE gppc.idpago='$idRegistro'");
+    $consultar_voucher = mysqli_query($conection, "SELECT gpr.voucher as voucher 
+	FROM gp_reservacion gpr
+	WHERE gpr.id_reservacion='$idRegistro'");
     $respuesta_voucher = mysqli_fetch_assoc($consultar_voucher);
 
     $nom_voucher = $respuesta_voucher['voucher'];

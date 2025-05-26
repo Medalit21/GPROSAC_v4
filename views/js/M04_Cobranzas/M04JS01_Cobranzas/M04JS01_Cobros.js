@@ -223,6 +223,42 @@ function Control() {
       ValidarPagoReserva();
     });
 
+	/***************** FILTROS ZONA ******************/
+	
+	
+    $('#bxFiltroProyectoVRES').change(function () {
+        $("#bxFiltroZonaVRES").val("");
+        $("#bxFiltroManzanaVRES").val("");
+        var url = '../../models/M04_Cobranzas/M04MD01_Cobranzas/M04MD03_ListarTipos.php';
+        var datos = {
+            "ListarZonas": true,
+            "idproyecto": $('#bxFiltroProyectoVRES').val()
+        }
+        llenarCombo(url, datos, "bxFiltroZonaVRES");
+        document.getElementById('bxFiltroManzanaVRES').selectedIndex = 0;
+    });
+
+    $('#bxFiltroZonaVRES').change(function () {
+        $("#bxFiltroManzanaVRES").val("");
+        $("#bxFiltroLoteVRES").val("");
+        var url = '../../models/M04_Cobranzas/M04MD01_Cobranzas/M04MD03_ListarTipos.php';
+        var datos = {
+            "ListarManzanas": true,
+            "idzona": $('#bxFiltroZonaVRES').val()
+        }
+        llenarCombo(url, datos, "bxFiltroManzanaVRES");
+        document.getElementById('bxFiltroLoteVRES').selectedIndex = 0;
+    });
+
+    $('#bxFiltroManzanaVRES').change(function () {
+        $("#bxFiltroLoteVRES").val("");
+        var url = '../../models/M04_Cobranzas/M04MD01_Cobranzas/M04MD03_ListarTipos.php';
+        var datos = {
+            "ListarLotes": true,
+            "idmanzana": $('#bxFiltroManzanaVRES').val()
+        };
+        llenarCombo(url, datos, "bxFiltroLoteVRES");
+    });
   
 }
 
