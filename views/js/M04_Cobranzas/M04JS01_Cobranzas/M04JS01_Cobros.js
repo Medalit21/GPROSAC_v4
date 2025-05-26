@@ -2017,6 +2017,8 @@ function ActualizarPagoReserva(){
                         EnviarAdjuntoPago(nombre);                        
                     }                    
                     mensaje_alerta("\u00A1CORRECTO!", dato.data, "success"); 
+
+					$('#modalVerEditarPagoReserva').modal('hide');
     
                 } else {
                     mensaje_alerta("\u00A1Error de Registro!", dato.data, "info");
@@ -2031,6 +2033,33 @@ function ActualizarPagoReserva(){
     });  
  }
 
+/************* adjunto ************/
+ function EnviarAdjuntoPago(nombre){
+
+	var file_data = $('#ficheroPagoR').prop('files')[0];
+
+     var form_data = new FormData();
+     var dataa = nombre;                  
+     form_data.append('file', file_data);
+     form_data.append('data', dataa);
+     //alert(form_data);                             
+     $.ajax({
+         url: '../../models/M04_Cobranzas/M04MD01_Cobranzas/M04MD03_SubirVoucher.php', // point to server-side PHP script 
+         dataType: 'text',  // what to expect back from the PHP script, if anything
+         cache: false,
+         contentType: false,
+         processData: false,
+         data: form_data,                         
+         type: 'post',
+         success: function(php_script_response){
+             //alert(php_script_response); // display response from the PHP script, if any
+            // mensaje_alerta("Correcto!", "El adjunto fue cargado correctamente", "success"); 
+         }
+      });
+ 
+ }
+
+/************* adjunto ************/
  
 function ValidarPagoReserva(){
     var data = {

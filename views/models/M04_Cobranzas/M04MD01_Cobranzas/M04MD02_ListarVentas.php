@@ -2634,7 +2634,7 @@ if(isset($_POST['ReturnListaPagosRES'])){
             concat(dc.nombres,' ',dc.apellido_paterno,' ',dc.apellido_materno) as nom_cliente,
             concat(SUBSTRING(gpm.nombre,9,2), ' - ',SUBSTRING(gpl.nombre,6,2)) as lote,
             concat(SUBSTRING(gpm.nombre,9,2), '-',SUBSTRING(gpl.nombre,6,2)) as nom_lote,
-            date_format(gppc.fecha_pago, '%d/%m/%Y') as fecha,
+            date_format(gppd.fecha_pago, '%d/%m/%Y') as fecha,
             'RESERVA' as letra,
             cdx.texto1 as tipo_moneda,
             format(gppc.pagado,2) as monto,
@@ -2647,10 +2647,10 @@ if(isset($_POST['ReturnListaPagosRES'])){
             cddddx.nombre_corto as agencia_bancaria,
             cdddddx.nombre_corto as medio_pago,
             cddddddx.nombre_corto as tipo_comprobante,
-            gppc.numero as nro_operacion,
+            gppd.nro_operacion as nro_operacion,
             date_format(res.fecha_fin_reserva, '%d/%m/%Y') as fechaVencimiento,
             '0' as mora,
-            concat(cdx.texto1,' - ',format(gppc.pagado,2)) as importe_pago,
+            concat(cdx.texto1,' - ',format(gppd.pagado,2)) as importe_pago,
             gppd.voucher as voucher
             FROM gp_pagos_cabecera gppc
             INNER JOIN gp_pagos_detalle AS gppd ON gppd.idpago=gppc.idpago
@@ -2721,9 +2721,8 @@ if(isset($_POST['btnMostrarVoucher2'])){
     
     $idRegistro = $_POST['idRegistro'];
 
-    $consultar_voucher = mysqli_query($conection, "SELECT gpr.voucher as voucher 
-	FROM gp_reservacion gpr
-	WHERE gpr.id_reservacion='$idRegistro'");
+    $consultar_voucher = mysqli_query($conection, "SELECT gppd.voucher as voucher FROM gp_pagos_cabecera gppc INNER JOIN gp_pagos_detalle AS gppd ON gppd.idpago=gppc.idpago 
+	WHERE  gppd.idpago_detalle='$idRegistro'");
     $respuesta_voucher = mysqli_fetch_assoc($consultar_voucher);
 
     $nom_voucher = $respuesta_voucher['voucher'];
@@ -2739,7 +2738,6 @@ if(isset($_POST['btnMostrarVoucher2'])){
     echo json_encode($data, JSON_PRETTY_PRINT);
     
 }
-
 if(isset($_POST['btnValidarPagoReserva'])){
     
     $idRegistro = $_POST['idRegistro'];
@@ -2939,33 +2937,37 @@ if (isset($_POST['btnActualizarPagoReserva'])) {
     $cbxBancoP = $_POST['cbxBancoP'];
     $cbxMedioPagoP = $_POST['cbxMedioPagoP'];
     $cbxTipoComprobanteP = $_POST['cbxTipoComprobanteP'];
-    /*$txtSerieP = $_POST['txtSerieP'];
-    $txtNumeroP = $_POST['txtNumeroP'];*/
     $ficheroPago = $_POST['ficheroPago'];
     $txtNumOperacionP = $_POST['txtNumOperacionP'];
 
-    $path = $ficheroPago;
-    $file = new SplFileInfo($path);
-    $extension  = $file->getExtension();
-    $desc_codigo="voucher-";
-    $name_file = "voucher";
-    if(!empty($ficheroPago)){
-		$name_file = $desc_codigo.$_ID_PAGO.".".$extension;
-	}
+    $voucher_sql = "";
+    $name_file = "";
 
-    $query = mysqli_query($conection, "UPDATE 
-    gp_pagos_detalle SET
-    fecha_pago='$txtFechaPagoP',
-    moneda_pago='$cbxTipoMonedaP',
-    importe_pago='$txtImportePagoP',
-    tipo_cambio='$txtTipoCambioP',
-    pagado='$txtPagadoP',
-    agencia_bancaria='$cbxBancoP',
-    medio_pago='$cbxMedioPagoP',
-    tipo_comprobante='$cbxTipoComprobanteP',
-    nro_operacion='$txtNumOperacionP',
-    voucher='$name_file'
-    WHERE idpago_detalle='$_ID_PAGO'");
+    if (!empty($ficheroPago)) {
+        $file = new SplFileInfo($ficheroPago);
+        $extension = $file->getExtension();
+
+        if (!empty($extension)) {
+            $name_file = "voucher-" . $_ID_PAGO . "." . $extension;
+            $voucher_sql = ", voucher='$name_file'";
+        }
+    }
+
+    $sql = "UPDATE gp_pagos_detalle SET
+        fecha_pago='$txtFechaPagoP',
+        moneda_pago='$cbxTipoMonedaP',
+        importe_pago='$txtImportePagoP',
+        tipo_cambio='$txtTipoCambioP',
+        pagado='$txtPagadoP',
+        agencia_bancaria='$cbxBancoP',
+        medio_pago='$cbxMedioPagoP',
+        tipo_comprobante='$cbxTipoComprobanteP',
+        nro_operacion='$txtNumOperacionP'
+        $voucher_sql
+        WHERE idpago_detalle='$_ID_PAGO'";
+
+    $query = mysqli_query($conection, $sql);
+
     if ($query) {
         $data['status'] = 'ok';
         $data['data'] = "Se guardaron los cambios en el pago seleccionado.";
@@ -2973,9 +2975,9 @@ if (isset($_POST['btnActualizarPagoReserva'])) {
     } else {
         $data['status'] = 'bad';
         $data['data'] = 'Ocurrió un problema, pongase en contacto con soporte por favor.';
+        $data['dataDB'] = mysqli_error($conection); // OPCIONAL: útil para debug
     }
-    header('Content-type: text/javascript');
+
+    header('Content-type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
-
-

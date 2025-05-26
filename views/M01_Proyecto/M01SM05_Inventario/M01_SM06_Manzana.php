@@ -296,6 +296,13 @@
 
             </div>
         </div>
+		<!-- ============================================================== -->
+        <!-- =========================== FOOTER =========================== -->
+		
+			<?php include_once "../../recursos/footer.php"; ?>
+
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
     </div>
     <!-- POP UP LIBERAR -->
     <div class="modal fade" id="modalLiberar" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">

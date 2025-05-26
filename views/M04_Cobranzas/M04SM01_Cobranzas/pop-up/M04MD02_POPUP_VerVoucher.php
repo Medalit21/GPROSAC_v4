@@ -17,7 +17,7 @@
                         </fieldset>
                     </div>
                 </div>
-                <button id="btneliminarvou" type="button" class="btn btn-registro-danger"><i class="fas fa-trash"></i> Eliminar</button>
+                <!--<button id="btneliminarvou" type="button" class="btn btn-registro-danger"><i class="fas fa-trash"></i> Eliminar</button>-->
                 <br>
             </div>
         </div>

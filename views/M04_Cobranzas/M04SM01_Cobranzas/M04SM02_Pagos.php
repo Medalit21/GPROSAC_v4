@@ -347,21 +347,28 @@ use Sabberworm\CSS\Value\Value;
 
             </div>
 
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Page wrapper  -->
-    <!-- ============================================================== -->
-    <div class="modal fade" id="modalEditarPago" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
-        <?php
-            require_once "pop-up/M04MD02_POPUP_EditarPago.php";
-        ?>
-    </div>
-    
-    <div class="modal fade" id="modalVerVoucher" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
-        <?php
-            require_once "pop-up/M04MD02_POPUP_VerVoucher.php";
-        ?>
-    </div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Page wrapper  -->
+		<!-- ============================================================== -->
+		<div class="modal fade" id="modalEditarPago" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
+			<?php
+				require_once "pop-up/M04MD02_POPUP_EditarPago.php";
+			?>
+		</div>
+		
+		<div class="modal fade" id="modalVerVoucher" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
+			<?php
+				require_once "pop-up/M04MD02_POPUP_VerVoucher.php";
+			?>
+		</div>
+		<!-- ============================================================== -->
+        <!-- =========================== FOOTER =========================== -->
+		
+			<?php include_once "../../recursos/footer.php"; ?>
+
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
 </div>
 <!-- ============================================================== -->
 <!-- End Wrapper -->

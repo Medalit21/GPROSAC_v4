@@ -672,14 +672,21 @@
                 </div>
             </div>
         </div>
+		<!-- ============================================================== -->
+        <!-- =========================== FOOTER =========================== -->
+		
+			<?php include_once "../../recursos/footer.php"; ?>
+
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
     </div>
 
     <!-- POP UP NUEVO DOCUMENTO ADJUNTO-->
-    <div class="modal fade" id="modalNuevoDocumentoAdjunto" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
+    <!--<div class="modal fade" id="modalNuevoDocumentoAdjunto" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
         <?php
             //require_once "pop-up/M03SM02_POPUP_NuevoDocumentoAdjunto.php";
         ?>
-    </div>
+    </div>-->
 
 <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap tether Core JavaScript -->
