@@ -1591,9 +1591,7 @@ if(isset($_POST['btnListarTablaPagosComprobanteReserva'])){
     }
 
     $query_ordenar="gppd.fecha_pago DESC";
-    
-
-        $query = mysqli_query($conection,"SELECT
+        /*$query = mysqli_query($conection,"SELECT
             gppd.idpago_detalle as id,
             concat(dc.documento,' - ', dc.nombres,' ',dc.apellido_paterno,' ',dc.apellido_materno) as cliente,
             concat(dc.nombres,' ',dc.apellido_paterno,' ',dc.apellido_materno) as nom_cliente,
@@ -1625,6 +1623,60 @@ if(isset($_POST['btnListarTablaPagosComprobanteReserva'])){
             gppd.fecha_emision as fecha_emision,
             concat('B : ',(select count(idpago_comprobante) from gp_pagos_detalle_comprobante where idpago_detalle=gppd.idpago_detalle AND tipo_comprobante_sunat='03'),' / F : ',
             (select count(idpago_comprobante) from gp_pagos_detalle_comprobante where idpago_detalle=gppd.idpago_detalle AND tipo_comprobante_sunat='01')) as nro_comprobantes
+            FROM gp_pagos_detalle gppd
+            INNER JOIN gp_pagos_cabecera AS gppc ON gppc.idpago=gppd.idpago
+            INNER JOIN gp_reservacion AS gpre ON gpre.id_lote=gppc.id_cronograma
+            INNER JOIN datos_cliente AS dc ON dc.id=gpre.id_cliente
+            INNER JOIN gp_lote AS gpl ON gpl.idlote=gpre.id_lote
+            INNER JOIN gp_manzana AS gpm ON gpm.idmanzana=gpl.idmanzana
+            INNER JOIN gp_zona AS gpz ON gpz.idzona=gpm.idzona
+            INNER JOIN gp_proyecto AS gpy ON gpy.idproyecto=gpz.idproyecto
+            INNER JOIN configuracion_detalle AS cdx ON cdx.idconfig_detalle=gppd.medio_pago AND cdx.codigo_tabla='_MEDIO_PAGO'
+            INNER JOIN configuracion_detalle AS cddx ON cddx.idconfig_detalle=gppd.tipo_comprobante AND cddx.codigo_tabla='_TIPO_COMPROBANTE'
+            INNER JOIN configuracion_detalle AS cdddx ON cdddx.idconfig_detalle=gppd.agencia_bancaria AND cdddx.codigo_tabla='_BANCOS'
+            INNER JOIN configuracion_detalle AS cddddx ON cddddx.idconfig_detalle=gppd.moneda_pago AND cddddx.codigo_tabla='_TIPO_MONEDA'
+            INNER JOIN configuracion_detalle AS cdddddx ON (cdddddx.idconfig_detalle=gppd.tipo_comprobante_sunat OR gppd.tipo_comprobante_sunat=0) AND cdddddx.codigo_tabla='_TIPO_COMPROBANTE_SUNAT'
+            INNER JOIN configuracion_detalle AS cddddddx ON cddddddx.codigo_item=gppd.estado_cierre AND cddddddx.codigo_tabla='_ESTADO_FACTURACION_PAGO'
+            INNER JOIN configuracion_detalle AS cdddddddx ON cdddddddx.codigo_item=gppd.estado AND cdddddddx.codigo_tabla='_ESTADO_VALIDACION_PAGO'
+            WHERE gppd.esta_borrado=0 AND gppc.id_venta='0'
+            AND gppd.estado='2'
+            $query_ec
+            $query_documento
+            $query_fecha
+            $query_bancos
+            GROUP BY gppd.idpago_detalle
+            ORDER BY $query_ordenar"); */
+
+        $query = mysqli_query($conection,"SELECT
+            gppd.idpago_detalle as id,
+            concat(dc.documento,' - ', dc.nombres,' ',dc.apellido_paterno,' ',dc.apellido_materno) as cliente,
+            concat(dc.nombres,' ',dc.apellido_paterno,' ',dc.apellido_materno) as nom_cliente,
+            concat(SUBSTRING(gpm.nombre,9,2), ' - ',SUBSTRING(gpl.nombre,6,2)) as lote,
+            concat(SUBSTRING(gpm.nombre,9,2), '-',SUBSTRING(gpl.nombre,6,2)) as lote_nom,
+            date_format(gppd.fecha_pago, '%d/%m/%Y') as fecha_vencimiento,
+            'RESERVA' as letra,
+            date_format(gppd.fecha_pago, '%d/%m/%Y') as fecha_pago,
+            date_format(gppd.fecha_pago, '%d-%m-%Y') as fech_pago,
+            gppd.fecha_pago as fec_pago,
+            cddddx.texto1 as tipo_moneda,
+            gppd.tipo_cambio as tipo_cambio,
+            format(gppd.pagado,2) as pagado,
+            format(gppd.importe_pago,2) as importe,
+            '0' as mora,
+            cdddddddx.nombre_corto as estado_pago,
+            cdddddddx.texto1 as estado_pago_color,
+            cdddx.nombre_corto as banco,
+            cdx.nombre_corto as medio_pago,
+            cddx.nombre_corto as tipo_comprobante,
+            gppd.nro_operacion as nro_operacion,
+            gppd.voucher as voucher,
+            gppd.serie as serie,
+            gppd.numero as numero,
+            gppd.comprobante as comprobante,
+            if(gppd.tipo_comprobante_sunat=0, 'Falta',cdddddx.nombre_corto) as tipo_comprobante_sunat,
+            cddddddx.nombre_corto as estado_cierre,
+            cddddddx.texto1 as estado_cierre_color,
+            gppd.fecha_emision as fecha_emision
             FROM gp_pagos_detalle gppd
             INNER JOIN gp_pagos_cabecera AS gppc ON gppc.idpago=gppd.idpago
             INNER JOIN gp_reservacion AS gpre ON gpre.id_lote=gppc.id_cronograma

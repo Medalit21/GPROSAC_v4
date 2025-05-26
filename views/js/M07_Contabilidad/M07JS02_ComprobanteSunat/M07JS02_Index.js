@@ -252,14 +252,14 @@ function LlenarTablaPagosComprobante(datos) {
                     return html;
                 } 
             },
-            { 
+            /*{ 
                 "data": "nro_comprobantes",
                 "render": function(data, type, row, host) {
                     var html="";
                     html = '<label>'+ row.nro_comprobantes +'</label>';
                     return html;
                 }
-            },
+            },*/
             { "data": "fecha_pago" },
             { "data": "cliente" },
             { "data": "lote" },
