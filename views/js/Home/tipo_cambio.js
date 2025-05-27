@@ -149,6 +149,10 @@ function GuardarTipoCambio() {
                 if (dato.status == "ok") {
                     mensaje_alerta("\u00A1CORRECTO!", "Se guard\u00F3 correctamente el tipo de cambio.", "success");
                     CargarTipoCambio();
+
+                    $("#txtFechaTC").val("");
+                    $("#txtValorTC").val("");
+                    //$("#txtRegistroTC").val("");
                 }else{
                     mensaje_alerta("\u00A1ERROR!", "No se complet\u00F3 el registro del tipo de cambio ingresado.", "info");
                 } 

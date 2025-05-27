@@ -11,7 +11,7 @@
     $data = array();
     $dataList = array();
     
-    
+    //corregir el orden del listado
 if(isset($_POST['btnGuardarTipoCambio'])){
     
     $txtFechaTC = $_POST['txtFechaTC'];
@@ -79,7 +79,7 @@ if (isset($_POST['btnListarTipoCambio'])) {
     FROM configuracion_tipo_cambio
     CROSS JOIN (select @i := 0) r
     WHERE esta_borrado='0'
-    ORDER BY fecha DESC");
+    ORDER BY registro DESC");
     
      if($query->num_rows > 0){
      

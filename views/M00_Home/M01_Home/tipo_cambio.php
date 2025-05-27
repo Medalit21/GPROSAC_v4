@@ -185,7 +185,8 @@
                                 </div>
                                 <div class="border-top">
                                     <div class="card-body text-right">
-                                        <button class="btn btn-registro" id="btnGuardarTC" name="btnBuscarRegistroCV"><i class="fas fa-save"></i> Guardar</button>
+                                        <button type="button" class="btn btn-registro" id="btnGuardarTC" name="btnBuscarRegistroCV"><i class="fas fa-save"></i> Guardar</button>
+
                                     </div>
                                 </div>
                             </form>
@@ -225,6 +226,11 @@
            
             
         </div>
+		<!-- ============================================================== -->
+        <!-- =========================== FOOTER =========================== -->
+        <?php include_once "../../recursos/footer.php"; ?>
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
     </div>
 
     <!--<script src="../../assets/libs/jquery/dist/jquery.min.js"></script>-->
