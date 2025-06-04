@@ -113,34 +113,43 @@ function Control() {
 
     ConfiguracionInfoRequeridosctualizar();
     
-    $("#btnBuscarCli").click(function() {
-        let ndoc=$("#txtDocumento").val();
-        if (ndoc=="" || ndoc==null) {
-            mensaje_alerta("Falta dato","Ingresar numero de documento","info");
-            $("#txtDocumento").focus();
-        } else {
-            let tipodoc = $("#cbxTipoDocumento").val();
-            if(tipodoc == '1'){
-                if(ndoc.length==8) {
-                    ConsultaReniec();
-                } else {
-                    mensaje_alerta("Falta dato","Nro de documento no tiene los digitos necesarios","info");
-                    $("#txtDocumento").focus();
-                }
-                
-            } else {
-                 mensaje_alerta("Informacion","No se encontró informacion, agregar de forma manual","info");
-            }
-        }
-        console.log('Num Doc: '+ndoc);
-        
-    });
-    // $("#txtDocumento").blur(function() {
-    //     var tipodoc = $("#cbxTipoDocumento").val();
-    //     if(tipodoc == '1'){
-    //         ConsultaReniec();
-    //     }
-    // });  
+    $("#btnBuscarCli").click(function () {
+
+		const ndoc   = $("#txtDocumento").val().trim();
+		const tipo   = $("#cbxTipoDocumento").val();   // 1 = DNI, 6 = RUC
+
+		if (!ndoc) {
+			mensaje_alerta("Falta dato", "Ingresar número de documento", "info");
+			$("#txtDocumento").focus();
+			return;
+		}
+		/* ---------- DNI ---------- */
+		if (tipo === '1') {
+			if (ndoc.length === 8) {
+				ConsultaReniec(ndoc);
+			} else {
+				mensaje_alerta("Falta dato",
+					"El DNI debe tener 8 dígitos", "info");
+				$("#txtDocumento").focus();
+			}
+			return;
+		}
+		/* ---------- RUC ---------- */
+		if (tipo === '3') {
+			if (ndoc.length === 11) {
+				ConsultaSunat(ndoc);
+			} else {
+				mensaje_alerta("Falta dato",
+					"El RUC debe tener 11 dígitos", "info");
+				$("#txtDocumento").focus();
+			}
+			return;
+		}
+		/* ---------- Otro tipo ---------- */
+		mensaje_alerta("Información",
+			"No se encontró información automática, ingrésela manualmente",
+			"info");
+	});
     
 }
 
@@ -174,6 +183,41 @@ function respuestaSeleccionReniec(dato){
         $("#txtNombres").val("");
     }
 }
+
+/*--------------------------------------------------------------------
+  SUNAT (RUC)
+  ------------------------------------------------------------------*/
+function ConsultaSunat(ndoc) {
+    bloquearPantalla("Consultando SUNAT…");
+    $.post("../../models/generales/mdl_apis.php", {
+            btnSeleccionSunat: true,
+            NroDocumento: ndoc
+        }, respuestaSeleccionSunat, "json")
+      .fail(function () {
+          desbloquearPantalla();
+          mensaje_alerta("Error", "Error de red", "error");
+      });
+}
+
+function respuestaSeleccionSunat(dato) {
+    desbloquearPantalla();
+
+    if (dato.status === "ok") {
+        // «dato.nombre» = Razón Social completa
+        $("#txtApellidoPaterno").val(dato.nombre); // → Razón social aquí
+        $("#txtApellidoMaterno").val("");          // ← vacío
+        $("#txtNombres").val("");                  // ← vacío
+    } else {
+        mensaje_alerta(
+            "Sin resultados",
+            "SUNAT no devolvió datos para el RUC ingresado",
+            "info"
+        );
+        // Limpia los tres campos
+        $("#txtApellidoPaterno, #txtApellidoMaterno, #txtNombres").val("");
+    }
+}
+
 
 /********************CONFIGURAR BOTONES************************* */
 var Estados = { Ninguno: "Ninguno", Nuevo: "Nuevo", Modificar: "Modificar", Guardado: "Guardado", SoloLectura: "SoloLectura", Consulta: "Consulta" };
@@ -274,11 +318,21 @@ function AbrirModalRegistroNuevo() {
 }
 
 function LimpiarDatosPersonales() {
-    $("#cbxTipoDocumento option:contains('DNI')").attr('selected', true);
+	$("#__ID_DATOS_CLIENTE").val("");
+	
+    $("#cbxTipoDocumento option:contains('DNI')").attr('selected', true);	
+	/* ---------- Tipo de documento ---------- */
+    $("#cbxTipoDocumento")
+        .prop("selectedIndex", 0)   // vuelvo a “Seleccione…”
+        .prop("disabled", false)    // *** lo habilito nuevamente ***
+        .trigger("change");         // lanzo el change por si hay lógica asociada
+		
     $("#cbxPaisEmisorDocumento option:contains('Perú')").attr('selected', true);
     $("#cbxNacionalidad option:contains('Perú')").attr('selected', true);
 
     $("#txtDocumento").val("");
+	$("#txtDocumento").prop("disabled", false); 
+	
     $("#txtApellidoPaterno").val("");
     $("#txtApellidoMaterno").val("");
     $("#txtNombres").val("");
@@ -317,6 +371,22 @@ function LimpiarDatosPersonales() {
     $("#documentoCliente").val("");
 
     $('[href="#DatosPersonalesss"]').tab('show');
+}
+
+
+
+function ValidarPorTipoDocumento() {
+    var Cadena = $("#cbxTipoDocumento :selected").text();
+    if (Cadena.trim() === "DNI") {
+        $('#txtDocumento').attr('maxlength', 8);
+        $("#txtDocumento").val("");
+    } else if (Cadena.trim() === "RUC") {
+        $('#txtDocumento').attr('maxlength', 11);
+        $("#txtDocumento").val("");
+    } else {
+        $('#txtDocumento').attr('maxlength', 15);
+        $("#txtDocumento").val("");
+    }
 }
 
 /**************************Configuracion Inicio Acciones *************************** */
@@ -701,6 +771,7 @@ function Guardar() {
 }
 
 /***************************VALIDAR DATOS REQUERIDOS****************************** */
+const ID_RUC = "3";
 function ValidarDatosNuevoRequeridos() {
     var flat = true;
     if ($("#cbxTipoDocumento").val() === "" || $("#cbxTipoDocumento").val() === null) {
@@ -727,24 +798,24 @@ function ValidarDatosNuevoRequeridos() {
         $("#cbxPaisEmisorDocumentoHtml").html('(Requerido)');
         $("#cbxPaisEmisorDocumentoHtml").show();
         flat = false;
-    } else if ($("#txtApellidoPaterno").val() === "") {
+    } else if ($("#txtApellidoPaterno").val().trim() === "" &&
+        $("#cbxTipoDocumento").val() !== ID_RUC) {
         $("#txtApellidoPaterno").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Paterno", "info");
-        $("#txtApellidoPaternoHtml").html('(Requerido)');
-        $("#txtApellidoPaternoHtml").show();
-        flat = false;
-    } else if ($("#txtApellidoMaterno").val() === "") {
+        mensaje_alerta("¡Falta Dato!","Por favor, ingrese el Apellido Paterno","info");
+        $("#txtApellidosHtml").text("(Requerido)").show();
+        return false;
+    } else if ($("#txtApellidoMaterno").val().trim() === "" &&
+        $("#cbxTipoDocumento").val() !== ID_RUC) {
         $("#txtApellidoMaterno").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Materno", "info");
-        $("#txtApellidoMaternoHtml").html('(Requerido)');
-        $("#txtApellidoMaternoHtml").show();
-        flat = false;
-    } else if ($("#txtNombres").val() === "") {
+        mensaje_alerta("¡Falta Dato!","Por favor, ingrese el Apellido Materno","info");
+        $("#txtNombresHtml").text("(Requerido)").show();
+        return false;
+    } else if ($("#txtNombres").val().trim() === "" &&
+        $("#cbxTipoDocumento").val() !== ID_RUC) {
         $("#txtNombres").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese los nombres.", "info");
-        $("#txtNombresHtml").html('(Requerido)');
-        $("#txtNombresHtml").show();
-        flat = false;
+        mensaje_alerta("¡Falta Dato!","Por favor, ingrese los nombres","info");
+        $("#txtNombresHtml").text("(Requerido)").show();
+        return false;
     } else if ($("#cbxNacionalidad").val() === "" || $("#cbxNacionalidad").val() === null) {
         $("#cbxNacionalidad").focus();
         $('[href="#DatosPersonalesss"]').tab('show');
@@ -752,13 +823,13 @@ function ValidarDatosNuevoRequeridos() {
         $("#cbxNacionalidadHtml").html('(Requerido)');
         $("#cbxNacionalidadHtml").show();
         flat = false;
-    } else if ($("#cbxSexo").val() === "" || $("#cbxSexo").val() === null) {
-        $("#cbxSexo").focus();
-        $('[href="#DatosPersonalesss"]').tab('show');
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el Sexo.", "info");
-        $("#cbxSexoHtml").html('(Requerido)');
-        $("#cbxSexoHtml").show();
-        flat = false;
+    } else if (($("#cbxSexo").val() === "" || $("#cbxSexo").val() === null) && 
+		$("#cbxTipoDocumento").val() !== ID_RUC) {
+		$("#cbxSexo").focus();
+		$('[href="#DatosPersonalesss"]').tab('show');
+		mensaje_alerta("¡Falta Dato!", "Por favor, seleccione el Sexo.", "info");
+		$("#cbxSexoHtml").html("(Requerido)").show();
+		flat = false;	
     } else if ($("#txtCelular").val() === "") {
         $("#txtCelular").focus();
         $('[href="#DatosPersonalesss"]').tab('show');
@@ -773,13 +844,12 @@ function ValidarDatosNuevoRequeridos() {
         $("#txtCorreoHtml").html('(Verifique)');
         $("#txtCorreoHtml").show();
         flat = false;
-    } else if ($("#txtFechaNacimineto").val() === "") {
+    } else if ($("#txtFechaNacimineto").val().trim() === "" &&
+        $("#cbxTipoDocumento").val() !== ID_RUC) {
         $("#txtFechaNacimineto").focus();
-        $('[href="#DatosPersonalesss"]').tab('show');
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese la Fecha de Nacimiento.", "info");
-        $("#txtFechaNaciminetoHtml").html('(Requerido)');
-        $("#txtFechaNaciminetoHtml").show();
-        flat = false;
+        mensaje_alerta("¡Falta Dato!","Por favor, Ingrese la Fecha de Nacimiento","info");
+        $("#txtFechaNaciminetoHtml").text("(Requerido)").show();
+        return false;
     } else if ($("#cbxDepartamentoDir").val() === "" || $("#cbxDepartamentoDir").val() === null) {
         $("#cbxDepartamentoDir").focus();
         $('[href="#DatosPersonalesss"]').tab('show');
@@ -1044,7 +1114,9 @@ function RespuestaAbrirModalRegistroActualizar(dato) {
         var resultado = dato.data;
         $("#__ID_DATOS_CLIENTE").val(resultado.id);
         $("#cbxTipoDocumento").val(resultado.tipoDocumento);
+		$("#cbxTipoDocumento").prop("disabled", true);
         $("#txtDocumento").val(resultado.documento);
+		$("#txtDocumento").prop("disabled", true);
         $("#cbxNacionalidad").val(resultado.nacionalidad);
         $("#cbxPaisEmisorDocumento").val(resultado.paisEmisorDoc);
         $("#txtApellidoPaterno").val(resultado.apellidoPaterno);
@@ -1176,24 +1248,24 @@ function ValidarActualizarRequeridosDatosCliente() {
         $("#cbxPaisEmisorDocumentoHtml").html('(Requerido)');
         $("#cbxPaisEmisorDocumentoHtml").show();
         flat = false;
-    } else if ($("#txtApellidoPaterno").val() === "") {
+    } else if ($("#txtApellidoPaterno").val().trim() === "" &&
+        $("#cbxTipoDocumento").val() !== ID_RUC) {
         $("#txtApellidoPaterno").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Paterno", "info");
-        $("#txtApellidoPaternoHtml").html('(Requerido)');
-        $("#txtApellidoPaternoHtml").show();
-        flat = false;
-    } else if ($("#txtApellidoMaterno").val() === "") {
+        mensaje_alerta("¡Falta Dato!","Por favor, ingrese el Apellido Paterno","info");
+        $("#txtApellidosHtml").text("(Requerido)").show();
+        return false;
+    } else if ($("#txtApellidoMaterno").val().trim() === "" &&
+        $("#cbxTipoDocumento").val() !== ID_RUC) {
         $("#txtApellidoMaterno").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Materno", "info");
-        $("#txtApellidoMaternoHtml").html('(Requerido)');
-        $("#txtApellidoMaternoHtml").show();
-        flat = false;
-    } else if ($("#txtNombres").val() === "") {
+        mensaje_alerta("¡Falta Dato!","Por favor, ingrese el Apellido Materno","info");
+        $("#txtNombresHtml").text("(Requerido)").show();
+        return false;
+    } else if ($("#txtNombres").val().trim() === "" &&
+        $("#cbxTipoDocumento").val() !== ID_RUC) {
         $("#txtNombres").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese los nombres.", "info");
-        $("#txtNombresHtml").html('(Requerido)');
-        $("#txtNombresHtml").show();
-        flat = false;
+        mensaje_alerta("¡Falta Dato!","Por favor, ingrese los nombres","info");
+        $("#txtNombresHtml").text("(Requerido)").show();
+        return false;
     } else if ($("#cbxNacionalidad").val() === "" || $("#cbxNacionalidad").val() === null) {
         $("#cbxNacionalidad").focus();
         $('[href="#DatosPersonalesss"]').tab('show');
@@ -1201,13 +1273,13 @@ function ValidarActualizarRequeridosDatosCliente() {
         $("#cbxNacionalidadHtml").html('(Requerido)');
         $("#cbxNacionalidadHtml").show();
         flat = false;
-    } else if ($("#cbxSexo").val() === "" || $("#cbxSexo").val() === null) {
-        $("#cbxSexo").focus();
-        $('[href="#DatosPersonalesss"]').tab('show');
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el Sexo.", "info");
-        $("#cbxSexoHtml").html('(Requerido)');
-        $("#cbxSexoHtml").show();
-        flat = false;
+    } else if (($("#cbxSexo").val() === "" || $("#cbxSexo").val() === null) && 
+		$("#cbxTipoDocumento").val() !== ID_RUC) {
+		$("#cbxSexo").focus();
+		$('[href="#DatosPersonalesss"]').tab('show');
+		mensaje_alerta("¡Falta Dato!", "Por favor, seleccione el Sexo.", "info");
+		$("#cbxSexoHtml").html("(Requerido)").show();
+		flat = false;	
     } else if ($("#txtCelular").val() === "") {
         $("#txtCelular").focus();
         $('[href="#DatosPersonalesss"]').tab('show');
@@ -1222,13 +1294,12 @@ function ValidarActualizarRequeridosDatosCliente() {
         $("#txtCorreoHtml").html('(Verifique)');
         $("#txtCorreoHtml").show();
         flat = false;
-    } else if ($("#txtFechaNacimineto").val() === "") {
+    } else if ($("#txtFechaNacimineto").val().trim() === "" &&
+        $("#cbxTipoDocumento").val() !== ID_RUC) {
         $("#txtFechaNacimineto").focus();
-        $('[href="#DatosPersonalesss"]').tab('show');
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese la Fecha de Nacimiento.", "info");
-        $("#txtFechaNaciminetoHtml").html('(Requerido)');
-        $("#txtFechaNaciminetoHtml").show();
-        flat = false;
+        mensaje_alerta("¡Falta Dato!","Por favor, Ingrese la Fecha de Nacimiento","info");
+        $("#txtFechaNaciminetoHtml").text("(Requerido)").show();
+        return false;
     } else if ($("#cbxDepartamentoDir").val() === "" || $("#cbxDepartamentoDir").val() === null) {
         $("#cbxDepartamentoDir").focus();
         $('[href="#DatosPersonalesss"]').tab('show');

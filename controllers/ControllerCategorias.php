@@ -232,6 +232,11 @@
 
 				return $this->mo->VerTipoDocumento()->fetchAll();
 		}
+		
+		public function VerTipoDocumentoSinRuc(){
+
+				return $this->mo->VerTipoDocumentoSinRuc()->fetchAll();
+		}
 
 		public function VerGeneroPersonal(){
 

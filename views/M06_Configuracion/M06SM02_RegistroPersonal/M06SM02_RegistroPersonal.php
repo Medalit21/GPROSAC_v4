@@ -142,7 +142,7 @@
                                 <div id="formularioRegistrarGeneral">
 									<div class="form-row" style="margin-top: -8px;" >
 										<div class="col-md-2">
-											<input type="text" id="__ID_DATOS_PERSONAL">
+											<input type="hidden" id="__ID_DATOS_PERSONAL">
 											
 											<label class="label-texto">Tipo Documento 
 												<small id="cbxTipoDocumentoHtml" class="form-text text-muted-validacion text-danger ocultar-info">
@@ -152,7 +152,7 @@
 												<option selected="true" value="" disabled="disabled">Seleccione...</option>
 												<?php
 													$tipoDoc = new ControllerCategorias();
-													$VerTiposDoc = $tipoDoc->VerTipoDocumento();
+													$VerTiposDoc = $tipoDoc->VerTipoDocumentoSinRuc();
 													foreach ($VerTiposDoc as $td) {
 												?>
 												<option value="<?php echo $td['ID']; ?>"><?php echo $td['Nombre']; ?></option>

@@ -51,9 +51,9 @@ function Control() {
     });
 	
 	$('#btnGuardarCliente').click(function() {
-		if (ValidarCamposRequeridosG()) {
+		
 			GuardarClientePopups();
-		}
+	
 	});
     
     $('input.CurrencyInput').on('blur', function() {
@@ -170,20 +170,44 @@ function Control() {
         llenarCombo(url, datos, "bxFiltroLoteReserva");
     });
 
-    $("#btnBuscarCli").click(function() {
-        let ndoc=$("#txtDocumentoAdd").val();
-        if (ndoc=="" || ndoc==null) {
-            mensaje_alerta("Falta dato","Ingresar numero de documento","info");
-            $("#txtDocumentoAdd").focus();
-        } else {
-            let tipodoc = $("#cbxTipoDocumentoAdd").val();
-            if(tipodoc == '1'){
-                ConsultaReniec();
-            }
-        }
-        console.log('Num Doc: '+ndoc);
-        
-    });
+    $("#btnBuscarCli").click(function () {
+
+		const ndoc   = $("#txtDocumentoAdd").val().trim();
+		const tipo   = $("#cbxTipoDocumentoAdd").val();   // 1 = DNI, 6 = RUC
+
+		if (!ndoc) {
+			mensaje_alerta("Falta dato", "Ingresar número de documento", "info");
+			$("#txtDocumentoAdd").focus();
+			return;
+		}
+		/* ---------- DNI ---------- */
+		if (tipo === '1') {
+			if (ndoc.length === 8) {
+				ConsultaReniec(ndoc);
+			} else {
+				mensaje_alerta("Falta dato",
+					"El DNI debe tener 8 dígitos", "info");
+				$("#txtDocumentoAdd").focus();
+			}
+			return;
+		}
+		/* ---------- RUC ---------- */
+		if (tipo === '3') {
+			if (ndoc.length === 11) {
+				ConsultaSunat(ndoc);
+			} else {
+				mensaje_alerta("Falta dato",
+					"El RUC debe tener 11 dígitos", "info");
+				$("#txtDocumentoAdd").focus();
+			}
+			return;
+		}
+		/* ---------- Otro tipo ---------- */
+		mensaje_alerta("Información",
+			"No se encontró información automática, ingrésela manualmente",
+			"info");
+	});
+	
 
     asignarLote();
 	
@@ -1594,6 +1618,37 @@ function respuestaSeleccionReniec(dato){
     }
 }
 
+/*--------------------------------------------------------------------
+  SUNAT (RUC)
+  ------------------------------------------------------------------*/
+function ConsultaSunat(ndoc) {
+    bloquearPantalla("Consultando SUNAT…");
+    $.post("../../models/generales/mdl_apis.php", {
+            btnSeleccionSunat: true,
+            NroDocumento: ndoc
+        }, respuestaSeleccionSunat, "json")
+      .fail(function () {
+          desbloquearPantalla();
+          mensaje_alerta("Error", "Error de red", "error");
+      });
+}
+
+function respuestaSeleccionSunat(dato) {
+    desbloquearPantalla();
+    if (dato.status === "ok") {
+         // «dato.nombre» = Razón Social completa
+        $("#txtApellidoPaterno").val(dato.nombre); // → Razón social aquí
+        $("#txtApellidoMaterno").val("");          // ← vacío
+        $("#txtNombres").val("");                  // ← vac   //   y este vacío
+    } else {
+        mensaje_alerta("Sin resultados",
+            "SUNAT no devolvió datos", "info");
+         // Limpia los tres campos
+        $("#txtApellidoPaterno, #txtApellidoMaterno, #txtNombres").val("");
+    }
+}
+
+
 /**********************CONTROLAR BOTON GUARDAR************************ */
 function VerificarCorreoValido(id) {
     var flat = true;
@@ -1606,6 +1661,7 @@ function VerificarCorreoValido(id) {
     return flat;
 }
 
+const ID_RUC = "3";
 function ValidarCamposRequeridosG() {
     var flat = true;
     if ($("#cbxTipoDocumentoAdd").val() === "" || $("#cbxTipoDocumentoAdd").val() === null) {
@@ -1626,24 +1682,24 @@ function ValidarCamposRequeridosG() {
         $("#cbxPaisEmisorDocumentoHtml").html('(Requerido)');
         $("#cbxPaisEmisorDocumentoHtml").show();
         flat = false;
-    } else if ($("#txtApellidoPaterno").val() === "") {
+    } else if ($("#txtApellidoPaterno").val().trim() === "" &&
+        $("#cbxTipoDocumentoAdd").val() !== ID_RUC) {
         $("#txtApellidoPaterno").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Paterno", "info");
-        $("#txtApellidoPaternoHtml").html('(Requerido)');
-        $("#txtApellidoPaternoHtml").show();
-        flat = false;
-    } else if ($("#txtApellidoMaterno").val() === "") {
+        mensaje_alerta("¡Falta Dato!","Por favor, ingrese el Apellido Paterno","info");
+        $("#txtApellidoPaternoHtml").text("(Requerido)").show();
+        return false;
+    } else if ($("#txtApellidoMaterno").val().trim() === "" &&
+        $("#cbxTipoDocumentoAdd").val() !== ID_RUC) {
         $("#txtApellidoMaterno").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese el Apellido Materno", "info");
-        $("#txtApellidoMaternoHtml").html('(Requerido)');
-        $("#txtApellidoMaternoHtml").show();
-        flat = false;
-    } else if ($("#txtNombres").val() === "") {
+        mensaje_alerta("¡Falta Dato!","Por favor, ingrese el Apellido Materno","info");
+        $("#txtApellidoMaternoHtml").text("(Requerido)").show();
+        return false;
+    } else if ($("#txtNombres").val().trim() === "" &&
+        $("#cbxTipoDocumentoAdd").val() !== ID_RUC) {
         $("#txtNombres").focus();
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese los nombres.", "info");
-        $("#txtNombresHtml").html('(Requerido)');
-        $("#txtNombresHtml").show();
-        flat = false;
+        mensaje_alerta("¡Falta Dato!","Por favor, ingrese los nombres","info");
+        $("#txtNombresHtml").text("(Requerido)").show();
+        return false;
     } else if ($("#cbxNacionalidad").val() === "" || $("#cbxNacionalidad").val() === null) {
         $("#cbxNacionalidad").focus();
         $('[href="#DatosPersonalesss"]').tab('show');
@@ -1651,13 +1707,13 @@ function ValidarCamposRequeridosG() {
         $("#cbxNacionalidadHtml").html('(Requerido)');
         $("#cbxNacionalidadHtml").show();
         flat = false;
-    } else if ($("#cbxSexo").val() === "" || $("#cbxSexo").val() === null) {
-        $("#cbxSexo").focus();
-        $('[href="#DatosPersonalesss"]').tab('show');
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Seleccione el Sexo.", "info");
-        $("#cbxSexoHtml").html('(Requerido)');
-        $("#cbxSexoHtml").show();
-        flat = false;
+    } else if (($("#cbxSexo").val() === "" || $("#cbxSexo").val() === null) && 
+		$("#cbxTipoDocumentoAdd").val() !== ID_RUC) {
+		$("#cbxSexo").focus();
+		$('[href="#DatosPersonalesss"]').tab('show');
+		mensaje_alerta("¡Falta Dato!", "Por favor, seleccione el Sexo.", "info");
+		$("#cbxSexoHtml").html("(Requerido)").show();
+		flat = false;	
     } else if ($("#txtCelular").val() === "") {
         $("#txtCelular").focus();
         $('[href="#DatosPersonalesss"]').tab('show');
@@ -1672,13 +1728,12 @@ function ValidarCamposRequeridosG() {
         $("#txtCorreoHtml").html('(Verifique)');
         $("#txtCorreoHtml").show();
         flat = false;
-    } else if ($("#txtFechaNacimineto").val() === "") {
+    } else if ($("#txtFechaNacimineto").val().trim() === "" &&
+        $("#cbxTipoDocumentoAdd").val() !== ID_RUC) {
         $("#txtFechaNacimineto").focus();
-        $('[href="#DatosPersonalesss"]').tab('show');
-        mensaje_alerta("\u00A1Falta Dato!", "Por favor, Ingrese la Fecha de Nacimiento.", "info");
-        $("#txtFechaNaciminetoHtml").html('(Requerido)');
-        $("#txtFechaNaciminetoHtml").show();
-        flat = false;
+        mensaje_alerta("¡Falta Dato!","Por favor, Ingrese la Fecha de Nacimiento","info");
+        $("#txtFechaNaciminetoHtml").text("(Requerido)").show();
+        return false;
     } else if ($("#cbxDepartamentoDir").val() === "" || $("#cbxDepartamentoDir").val() === null) {
         $("#cbxDepartamentoDir").focus();
         $('[href="#DatosPersonalesss"]').tab('show');
@@ -1706,65 +1761,53 @@ function ValidarCamposRequeridosG() {
 
 
 function GuardarClientePopups() {
-    bloquearPantalla("Guardando...");
-	var url = "../../models/M03_Ventas/M03MD01_Reservacion/M03MD01_Reservacion_Proceso.php";
-    var dato = {
-        "ReturnGuardarRegCliente": true,
-        "cbxTipoDocumento": $("#cbxTipoDocumentoAdd").val()?.trim() ?? "",
-        "txtDocumento": $("#txtDocumentoAdd").val()?.trim() ?? "",
-        "cbxNacionalidad": $("#cbxNacionalidad").val()?.trim() ?? "",
-        "cbxPaisEmisorDocumento": $("#cbxPaisEmisorDocumento").val() ?? "",
-        "txtApellidoPaterno": $("#txtApellidoPaterno").val() ?? "",
-        "txtApellidoMaterno": $("#txtApellidoMaterno").val() ?? "",
-        "txtNombres": $("#txtNombres").val() ?? "",
-        "cbxDepartamentoNacimiento": $("#cbxDepartamentoNacimiento").val() ?? "",
-        "cbxProvinciaNacimiento": $("#cbxProvinciaNacimiento").val() ?? "",
-        "cbxPaisNacimiento": $("#cbxPaisNacimiento").val() ?? "",
-        "txtFechaNacimineto": $("#txtFechaNacimineto").val() ?? "",
-        "cbxSexo": $("#cbxSexo").val() ?? "",
-        "cbxTipoVia": $("#cbxTipoVia").val() ?? "",
-        "txtNombreVia": $("#txtNombreVia").val() ?? "",
-        "txtNroVia": $("#txtNroVia").val() ?? "",
-        "txtNroDpto": $("#txtNroDpto").val() ?? "",
-        "txtInterior": $("#txtInterior").val() ?? "",
-        "txtMz": $("#txtMz").val() ?? "",
-        "txtLt": $("#txtLt").val() ?? "",
-        "txtKm": $("#txtKm").val() ?? "",
-        "txtBlock": $("#txtBlock").val() ?? "",
-        "txtEtapa": $("#txtEtapa").val() ?? "",
-        "cbxTipoZona": $("#cbxTipoZona").val() ?? "",
-        "txtNombreZona": $("#txtNombreZona").val() ?? "",
-        "txtReferencia": $("#txtReferencia").val() ?? "",
-        "cbxDistritoDir": $("#cbxDistritoDir").val() ?? "",
-        "cbxProvinciaDir": $("#cbxProvinciaDir").val() ?? "",
-        "cbxDepartamentoDir": $("#cbxDepartamentoDir").val() ?? "",
-        "txtCelular2": $("#txtCelular2").val() ?? "",
-        "txtTelefono": $("#txtTelefono").val() ?? "",
-        "txtCelular": $("#txtCelular").val() ?? "",
-        "txtCorreo": $("#txtCorreo").val() ?? "",
-        "cbxEstadoCivil": $("#cbxEstadoCivil").val() ?? "",
-        "cbxSituacionDomiciliaria": $("#cbxSituacionDomiciliaria").val() ?? "",
-        "txtCodigoCliente": $("#txtCodigoCliente").val() ?? "",
-        "txtCodigoAnio": $("#txtCodigoAnio").val() ?? "",
-        "txtCodigoCorrelativo": $("#txtCodigoCorrelativo").val() ?? "",
-        "__ID_USER": $("#__ID_USER").val() ?? ""
-    };
-    realizarJsonPost(url, dato, respuestaGuardarNuevoRegistroPop, null, 10000, null);
+	if (ValidarCamposRequeridosG()) {
+		bloquearPantalla("Guardando...");
+		var url = "../../models/M03_Ventas/M03MD01_Reservacion/M03MD01_Reservacion_Proceso.php";
+		var dato = {
+			"ReturnGuardarRegCliente": true,
+			"cbxTipoDocumento": $("#cbxTipoDocumentoAdd").val()?.trim() ?? "",
+			"txtDocumento": $("#txtDocumentoAdd").val()?.trim() ?? "",
+			"cbxNacionalidad": $("#cbxNacionalidad").val()?.trim() ?? "",
+			"cbxPaisEmisorDocumento": $("#cbxPaisEmisorDocumento").val() ?? "",
+			"txtApellidoPaterno": $("#txtApellidoPaterno").val() ?? "",
+			"txtApellidoMaterno": $("#txtApellidoMaterno").val() ?? "",
+			"txtNombres": $("#txtNombres").val() ?? "",
+			"cbxDepartamentoNacimiento": $("#cbxDepartamentoNacimiento").val() ?? "",
+			"cbxProvinciaNacimiento": $("#cbxProvinciaNacimiento").val() ?? "",
+			"cbxPaisNacimiento": $("#cbxPaisNacimiento").val() ?? "",
+			"txtFechaNacimineto": $("#txtFechaNacimineto").val() ?? "",
+			"cbxSexo": $("#cbxSexo").val() ?? "",
+			"cbxTipoVia": $("#cbxTipoVia").val() ?? "",
+			"txtNombreVia": $("#txtNombreVia").val() ?? "",
+			"txtNroVia": $("#txtNroVia").val() ?? "",
+			"txtNroDpto": $("#txtNroDpto").val() ?? "",
+			"txtInterior": $("#txtInterior").val() ?? "",
+			"txtMz": $("#txtMz").val() ?? "",
+			"txtLt": $("#txtLt").val() ?? "",
+			"txtKm": $("#txtKm").val() ?? "",
+			"txtBlock": $("#txtBlock").val() ?? "",
+			"txtEtapa": $("#txtEtapa").val() ?? "",
+			"cbxTipoZona": $("#cbxTipoZona").val() ?? "",
+			"txtNombreZona": $("#txtNombreZona").val() ?? "",
+			"txtReferencia": $("#txtReferencia").val() ?? "",
+			"cbxDistritoDir": $("#cbxDistritoDir").val() ?? "",
+			"cbxProvinciaDir": $("#cbxProvinciaDir").val() ?? "",
+			"cbxDepartamentoDir": $("#cbxDepartamentoDir").val() ?? "",
+			"txtCelular2": $("#txtCelular2").val() ?? "",
+			"txtTelefono": $("#txtTelefono").val() ?? "",
+			"txtCelular": $("#txtCelular").val() ?? "",
+			"txtCorreo": $("#txtCorreo").val() ?? "",
+			"cbxEstadoCivil": $("#cbxEstadoCivil").val() ?? "",
+			"cbxSituacionDomiciliaria": $("#cbxSituacionDomiciliaria").val() ?? "",
+			"txtCodigoCliente": $("#txtCodigoCliente").val() ?? "",
+			"txtCodigoAnio": $("#txtCodigoAnio").val() ?? "",
+			"txtCodigoCorrelativo": $("#txtCodigoCorrelativo").val() ?? "",
+			"__ID_USER": $("#__ID_USER").val() ?? ""
+		};
+		realizarJsonPost(url, dato, respuestaGuardarNuevoRegistroPop, null, 10000, null);
+	}
 }
-
-/*********************RESPUESTA GUARDAR NUEVO CLIENTE*********************** */
-/*function respuestaGuardarNuevoRegistroPop(dato) {
-    desbloquearPantalla();
-    //console.log(dato);
-    if (dato.status == "ok") {
-    
-        mensaje_alerta("\u00A1Guardado!", dato.data, "success");
-		
-        return;
-    } else {
-        mensaje_alerta("\u00A1Error!", dato.data + "\n" + dato.dataDB, "error");
-    }
-}*/
 
 function respuestaGuardarNuevoRegistroPop(dato) {
     desbloquearPantalla();

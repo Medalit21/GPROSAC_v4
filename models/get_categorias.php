@@ -363,10 +363,24 @@ header('Content-Type: text/html; charset=UTF-8');
 
  	public function VerTipoDocumento(){
 
-			$consultatd = "SELECT idconfig_detalle as ID, nombre_corto as Nombre FROM configuracion_detalle WHERE codigo_tabla='_TIPO_DOCUMENTO' AND estado='ACTI' ORDER BY texto1 ASC";
+			$consultatd = "SELECT idconfig_detalle as ID, nombre_corto as Nombre FROM configuracion_detalle WHERE codigo_tabla='_TIPO_DOCUMENTO' AND estado='ACTI' AND texto2 = 'SI' ORDER BY texto1 ASC";
 			return $this->con->query($consultatd);
 
 	}
+	
+	public function VerTipoDocumentoSinRuc(){
+
+			$consultatdx = "SELECT idconfig_detalle as ID, nombre_corto as Nombre 
+							FROM configuracion_detalle 
+							WHERE codigo_tabla='_TIPO_DOCUMENTO' 
+							AND estado='ACTI' 
+							AND texto2 = 'SI'
+							AND (texto3 <> 'NO' OR texto3 IS NULL)
+							ORDER BY texto1 ASC";
+			return $this->con->query($consultatdx);
+
+	}
+
 
 	public function VerGeneroPersonal(){
 
