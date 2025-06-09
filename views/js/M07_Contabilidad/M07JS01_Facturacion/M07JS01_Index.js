@@ -1123,7 +1123,7 @@ function Eliminar(id, cliente, propiedad){
         dataType: "json",
         success: function (dato) {
             desbloquearPantalla();
-            //console.log(dato);
+            console.log(dato);
             if (dato.status == "ok") { 
                 CargarItemsFacturacion(dato.cliente, dato.propiedad);   
                 LimpiarCamposTotales(); 

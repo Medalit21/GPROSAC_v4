@@ -1470,7 +1470,7 @@ if(isset($_POST['btnListarTablaDetalleComprobante'])){
 			gppdc.comprobante_adj as tipcomp_1,
 			gppdc.comprobante_url as tipcomp_2
             FROM gp_pagos_detalle_comprobante gppdc
-            WHERE gppdc.idpago_detalle='$__IDPAGO_DETr' AND gppdc.esta_borrado='0'
+            WHERE gppdc.idpago_detalle='$__IDPAGO_DETr'
             GROUP BY gppdc.serie, gppdc.numero"); 
 
      
