@@ -237,7 +237,7 @@ function LlenarTablaPagosComprobante(datos) {
                 "render": function (data, type, row) {
                     var html = "";
                     if(row.estado_cierre!="FINALIZADO"){
-                        html = '<a href="javascript:void(0)" class="btn btn-edit-action" onclick="CargaComprobante(\'' + data + '\')" title="Cargar Comprobante"><i class="fas fa-paperclip"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerVoucher(\'' + row.id + '\')" title="Voucher de Pago"><i class="fas fa-file"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerComprobantesSunat(\'' + data + '\')" title="Ver Comprobante(s)"><i class="fas fa-folder-open"></i></a> \ <a href="javascript:void(0)" class="btn btn-success-action" onclick="FinalizarCarga(\'' + data + '\')" title="Finalizar"><i class="fas fa-check"></i></a> \ <a href="javascript:void(0)" class="btn btn-warning-action" onclick="ObservacionesPago(\'' + data + '\')" title="Observar Pago"><i class="fas fa-exclamation"></i></a>';
+                        html = '<a href="javascript:void(0)" class="btn btn-edit-action" onclick="CargaComprobante(\'' + data + '\')" title="Cargar Comprobante"><i class="fas fa-paperclip"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerVoucher(\'' + row.id + '\')" title="Voucher de Pago"><i class="fas fa-file"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerComprobantesSunat(\'' + data + '\')" title="Ver Comprobante(s)"><i class="fas fa-folder-open"></i></a> \ <a href="javascript:void(0)" class="btn btn-success-action" onclick="FinalizarCarga(\'' + data + '\')" title="Finalizar"><i class="fas fa-check"></i></a>';
                     }else{                       
                         html = '<a href="javascript:void(0)" class="btn btn-warning-action" onclick="RestablecerCarga(\'' + data + '\')" title="Restablecer carga"><i class="fas fa-redo"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerVoucher(\'' + row.id + '\')" title="Voucher de Pago"><i class="fas fa-file"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerComprobantesSunat(\'' + data + '\')" title="Ver Comprobante(s)"><i class="fas fa-folder-open"></i></a>';   
                     }
@@ -348,7 +348,8 @@ function VerVoucher(id) {
       },
     });
  }
- 
+
+//CAMPO EXCLAMACION EN DATATABLE 
 function ObservacionesPago(id) {  
     var data = {
       btnVerObservaciones: true,
@@ -391,7 +392,7 @@ function ObservacionesPago(id) {
       },
     });
  }
-
+//CAMPO EXCLAMACIÓN EN DATATABLE 
 function ConformidadPago(){
     var data = {
         "btnConformidadPago": true,
@@ -657,6 +658,7 @@ function ValidarCamposComprobante() {
 
 function GuardarComprobante(){
     if(ValidarCamposComprobante()){
+		let totalLimpio = $("#txtTotalPagado").val().replace(/,/g, ""); // «3,808.00» → «3808.00»
         var data = {
             "btnGuardarComprobante": true,
             "__IDPAGO_DET": $("#__IDPAGO_DET").val(),
@@ -669,7 +671,7 @@ function GuardarComprobante(){
             "txtNroDocumento": $("#txtNroDocumento").val(),
             "txtDatosCliente": $("#txtDatosCliente").val(),
             "txtTipoMoneda": $("#txtTipoMoneda").val(),
-            "txtTotalPagado": $("#txtTotalPagado").val(),
+			"txtTotalPagado": totalLimpio,   // ← usa el valor sin comas
             "txtFechaVencimiento": $("#txtFechaVencimiento").val(),
 			"cbxConceptos": $("#cbxConceptos").val(),
             "ComprobanteCV": $("#ComprobanteCV").val(),
@@ -683,28 +685,16 @@ function GuardarComprobante(){
             success: function (dato) {
                 desbloquearPantalla();
                     //console.log(dato);
-                    if (dato.status == "ok") {
-                        if (dato.operacion == "registra") {
+                    if (dato.status == "ok") {							
                             var dat = $("#ComprobanteCV").val();
                             if(dat!=""){
                                 var nombre = dato.name;
                                 EnviarAdjuntoPago(nombre);                        
                             }
                             CargarDetalleComprobante();
-                            /*CargarPagosComprobante();
-                            $('#TablaPagoComprobanteReporte').DataTable().ajax.reload(); */
+                           
                             mensaje_alerta("\u00A1CORRECTO!", "Se registr\u00F3 el comprobante ingresado.", "success"); 
-                        }else{
-                            var dat = $("#ComprobanteCV").val();
-                            if(dat!=""){
-                                var nombre = dato.name;
-                                EnviarAdjuntoPago(nombre);                        
-                            }
-                            CargarDetalleComprobante();
-                            /*CargarPagosComprobante();
-                            $('#TablaPagoComprobanteReporte').DataTable().ajax.reload(); */
-                            mensaje_alerta("\u00A1CORRECTO!", "Se actualizaron los cambios realizados.", "success");
-                        }
+                        
         
                     } else {
                         mensaje_alerta("\u00A1Error de Registro!", dato.data, "info");
@@ -922,7 +912,7 @@ function LlenarTablaDetalleComprobante(datos) {
                 "data": "id",
                 "render": function (data, type, row) {
                     var html = "";
-                    html = '<a href="javascript:void(0)" class="btn btn-edit-action" onclick="EditarDetalleComprobante(\'' + data + '\')" title="Editar"><i class="fas fa-pencil-alt"></i></a> \ <a href="javascript:void(0)" class="btn btn-delete-action" onclick="SolicitarEliminar(\'' + data + '\',\'' + row.serie + '\',\'' + row.numero + '\')" title="Cargar Comprobante"><i class="fas fa-trash"></i></a>';
+                    html = '<a href="javascript:void(0)" class="btn btn-edit-action" onclick="EditarDetalleComprobante(\'' + data + '\')" title="Editar"><i class="fas fa-pencil-alt"></i></a>';
                     return html;
                 }
             },
@@ -1030,7 +1020,7 @@ function NuevoDetalleComprobante(){
     $("#ComprobanteCV").val("");
 }
 
-
+//BOTON ELIMINAR DATATABLE
 function SolicitarEliminar(id,serie,numero){
     mensaje_eliminar_parametro('\u00BFEst\u00E1 seguro(a) que desea eliminar el comprobante '+serie+' - '+numero+'?', EliminarComprobante, id);
 }
@@ -1063,17 +1053,7 @@ function EliminarComprobante(id){
 	});
 }
 
-
-
-
-
-
-
-
-
-
-
-
+//BOTON ELIMINAR DATATABLE
 
 /* ================ PAGOS - RESERVAS =====================*/
 

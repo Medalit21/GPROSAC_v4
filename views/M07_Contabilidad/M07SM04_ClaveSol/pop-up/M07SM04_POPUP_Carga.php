@@ -3,7 +3,7 @@
     <div class="modal-content">
         <div class="modal-cabecera-list" style="text-align:left;">
             <button class="close btn-cerrar" data-dismiss="modal" aria-label="Close"><i class="fa fa-window-close" aria-hidden="true"></i></button>
-            <span><i class="fas fa-clone"></i> Comprobantes Sunat</span>
+            <span><i class="fas fa-clone"></i> Comprobantes Sunat - Clave Sol</span>
         </div>
         <div class="head-model cabecera-modal-accion" id="PanelBotonRegComprobante">
             <button class="btn btn-registro-success" id="btnGuardarPagoCV"><i class="fas fa-save"></i> Guardar</button>
@@ -98,7 +98,7 @@
                     <div class="col-md-3">
                         <label for="" class="label-texto">Total Pagado<small id="txtTotalPagadoHtml" class="form-text text-muted-validacion text-danger ocultar-info">
                             </small></label>
-                        <input type="number" id="txtTotalPagado" class="caja-texto" value="">
+                        <input type="text" id="txtTotalPagado" class="caja-texto" value="">
                     </div>
 
                     <div class="col-md-6">
@@ -152,3 +152,49 @@
         </div>
     </div>
 </div>
+<script>
+/*  Ejecuta el código cuando el documento esté listo
+    (útil si incluyes el script en el <head>)
+*/
+document.addEventListener("DOMContentLoaded", () => {
+
+    const inpTotal = document.getElementById("txtTotalPagado");
+    if (!inpTotal) return;                      // seguridad por si no existe
+
+    /*  Solo permite dígitos y un único separador decimal ( . ó , )  */
+    inpTotal.addEventListener("input", () => {
+        inpTotal.value = inpTotal.value
+            .replace(/[^0-9.,]/g, "")        // quita letras y símbolos
+            .replace(/(,|\.){2,}/g, "$1")    // no más de un separador
+            .replace(/(,|\.)\d{3}(?=\d)/g, "$1"); // evita 1.2.3.4
+    });
+});
+
+$(document).ready(function () {
+// === FORMATEO VISUAL DEL IMPORTE (con separador de miles) ===
+const inpTotalPagado = document.getElementById("txtTotalPagado");
+
+if (inpTotalPagado) {
+
+    // Limpia caracteres no permitidos mientras se escribe
+    inpTotalPagado.addEventListener("input", function () {
+        // deja pasar dígitos y un único punto decimal
+        this.value = this.value
+            .replace(/[^0-9.]/g, "")      // quita letras, comas, espacios, etc.
+            .replace(/(\..*)\./g, "$1");   // no más de 1 punto decimal
+    });
+
+    // Cuando el usuario abandona el campo, aplica formato 1 234.56
+    inpTotalPagado.addEventListener("blur", function () {
+        let v = this.value.replace(/,/g, "");
+        if (v !== "") {
+            this.value = parseFloat(v).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+    });
+}
+});
+
+</script>

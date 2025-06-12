@@ -189,7 +189,7 @@ if(isset($_POST['btnGenerarClaveSol'])) {
     if ($actualizarPagoDetalle) {
         $data['status'] = 'ok';
         $data['data'] = 'El tipo de origen ha sido actualizado correctamente.';
-		$data['ruta'] = $NAME_SERVER."views/M07_Contabilidad/M07SM04_ClaveSol/M07SM04_ClaveSol?Vsr=".$variable;
+		$data['ruta'] = $NAME_SERVER."views/M07_Contabilidad/M07SM04_ClaveSol/M07SM04_ClaveSol.php?Vsr=".$variable;
     } else {
         $data['status'] = 'bad';
         $data['data'] = 'Error al actualizar el tipo de origen: ' . mysqli_error($conection);

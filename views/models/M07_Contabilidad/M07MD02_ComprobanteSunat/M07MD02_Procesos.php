@@ -459,7 +459,7 @@ if (isset($_POST['btnEditarDetalleComprobante'])) {
     gppd.cliente_datos as cliente,
     gppd.tipo_moneda as tipo_moneda,
     gppd.tipo_cambio as tipo_cambio,
-    gppd.pagado as total_pagado,
+	format(gppd.pagado,2) as total_pagado,
     gppd.fecha_vencimiento as fecha_vencimiento
     FROM gp_pagos_detalle_comprobante gppd
     INNER JOIN configuracion_detalle AS cdx ON cdx.codigo_sunat=gppd.tipo_comprobante_sunat AND cdx.codigo_tabla='_TIPO_COMPROBANTE_SUNAT'

@@ -98,7 +98,7 @@
                     <div class="col-md-3">
                         <label for="" class="label-texto">Total Pagado<small id="txtTotalPagadoHtml" class="form-text text-muted-validacion text-danger ocultar-info">
                             </small></label>
-                        <input type="number" id="txtTotalPagado" class="caja-texto" value="">
+                        <input type="text" id="txtTotalPagado" class="caja-texto" value="">
                     </div>
 
                     <div class="col-md-6">
@@ -152,3 +152,21 @@
         </div>
     </div>
 </div>
+<script>
+/*  Ejecuta el código cuando el documento esté listo
+    (útil si incluyes el script en el <head>)
+*/
+document.addEventListener("DOMContentLoaded", () => {
+
+    const inpTotal = document.getElementById("txtTotalPagado");
+    if (!inpTotal) return;                      // seguridad por si no existe
+
+    /*  Solo permite dígitos y un único separador decimal ( . ó , )  */
+    inpTotal.addEventListener("input", () => {
+        inpTotal.value = inpTotal.value
+            .replace(/[^0-9.,]/g, "")        // quita letras y símbolos
+            .replace(/(,|\.){2,}/g, "$1")    // no más de un separador
+            .replace(/(,|\.)\d{3}(?=\d)/g, "$1"); // evita 1.2.3.4
+    });
+});
+</script>

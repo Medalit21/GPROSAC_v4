@@ -22,7 +22,7 @@
     }
     else {
         
-        move_uploaded_file($_FILES['file']['tmp_name'], '../../../M07_Contabilidad/M07SM02_ComprobanteSunat/archivos/'.$nombre);
+        move_uploaded_file($_FILES['file']['tmp_name'], '../../../M07_Contabilidad/M07SM04_ClaveSol/archivos/'.$nombre);
     
 	}
 

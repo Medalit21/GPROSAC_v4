@@ -237,7 +237,7 @@ function LlenarTablaPagosComprobante(datos) {
                 "render": function (data, type, row) {
                     var html = "";
                     if(row.estado_cierre!="FINALIZADO"){
-                        html = '<a href="javascript:void(0)" class="btn btn-edit-action" onclick="CargaComprobante(\'' + data + '\')" title="Cargar Comprobante"><i class="fas fa-paperclip"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerVoucher(\'' + row.id + '\')" title="Voucher de Pago"><i class="fas fa-file"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerComprobantesSunat(\'' + data + '\')" title="Ver Comprobante(s)"><i class="fas fa-folder-open"></i></a> \ <a href="javascript:void(0)" class="btn btn-success-action" onclick="FinalizarCarga(\'' + data + '\')" title="Finalizar"><i class="fas fa-check"></i></a> \ <a href="javascript:void(0)" class="btn btn-warning-action" onclick="ObservacionesPago(\'' + data + '\')" title="Observar Pago"><i class="fas fa-exclamation"></i></a>';
+                        html = '<a href="javascript:void(0)" class="btn btn-edit-action" onclick="CargaComprobante(\'' + data + '\')" title="Cargar Comprobante"><i class="fas fa-paperclip"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerVoucher(\'' + row.id + '\')" title="Voucher de Pago"><i class="fas fa-file"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerComprobantesSunat(\'' + data + '\')" title="Ver Comprobante(s)"><i class="fas fa-folder-open"></i></a> \ <a href="javascript:void(0)" class="btn btn-success-action" onclick="FinalizarCarga(\'' + data + '\')" title="Finalizar"><i class="fas fa-check"></i></a>';
                     }else{                       
                         html = '<a href="javascript:void(0)" class="btn btn-warning-action" onclick="RestablecerCarga(\'' + data + '\')" title="Restablecer carga"><i class="fas fa-redo"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerVoucher(\'' + row.id + '\')" title="Voucher de Pago"><i class="fas fa-file"></i></a> \ <a href="javascript:void(0)" class="btn btn-edit-action" onclick="VerComprobantesSunat(\'' + data + '\')" title="Ver Comprobante(s)"><i class="fas fa-folder-open"></i></a>';   
                     }
@@ -348,7 +348,8 @@ function VerVoucher(id) {
       },
     });
  }
- 
+
+//CAMPO EXCLAMACIÓN EN DATATABLE 
 function ObservacionesPago(id) {  
     var data = {
       btnVerObservaciones: true,
@@ -391,7 +392,7 @@ function ObservacionesPago(id) {
       },
     });
  }
-
+//CAMPO EXCLAMACIÓN EN DATATABLE 
 function ConformidadPago(){
     var data = {
         "btnConformidadPago": true,
@@ -922,7 +923,7 @@ function LlenarTablaDetalleComprobante(datos) {
                 "data": "id",
                 "render": function (data, type, row) {
                     var html = "";
-                    html = '<a href="javascript:void(0)" class="btn btn-edit-action" onclick="EditarDetalleComprobante(\'' + data + '\')" title="Editar"><i class="fas fa-pencil-alt"></i></a> \ <a href="javascript:void(0)" class="btn btn-delete-action" onclick="SolicitarEliminar(\'' + data + '\',\'' + row.serie + '\',\'' + row.numero + '\')" title="Cargar Comprobante"><i class="fas fa-trash"></i></a>';
+                    html = '<a href="javascript:void(0)" class="btn btn-edit-action" onclick="EditarDetalleComprobante(\'' + data + '\')" title="Editar"><i class="fas fa-pencil-alt"></i></a>';
                     return html;
                 }
             },
@@ -1029,7 +1030,7 @@ function NuevoDetalleComprobante(){
     $("#ComprobanteCV").val("");
 }
 
-
+//BOTON ELIMINAR DATATABLE
 function SolicitarEliminar(id,serie,numero){
     mensaje_eliminar_parametro('\u00BFEst\u00E1 seguro(a) que desea eliminar el comprobante '+serie+' - '+numero+'?', EliminarComprobante, id);
 }
@@ -1061,17 +1062,7 @@ function EliminarComprobante(id){
 		timeout: timeoutDefecto
 	});
 }
-
-
-
-
-
-
-
-
-
-
-
+//BOTON ELIMINAR DATATABLE
 
 
 /* ================ PAGOS - RESERVAS =====================*/

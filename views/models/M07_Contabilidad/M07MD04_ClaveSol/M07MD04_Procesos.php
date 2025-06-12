@@ -458,7 +458,7 @@ if (isset($_POST['btnEditarDetalleComprobante'])) {
     gppd.cliente_datos as cliente,
     gppd.tipo_moneda as tipo_moneda,
     gppd.tipo_cambio as tipo_cambio,
-    gppd.pagado as total_pagado,
+	format(gppd.pagado,2) as total_pagado,
     gppd.fecha_vencimiento as fecha_vencimiento,
 	gppd.id_concepto as id_concepto
     FROM gp_pagos_detalle_comprobante gppd
@@ -481,7 +481,7 @@ if (isset($_POST['btnEditarDetalleComprobante'])) {
 }
 
 if (isset($_POST['btnGuardarComprobante'])) {
-
+	$TotalPagado = str_replace(',', '', $_POST['txtTotalPagado']); // 3,808.00 → 3808.00
     $__IDPAGO_DET = $_POST['__IDPAGO_DET'];
     $__IDPAGO_DET_COMPROBANTE = $_POST['__IDPAGO_DET_COMPROBANTE'];
     $txtFechaEmisionCV = $_POST['txtFechaEmisionCV'];
@@ -496,20 +496,22 @@ if (isset($_POST['btnGuardarComprobante'])) {
 	$txtNroDocumento = $_POST['txtNroDocumento'];
 	$txtDatosCliente = $_POST['txtDatosCliente'];
 	$txtTipoMoneda = $_POST['txtTipoMoneda'];
-	$txtTotalPagado = $_POST['txtTotalPagado'];
+	//$txtTotalPagado = $_POST['txtTotalPagado'];
+	//$pagado='$TotalPagado'
 	$txtFechaVencimiento = $_POST['txtFechaVencimiento'];
 	$cbxConceptos = $_POST['cbxConceptos'];
 	$txtTipoCambio = $_POST['txtTipoCambio'];
 	
-	if(!empty($ComprobanteCV)){
-        $path = $ComprobanteCV;
-        $file = new SplFileInfo($path);
-        $extension  = $file->getExtension();
-        $desc_codigo="comprobante-";        
-        if(!empty($ComprobanteCV)){
-            $name_file = $desc_codigo.$__IDPAGO_DET.".".$extension;
+	$voucher_sql = "";
+    $name_file = "";
+	if (!empty($ComprobanteCV)) {
+        $file = new SplFileInfo($ComprobanteCV);
+        $extension = $file->getExtension();
+
+        if (!empty($extension)) {
+            $name_file = "voucher-" . $__IDPAGO_DET . "." . $extension;
+            $voucher_sql = ", voucher='$name_file'";
         }
-        $valor_comprobante = ",comprobante='$name_file'";
     }
     
     $operacion = "";
@@ -526,37 +528,12 @@ if (isset($_POST['btnGuardarComprobante'])) {
         $length = 8;
         $desc_correlativo = substr(str_repeat(0, $length).$number, - $length);
 		
-	   // Verificar si ya existe el comprobante en la tabla de facturación
-		/*$consultar_regdet = mysqli_query($conection, "SELECT idcomprobante_cab FROM fac_comprobante_cab WHERE NUM_SERIE_CPE='$txtSerieCV' AND NUM_CORRE_CPE='$txtNumeroCV'");
-		$respuesta_regdet = mysqli_num_rows($consultar_regdet);
-    
-		
-		if($respuesta_regdet == 0){
-			 // Ya existe el comprobante con la misma serie y número
-			$data['status'] = 'bad';
-			$data['data'] = 'Ya existe el comprobante con la serie ' . $txtSerieCV . ' y el número ' . $txtNumeroCV;
-			echo json_encode($data, JSON_PRETTY_PRINT);
-			exit; // Abortamos la ejecución para no insertar el comprobante
-		}else {*/
 			$query = mysqli_query($conection, "INSERT INTO gp_pagos_detalle_comprobante(idpago_detalle, serie, numero, cliente_tipodoc, cliente_doc, cliente_datos, tipo_moneda, pagado, fecha_emision, fecha_vencimiento, comprobante_adj, tipo_comprobante_sunat, tipo_cambio, id_concepto, debe_haber) VALUES 
-			('$__IDPAGO_DET','$txtSerieCV','$desc_correlativo','$cbxTipoDoc','$txtNroDocumento','$txtDatosCliente','$txtTipoMoneda','$txtTotalPagado','$txtFechaEmisionCV','$txtFechaVencimiento','$name_file','$codigo','$txtTipoCambio','$cbxConceptos','H')");
+			('$__IDPAGO_DET','$txtSerieCV','$desc_correlativo','$cbxTipoDoc','$txtNroDocumento','$txtDatosCliente','$txtTipoMoneda','$TotalPagado','$txtFechaEmisionCV','$txtFechaVencimiento','$voucher_sql','$codigo','$txtTipoCambio','$cbxConceptos','H')");
         
-			/*if ($query) {
-				$operacion = "registra";
-				$data['status'] = 'ok';
-				$data['data'] = 'Comprobante registrado exitosamente.';
-            echo json_encode($data, JSON_PRETTY_PRINT);
-			} else {
-				$data['status'] = 'bad';
-				$data['data'] = 'Hubo un error al registrar el comprobante.';
-				echo json_encode($data, JSON_PRETTY_PRINT);
-			}*/
-			
+
 			$operacion = "registra";
-		//}
-        
-		/**********nuevo*********/
-		
+
 		
     }else{
         
@@ -570,10 +547,18 @@ if (isset($_POST['btnGuardarComprobante'])) {
         $length = 8;
         $desc_correlativo = substr(str_repeat(0, $length).$number, - $length);
     
-        $query_adjunto = "";
-        if(!empty($ComprobanteCV)){
-            $query_adjunto = "comprobante_adj='$name_file',";
-        }
+        $voucher_sql = "";
+		$name_file = "";
+
+		if (!empty($ComprobanteCV)) {
+			$file = new SplFileInfo($ComprobanteCV);
+			$extension = $file->getExtension();
+
+			if (!empty($extension)) {
+				$name_file = "voucher-" . $__IDPAGO_DET . "." . $extension;
+				$voucher_sql = ", voucher='$name_file'";
+			}
+		}
     
         $query = mysqli_query($conection, "UPDATE gp_pagos_detalle_comprobante SET serie='$txtSerieCV', 
         numero='$desc_correlativo', 
@@ -581,10 +566,10 @@ if (isset($_POST['btnGuardarComprobante'])) {
         cliente_doc='$txtNroDocumento', 
         cliente_datos='$txtDatosCliente', 
         tipo_moneda='$txtTipoMoneda', 
-        pagado='$txtTotalPagado', 
+        pagado='$TotalPagado', 
         fecha_emision='$txtFechaEmisionCV', 
         fecha_vencimiento='$txtFechaVencimiento', 
-        $query_adjunto
+        $voucher_sql,
         tipo_comprobante_sunat='$codigo', 
         tipo_cambio='$txtTipoCambio',
         id_concepto='$cbxConceptos',

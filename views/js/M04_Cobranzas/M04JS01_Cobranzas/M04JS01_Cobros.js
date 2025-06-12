@@ -2021,6 +2021,7 @@ function ActualizarPagoReserva(){
 					$('#modalVerEditarPagoReserva').modal('hide');
     
                 } else {
+					
                     mensaje_alerta("\u00A1Error de Registro!", dato.data, "info");
                 }
  
