@@ -182,7 +182,7 @@
                                 <label for="" class="label-texto">Op. Gravada : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtOpGravada" id="txtOpGravada" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtOpGravada" id="txtOpGravada" value="$ 0.00" readonly>
                             </div>
                         </div>  
                         <div class="row">
@@ -192,7 +192,7 @@
                                 <label for="" class="label-texto">Op. : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtOp" id="txtOp" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtOp" id="txtOp" value="$ 0.00" readonly>
                             </div>
                         </div>
                         <div class="row">
@@ -203,7 +203,7 @@
                                 <label for="" class="label-texto">Exonerada : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtExonerada" id="txtExonerada" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtExonerada" id="txtExonerada" value="$ 0.00" readonly>
                             </div>
                         </div>
                         <div class="row">
@@ -214,7 +214,7 @@
                                 <label for="" class="label-texto">Op. Inafecta : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtOpInafecta" id="txtOpInafecta" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtOpInafecta" id="txtOpInafecta" value="$ 0.00" readonly>
                             </div>
                         </div>
                         <div class="row">
@@ -224,7 +224,7 @@
                                 <label for="" class="label-texto">ISC : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtIsc" id="txtIsc" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtIsc" id="txtIsc" value="$ 0.00" readonly>
                             </div>
                         </div>
                         <div class="row">
@@ -234,7 +234,7 @@
                                 <label for="" class="label-texto">IGV : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtIgv" id="txtIgv" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtIgv" id="txtIgv" value="$ 0.00" readonly>
                             </div>
                         </div>
                         <div class="row">
@@ -245,7 +245,7 @@
                                 <label for="" class="label-texto">Otros Cargos : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtOtrosCargos" id="txtOtrosCargos" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtOtrosCargos" id="txtOtrosCargos" value="$ 0.00" readonly>
                             </div>
                         </div>
                         <div class="row">
@@ -255,7 +255,7 @@
                                 <label for="" class="label-texto">Otros Tributos : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtOtrosTributos" id="txtOtrosTributos" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtOtrosTributos" id="txtOtrosTributos" value="$ 0.00" readonly>
                             </div>
                         </div>
                         <div class="row">
@@ -265,7 +265,7 @@
                                 <label for="" class="label-texto">Monto de Redondeo : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtMontoRedondeo" id="txtMontoRedondeo" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtMontoRedondeo" id="txtMontoRedondeo" value="$ 0.00" readonly>
                             </div>
                         </div>
                         <div class="row">
@@ -275,7 +275,7 @@
                                 <label for="" class="label-texto">Importe Total : </label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="caja-texto text-right" name="txtImporteTotal" id="txtImporteTotal" value="$ 0.00">
+                                <input type="text" class="caja-texto text-right" name="txtImporteTotal" id="txtImporteTotal" value="$ 0.00" readonly>
                             </div>
                         </div>
                     </div>

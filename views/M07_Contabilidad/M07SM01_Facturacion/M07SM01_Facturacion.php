@@ -29,6 +29,14 @@
     <script src="../../code/select2/select2.min.js"></script>
     <!-- ESTILOS PRINCIPAL -->
     <link rel="stylesheet" type="text/css" href="../../css/estilos.css?v=<?php echo time(); ?>">
+	<style>
+	.btn-disabled-fact {
+		pointer-events: none !important;
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+</style>
 </head>
 
 <body class="fond-back">
@@ -214,6 +222,7 @@
                                                 <th>Serie</th>
                                                 <th>Numero</th>
                                                 <th>Cliente</th>
+                                                <th>Letra</th>
                                                 <th>Igv</th>
                                                 <th>Inafecto</th>
                                                 <th>Total</th>

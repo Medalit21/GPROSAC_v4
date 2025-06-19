@@ -899,7 +899,7 @@ if (isset($_POST['btnCargarDatosNotaCredito'])) {
         if (!$query) {
             $data['dataDB'] = mysqli_error($conection);
         }
-        $data['data'] = 'Ocurri車 un problema, pongase en contacto con soporte por favor.';
+        $data['data'] = 'Ocurrio un problema, pongase en contacto con soporte por favor.';
     }
     header('Content-type: text/javascript');
     echo json_encode($data, JSON_PRETTY_PRINT);
@@ -1234,7 +1234,9 @@ if(isset($_POST['btnListarItemsBoleta'])){
             AND doc_cliente='$txtFiltroClienter'
             AND idlote='$txtFiltroPropiedadr'
             AND iduser='$idusuario'"); 
-
+			
+			//echo json_encode ($query);
+			
             if($query->num_rows > 0){                
                 while($row = $query->fetch_assoc()) {                    
                     //Campos para llenar Tabla
@@ -1285,6 +1287,11 @@ if (isset($_POST['btnEliminarPagoComprobante'])) {
     $IdRegistro = $_POST['IdRegistro'];
     $cliente = $_POST['cliente'];
     $propiedad = $_POST['propiedad'];
+	
+	$consulta_idpago = mysqli_query($conection, "SELECT idpago FROM temporal_facturador WHERE idfacturador='$IdRegistro' LIMIT 1");
+	$fila_idpago = mysqli_fetch_assoc($consulta_idpago);
+	$idpago = $fila_idpago['idpago'];
+
 
    //CONSULTAR DATOS
     $consultar_datos = mysqli_query($conection, "SELECT 
@@ -1303,7 +1310,7 @@ if (isset($_POST['btnEliminarPagoComprobante'])) {
     
     $query = mysqli_query($conection, "DELETE 
     FROM temporal_facturador 
-    WHERE idfacturador='$IdRegistro'");   
+    WHERE idpago='$idpago'");   
 
     $validar_totales= "";
 
@@ -1353,6 +1360,8 @@ if (isset($_POST['btnEliminarPagoComprobante'])) {
         $data['validar'] = $validar_totales;
         $data['cliente'] = $cliente;
         $data['propiedad'] = $propiedad;
+		$data['idpago'] = $idpago;
+
     } else {
         $data['status'] = 'bad';
         $data['data'] = 'No se pudo quitar el registro seleccionad, intente nuevamente.';
@@ -2761,6 +2770,7 @@ if(isset($_POST['btnListarTablaComprobantesImpresos'])){
             facab.NUM_SERIE_CPE as serie,
             facab.NUM_CORRE_CPE as numero,
             facab.NOM_RZN_SOC_RECP as cliente,
+			IFNULL(gpcr.item_letra, '-') AS letra,
             if(facab.esta_anulado='0',if(facab.COD_TIP_DOC_REF='01', 'FACTURA',if(facab.COD_TIP_DOC_REF='03', 'BOLETA DE VENTA', '-')), 'ANULADO') as tip_doc_ref,
             if(facab.NUM_SERIE_CPE_REF='','-',facab.NUM_SERIE_CPE_REF) as serie_ref,
             if(facab.NUM_CORRE_CPE_REF='','-',facab.NUM_CORRE_CPE_REF) as correlativo_ref,
@@ -2774,6 +2784,20 @@ if(isset($_POST['btnListarTablaComprobantesImpresos'])){
             FROM fac_comprobante_cab facab
             INNER JOIN fac_comprobante_impr AS faccom ON faccom.serie=facab.NUM_SERIE_CPE AND faccom.numero=facab.NUM_CORRE_CPE AND faccom.fecha_emision=facab.FEC_EMIS
             INNER JOIN configuracion_detalle AS cdx ON cdx.codigo_sunat=facab.COD_TIP_CPE AND cdx.codigo_tabla='_TIPO_COMPROBANTE_SUNAT'
+			
+			-- JOIN con fac_comprobante_det para obtener el idpago_detalle
+			LEFT JOIN fac_comprobante_det fcd 
+			ON fcd.NUM_SERIE_CPE = facab.NUM_SERIE_CPE 
+			AND fcd.NUM_CORRE_CPE = facab.NUM_CORRE_CPE
+
+			-- Relación completa para obtener la letra
+			LEFT JOIN gp_pagos_detalle gppd ON gppd.idpago_detalle = fcd.idpago_detalle
+			LEFT JOIN gp_pagos_cabecera gppc ON gppc.idpago = gppd.idpago
+			LEFT JOIN gp_venta gpv ON gpv.id_venta = gppc.id_venta
+			LEFT JOIN gp_cronograma gpcr 
+			ON gpcr.correlativo = gppc.id_cronograma 
+			AND gpcr.id_venta = gpv.id_venta
+			
             WHERE facab.idcomprobante_cab>0
             $query_TipoComprobante
             $query_cliente
@@ -2793,6 +2817,7 @@ if(isset($_POST['btnListarTablaComprobantesImpresos'])){
                 'serie' => $row['serie'],
                 'numero' => $row['numero'],
                 'cliente' => $row['cliente'],
+                'letra' => $row['letra'],
                 'tip_doc_ref' => $row['tip_doc_ref'],
                 'serie_ref' => $row['serie_ref'],
                 'correlativo_ref' => $row['correlativo_ref'],

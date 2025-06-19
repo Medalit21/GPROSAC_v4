@@ -78,7 +78,10 @@ function Control() {
                 AgregarPago(id, total, total_ref);
             }
         }
-        
+
+		$("#btnAsignarfac_" + id).addClass("btn-disabled-fact").attr("title", "Ya agregado");
+
+		
     }); 
 
     /* ===================== EMITIR NUEVO COMPROBANTE ==================================*/
@@ -615,11 +618,11 @@ function LlenarTablaPagosFacturacion(datos, tp) {
                     }else{
 
                         if(row.estado_fac=="PENDIENTE"){                                           
-                            html = '<a href="javascript:void(0)" class="btn btn-edit-action" onclick="SeleccionarPago(\'' + data + '\',\'' + row.cliente + '\',\'' + row.propiedad + '\',\'' + row.tipo_comp + '\')" title="Asignar Pago"><i class="fas fa-plus-square"></i></a>';                        
+                            html = '<a href="javascript:void(0)" id="btnAsignarfac_' + data + '" class="btn btn-edit-action" onclick="SeleccionarPago(\'' + data + '\',\'' + row.cliente + '\',\'' + row.propiedad + '\',\'' + row.tipo_comp + '\')" title="Asignar Pago"><i class="fas fa-plus-square"></i></a>';
+               
                         }else{
                             html = '';
                         }
-
                     }
                     
                     return html;
@@ -1124,10 +1127,13 @@ function Eliminar(id, cliente, propiedad){
         success: function (dato) {
             desbloquearPantalla();
             console.log(dato);
-            if (dato.status == "ok") { 
-                CargarItemsFacturacion(dato.cliente, dato.propiedad);   
+            if (dato.status == "ok") {   
+				//CargarItemsFacturacionFac(dato.cliente, dato.propiedad);
+				EjecutarInformacionFac(dato.cliente, dato.propiedad);     
                 LimpiarCamposTotales(); 
                 CargarTotalesComprobante(dato.cliente, dato.propiedad);
+				$("#btnAsignarfac_" + dato.idpago).removeClass("btn-disabled-fact").attr("title", "Asignar Pago");
+
                 
             } else {
                 mensaje_alerta("\u00A1Error de Registro!", dato.data, "info");
@@ -1472,6 +1478,7 @@ function LlenarTablaComprobantesImpresos(datos) {
             { "data": "serie" },
             { "data": "numero" },            
             { "data": "cliente" },
+            { "data": "letra" },
             { "data": "igv" },
             { "data": "inafecto" },
             { "data": "total" },
@@ -2066,7 +2073,7 @@ function LlenarTablaItemsFacturacionFac(datos) {
                 "data": "id",
                 "render": function (data, type, row) {
                     var html = "";                    
-                    html = '<a href="javascript:void(0)" class="btn btn-delete-action" onclick="Eliminar(\'' + data + '\')" title="Agregar Pago"><i class="fas fa-trash"></i></a>';
+                    html = '<a href="javascript:void(0)" class="btn btn-delete-action" onclick="Eliminar(\'' + data + '\')" title="Eliminar Pago"><i class="fas fa-trash"></i></a>';
                     return html;
                 }
             },
