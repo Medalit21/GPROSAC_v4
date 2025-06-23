@@ -1128,10 +1128,13 @@ function Eliminar(id, cliente, propiedad){
             desbloquearPantalla();
             console.log(dato);
             if (dato.status == "ok") {   
+				LimpiarCamposTotales(); 
+				//EjecutarInformacionFac(dato.cliente, dato.propiedad);     
+                //CargarTotalesComprobante(dato.cliente, dato.propiedad);
 				//CargarItemsFacturacionFac(dato.cliente, dato.propiedad);
-				EjecutarInformacionFac(dato.cliente, dato.propiedad);     
-                LimpiarCamposTotales(); 
-                CargarTotalesComprobante(dato.cliente, dato.propiedad);
+				 // ✅ En lugar de volver a hacer una llamada AJAX:
+				LlenarTablaItemsFacturacionFac(dato.items); // los datos ya vienen
+				CargarTotalesComprobanteFac(cliente, propiedad); 
 				$("#btnAsignarfac_" + dato.idpago).removeClass("btn-disabled-fact").attr("title", "Asignar Pago");
 
                 
@@ -2026,17 +2029,23 @@ function CargarItemsFacturacionFac(cliente, propiedad) {
         "btnListarItemsBoleta": true,
         "txtFiltroCliente": cliente,
         "txtFiltroPropiedad": propiedad,
-        "txtUsuario": $("#txtUsuario").val()
+		"txtUsuario": $("#txtUsuario").val()
     };
     realizarJsonPost(url, dato, respuestaBuscarItemsFacturacionFac, null, 10000, null);
 }
 
 function respuestaBuscarItemsFacturacionFac(dato) {
     desbloquearPantalla();
-    //console.log(dato);
+
+    // capturar el idusuario de los datos
+    if (dato.data.length > 0) {
+        var idusuario = dato.data[0].idusuario; 
+        console.log("ID del usuario:", idusuario);
+    }
+
     LlenarTablaItemsFacturacionFac(dato.data);
-    
 }
+
 
 var getTablaItemsFacturacionFac = null;
 function LlenarTablaItemsFacturacionFac(datos) {

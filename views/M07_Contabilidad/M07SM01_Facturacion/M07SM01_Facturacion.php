@@ -326,9 +326,9 @@
                                     </div>
                                 </div>
                                 <div class="form-row mt-3" id="PanlBtnsAction" style="display: none;">
-                                    <div class="col-md-1.5" id="panel_btn_nuevo">
+                                    <!--<div class="col-md-1.5" id="panel_btn_nuevo">
                                         <button class="btn btn-registro" id="btnCancelarEmision" name="btnCancelarEmision"><i class="fas fa-sync-alt"></i> Nuevo</button>
-                                    </div>
+                                    </div>-->
 
                                     <div class="col-md-2" id="panel_btn_bol" style="display: none;">
                                         <button class="btn btn-registro" id="btnIrBoleta" name="btnIrBoleta"><i class="fas fa-arrow-circle-right"></i> Ir a Boleta</button>

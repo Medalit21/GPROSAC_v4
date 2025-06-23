@@ -1236,6 +1236,7 @@ if(isset($_POST['btnListarItemsBoleta'])){
             AND iduser='$idusuario'"); 
 			
 			//echo json_encode ($query);
+			$dataList = [];
 			
             if($query->num_rows > 0){                
                 while($row = $query->fetch_assoc()) {                    
@@ -1254,7 +1255,8 @@ if(isset($_POST['btnListarItemsBoleta'])){
                         'inafecto' => $row['inafecto'],
                         'valor_inafecto' => $row['valor_inafecto'],
                         'cliente' => $txtFiltroClienter,
-                        'propiedad' => $txtFiltroPropiedadr
+                        'propiedad' => $txtFiltroPropiedadr,
+                        'idusuario' => $idusuario
                     ]);
                 } 
 
@@ -1361,6 +1363,34 @@ if (isset($_POST['btnEliminarPagoComprobante'])) {
         $data['cliente'] = $cliente;
         $data['propiedad'] = $propiedad;
 		$data['idpago'] = $idpago;
+		
+		// PAGOS PENDIENTE ELEGIDOS
+		$consulta_restante = mysqli_query($conection, "SELECT
+			idfacturador as id,
+			cantidad,
+			medida,
+			descripcion,
+			if(inafecto=1,'I','A') as tipo,
+			format(valor_unitario,2) as valor_unitario,
+			format(valor_igv,2) as valor_igv,
+			format(descuento,2) as descuento,
+			format(importe_venta,2) as importe_venta,
+			igv,
+			inafecto,
+			valor_inafecto,
+			doc_cliente as cliente,
+			idlote as propiedad,
+			iduser as idusuario
+			FROM temporal_facturador
+			WHERE estado='1' AND iduser='$idusuario'
+		");
+
+		$items_restantes = [];
+		while($r = mysqli_fetch_assoc($consulta_restante)) {
+			$items_restantes[] = $r;
+		}
+
+		$data['items'] = $items_restantes;
 
     } else {
         $data['status'] = 'bad';
